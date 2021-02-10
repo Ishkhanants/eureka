@@ -2,7 +2,9 @@ package com.eureka.capstone.controller;
 
 import com.eureka.capstone.domain.User;
 import com.eureka.capstone.service.UserService;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -13,6 +15,7 @@ import org.springframework.web.util.WebUtils;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.security.Principal;
 
 @Controller
@@ -43,7 +46,6 @@ public class LoginController {
                 userService.save(user);
             }
             Cookie rememberMe = WebUtils.getCookie(request, "remember-me");
-            Cookie jsessionid = WebUtils.getCookie(request, "JSESSIONID");
             deleteCookieIfExists(rememberMe, response);
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }

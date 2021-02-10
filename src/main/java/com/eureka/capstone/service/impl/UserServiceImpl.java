@@ -27,9 +27,10 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private final String BLOCKED_KEYWORD = "_blocked_";
+
     private final UserRepository repository;
     private final RoleService roleService;
+
     @Qualifier("sessionRegistry")
     private final SessionRegistry sessionRegistry;
     //private PasswordEncoder encoder;
