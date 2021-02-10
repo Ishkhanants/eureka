@@ -23,4 +23,11 @@ public class Role {
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private List<User> users;
 
+    public Role(RoleEnum roleName) {
+        this.roleName = roleName;
+    }
+
+    public RoleEnum getRoleName() {
+        return roleName;
+    }
 }

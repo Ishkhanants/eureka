@@ -29,15 +29,24 @@ public class User extends BaseEntity {
 
     @Column(name = "full_name", nullable = false)
     private String fullName;
+
     @Column(name = "email", nullable = false, unique = true)
     private String email;
+
     @Column(name = "password", nullable = false)
     private String password;
+
     @Column(name = "phone", nullable = false)
     private String phone;
+
     @Lob
     @Column(name = "photo", columnDefinition = "BLOB")
     private byte[] profileAvatar;
+
+    @Column(name = "token")
+    @EqualsAndHashCode.Exclude
+    private String token;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
@@ -60,4 +69,12 @@ public class User extends BaseEntity {
         this.phone = phone;
     }
 
+    public void addRole(Role role) {
+        roles.add(role);
+    }
+
+    public boolean isAdmin() {
+        return roles.stream()
+                .map(Role::getRoleName).anyMatch(RoleEnum.ADMIN_ROLE::equals);
+    }
 }
