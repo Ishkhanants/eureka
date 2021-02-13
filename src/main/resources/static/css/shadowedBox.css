@@ -1,0 +1,79 @@
+.shadowedContainer {
+    border-radius: 11px;
+    box-shadow: 0 23px 37px 0 rgba(0, 96, 167, 0.35);
+    padding: 0 36.55px;
+    color: #202842;
+}
+
+.shadowedHeader {
+    color: #202842;
+    font-size: 22.08px;
+    text-align: center;
+    padding: 27.52px 65.74px 0 65.74px;
+}
+
+.shadowedSubheader {
+    font-size: 14.9px;
+    margin: 20.2px 58.67px 0 58.67px;
+    text-align: center;
+}
+
+.shadowedInput {
+    width: 100%;
+    border-radius: 3px;
+    margin: 20.2px 0;
+}
+
+.input-height {
+    height: 47px;
+}
+
+.input_div {
+    margin: 17.28px 0;
+}
+
+.blue_button {
+    height: 50px;
+    width: 100%;
+    border-radius: 3px;
+    background: #07b7e3;
+    border: unset;
+    color: white;
+    margin-top: 4%;
+    margin-bottom: 10%;
+}
+
+.blue_button:hover {
+    color: white;
+    box-shadow: 0 0 20px rgba(0, 96, 167, 0.35);
+    background-color: #07b7e3;
+}
+
+.blue_button:active, .btn-primary:not(:disabled):not(.disabled):active.blue_button:active, .blue_button:focus {
+    background-color: #07b7e3;
+    border-color: #07b7e3;
+    box-shadow: 0 0 5px #07b7e3 !important;
+}
+
+.alert-icon {
+    color: red;
+    height: 20px;
+    width: 20px;
+    position: relative;
+    margin-right: 2%;
+}
+
+.error {
+    color: red;
+    line-height: 100%;
+    width: 90%;
+}
+
+.required_label:after {
+    content: " *";
+    color: red;
+}
+
+.remember-me-div input[type="checkbox"] {
+    transform: scale(1.1);
+}

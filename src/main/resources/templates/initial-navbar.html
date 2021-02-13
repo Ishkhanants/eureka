@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div>
+    <nav class="navbar justify-content-between" th:fragment="nav">
+        <input id="locale" th:value="${#locale.getLanguage()}" type="hidden">
+        <a class="navbar-brand" href="/">
+            <img alt="Logo" class="logo" sizes="any" th:src="@{/images/logo.png}"/>
+        </a>
+        <div>
+            <a href="?language=hy"><img alt="Armenian flag" class="flag" th:src="@{/images/amFlag.png}"/></a>
+            <a href="?language=ru"><img alt="Russia flag" class="flag" th:src="@{/images/ruFlag.png}"/></a>
+            <a href="?language=en"><img alt="US flag" class="flag" th:src="@{/images/usFlag.png}"/></a>
+        </div>
+    </nav>
+</div>
+

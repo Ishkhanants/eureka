@@ -1,0 +1,26 @@
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 99%;
+    margin-top: 30px;
+    padding: 25px 0;
+    color: #bbb;
+}
+
+.footer a {
+    color: #bbb;
+}
+
+.footer a:hover {
+    color: #777;
+    text-decoration-line: none;
+}
+
+.lang-block:hover {
+    background-color: #eee;
+}
+
+ul {
+    padding-left: 0;
+    list-style: none;
+}

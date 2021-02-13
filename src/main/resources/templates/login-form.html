@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<form id="loginForm" method="post" th:action="@{/login}" th:fragment="login">
+    <div class="shadowedContainer rounded text-center">
+        <div class="">
+            <p class="shadowedHeader" th:text="#{loginForm.header}"></p>
+            <p class="shadowedSubheader" th:text="#{loginForm.hintMessage}"></p>
+        </div>
+        <div class="form-group shadowedInput text-left input_div">
+            <label class="input-title" for="username" th:text="#{loginForm.username.label}"></label>
+            <input autofocus="autofocus" class="form-control" id="username" name="username"
+                   onkeyup="success()" th:placeholder="#{loginForm.username.placeholder}" type="text">
+        </div>
+        <div class="form-group text-left shadowedInput input_div">
+            <label class="input-title" for="password" th:text="#{loginForm.password.label}"></label>
+            <div class="input-group">
+                <input class="form-control" id="password" name="password" onkeyup="success()"
+                       th:placeholder="#{loginForm.password.placeholder}" type="password">
+                <div class="input-group-append">
+                    <span class="input-group-text bg-white">
+                        <i class="fa fa-eye-slash pass-eye  show-hide-password"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between ">
+            <div class="form-check">
+                <input class="form-check-input" id="remember-me" name="remember-me" type="checkbox">
+                <label class="form-check-label" for="remember-me" th:text="#{loginForm.rememberPassword}"></label>
+            </div>
+        </div>
+
+        <div class="form-group d-flex mt-3 invisible" id="errorMessage">
+            <svg class="bi bi-exclamation-circle alert-icon align-middle" fill="currentColor" height="1em"
+                 viewBox="0 0 16 16"
+                 width="1em" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                      fill-rule="evenodd"/>
+                <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+            </svg>
+            <div class="error text-left" id="validationMessage">
+                <p style="display:inline"></p>
+            </div>
+        </div>
+        <div class="sign-in-button mt-3">
+            <button class="btn blue_button" disabled id="submit-button" th:text="#{button.signIn}"
+                    type="submit"></button>
+        </div>
+    </div>
+</form>

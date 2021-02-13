@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<footer class="footer" th:fragment="homepage-footer">
+    <div class="d-flex justify-content-between px-5 mx-5">
+        <ul class="dropdown">
+            <a data-close-others="true" data-toggle="dropdown" href="" id="lang-selector">
+                <small>English</small>
+                <img th:src="@{/images/us-circle.png}" width="17"/>
+                <i aria-hidden="true" class="fa fa-angle-up"></i>
+            </a>
+            <ul class="dropdown-menu" style="min-width: 9rem;">
+                <a href="?language=hy">
+                    <li class="lang-block p-1">
+                        <img class="mx-1" th:src="@{/images/am-circle.png}" width="17"/>
+                        <small>Armenian</small>
+                    </li>
+                </a>
+                <a href="?language=en">
+                    <li class="lang-block p-1">
+                        <img class="mx-1" th:src="@{/images/us-circle.png}" width="17"/>
+                        <small>English</small>
+                    </li>
+                </a>
+                <a href="?language=ru">
+                    <li class="lang-block p-1">
+                        <img class="mx-1" th:src="@{/images/ru-circle.png}" width="17"/>
+                        <small>Russian</small>
+                    </li>
+                </a>
+            </ul>
+        </ul>
+        <ul>
+            <span class="mx-3">
+                <i class="fas fa-map-marker-alt"></i>
+                <small th:text="#{footer.address}"></small>
+            </span>
+            <span class="mx-3">
+                <i class="fas fa-phone-square-alt"></i>
+                <small th:text="#{footer.phoneNumber}" id="phone-number"></small>
+            </span>
+            <span class="mx-3">
+                <i class="fas fa-envelope"></i>
+                <small th:text="#{footer.email}" id="footer-email"></small>
+            </span>
+            <a class="btn-floating btn-fb mx-3" href="#"
+               rel="noreferrer noopener" target="_blank">
+                <i class="fab fa-facebook"></i>
+                <small>Facebook</small>
+            </a>
+        </ul>
+
+        <small>© MARTIN MIRZOYAN, 2021</small>
+    </div>
+    <input id="footer-locale" th:value="${#locale.getLanguage()}" type="hidden">
+</footer>
+</body>
+
+</html>
