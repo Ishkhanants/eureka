@@ -38,17 +38,21 @@ public class LoginController {
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
         if (auth != null) {
             String username = auth.getName();
             User user = userService.getUserByUsername(username);
+
             if (user.getToken() != null) {
                 user.setToken(null);
                 userService.save(user);
             }
+
             Cookie rememberMe = WebUtils.getCookie(request, "remember-me");
             deleteCookieIfExists(rememberMe, response);
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
+
         return "redirect:/";
     }
 

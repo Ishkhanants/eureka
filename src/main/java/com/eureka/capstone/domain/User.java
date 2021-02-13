@@ -59,8 +59,7 @@ public class User extends BaseEntity {
     @Builder
     public User(Long id, Timestamp createdDate, Timestamp lastModifiedDate,
                 String username, String fullName, String email, String password,
-                String phone, String school, String occupation, String residency,
-                String address) {
+                String phone) {
         super(id, createdDate, lastModifiedDate);
         this.username = username;
         this.fullName = fullName;
@@ -74,7 +73,6 @@ public class User extends BaseEntity {
     }
 
     public boolean isAdmin() {
-        return roles.stream()
-                .map(Role::getRoleName).anyMatch(RoleEnum.ADMIN_ROLE::equals);
+        return roles.stream().map(Role::getRoleName).anyMatch(RoleEnum.ADMIN_ROLE::equals);
     }
 }
