@@ -27,12 +27,12 @@ public class LoginController {
     @GetMapping("login")
     public String login(HttpServletRequest request, Principal principal) {
         if (principal != null) {
-            return "redirect:/homepage";
+            return "redirect:/products";
         }
 
         Cookie rememberMeCookie = WebUtils.getCookie(request, "remember-me");
 
-        return (rememberMeCookie != null) ? "redirect:/homepage" : Templates.LOGIN.getName();
+        return (rememberMeCookie != null) ? "redirect:/products" : Templates.LOGIN.getName();
     }
 
     @GetMapping("/logout")

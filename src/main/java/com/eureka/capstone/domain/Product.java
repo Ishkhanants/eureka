@@ -9,7 +9,6 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.time.LocalDate;
@@ -26,7 +25,7 @@ import java.time.LocalDate;
 public class Product extends BaseEntity{
 
     @Column(name = "name", nullable = false)
-    private String fullName;
+    private String name;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "start_date", nullable = false)

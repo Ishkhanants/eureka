@@ -62,15 +62,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/i18n/**", "/footer-info", "/js/**", "/css/**", "/images/**", "/", "/register", "/login", "/webjars/**").permitAll()
+                .antMatchers("/i18n/**", "/footer-info", "/js/**", "/css/**", "/images/**", "/", "/products", "/login", "/webjars/**").permitAll()
                 .antMatchers("/edit-profile/").hasAnyRole("ADMIN_ROLE", "USER_ROLE")
-                .antMatchers("/users/**", "/waiting-list/**", "/events/**").hasAnyAuthority("ADMIN_ROLE")
-                .antMatchers("/homepage/update-content/**").hasAnyAuthority("ADMIN_ROLE")
+                .antMatchers("/users/**").hasAnyAuthority("ADMIN_ROLE")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/homepage", true)
+                .defaultSuccessUrl("/products", true)
                 .failureHandler(customAuthenticationFailureHandler)
                 .permitAll()
                 .and()

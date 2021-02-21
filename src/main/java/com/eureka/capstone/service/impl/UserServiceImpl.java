@@ -33,12 +33,12 @@ public class UserServiceImpl implements UserService {
 
     @Qualifier("sessionRegistry")
     private final SessionRegistry sessionRegistry;
-    //private PasswordEncoder encoder;
+    private PasswordEncoder encoder;
 
-//    @Autowired
-//    public void setEncoder(PasswordEncoder encoder) {
-//        this.encoder = encoder;
-//    }
+    @Autowired
+    public void setEncoder(PasswordEncoder encoder) {
+        this.encoder = encoder;
+    }
 
     @Override
     public User createUser(User user) {
