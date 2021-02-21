@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
             fieldErrors.put("email", emailExists);
             throw new FieldsAlreadyExistException(fieldErrors);
         }
-        //user.setPassword(encoder.encode(user.getPassword()));
+        user.setPassword(encoder.encode(user.getPassword()));
         return repository.save(user);
     }
 
@@ -153,6 +153,7 @@ public class UserServiceImpl implements UserService {
                 }
             }
         }
-
     }
+
 }
+

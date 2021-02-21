@@ -3,6 +3,7 @@ package com.eureka.capstone.controller;
 import com.eureka.capstone.security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 

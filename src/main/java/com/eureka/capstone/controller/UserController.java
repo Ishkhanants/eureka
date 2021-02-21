@@ -7,6 +7,7 @@ import com.eureka.capstone.exception.notunique.FieldsAlreadyExistException;
 import com.eureka.capstone.mapping.UserMapperDecorator;
 import com.eureka.capstone.service.UserService;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.PropertySource;
@@ -21,10 +22,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.security.Principal;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/users")
