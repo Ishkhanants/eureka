@@ -204,7 +204,7 @@ $(document).ready(async function () {
                 sessionStorage.removeItem('userName');
             }
         },
-        "pageLength": 25,
+        "pageLength": 15,
         "infoCallback": function (settings, start, end, max, total, pre) {
             return "Users" /*$.i18n("list.users")*/ + " " + start + "-" + end + " " + "from" /*$.i18n("list.from")*/ + " " + total; //+ $.i18n("list.form.arm");
         },
