@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container my-2 " style=" box-shadow: 0 47px 74px -31px rgba(7, 40, 137, 0.19);">
+
+    <table border="1" id="myTable" class="table table-responsive-md">
+        <thead>
+        <tr>
+            <th style="width:18%;">
+                <span style="font-size: 14.5px; color: black" th:text="#{user-list-username}"></span>
+            </th>
+            <th style="width:21%;">
+                <span style="font-size: 14.5px; color: black" th:text="#{user-list-full-name}"></span>
+            </th>
+            <th style="width:19%; ">
+                <span style="font-size: 14.5px; color: black" th:text="#{user-list-email}"></span>
+            </th>
+
+            <th style="width: 10%;">
+                <span style="font-size: 14.5px; color: black" th:text="#{user-list-tel}"></span>
+            </th>
+
+            <th style="width:13%;">
+                <span style="font-size: 14.5px; color: black" th:text="#{user-list-role}"></span>
+            </th>
+            <th style="width:10%;">
+                <span style="font-size: 14.5px; color: black" th:text="#{user-list-state}"></span>
+            <th style="width: 11%;">
+                <span style="font-size: 14.5px; color: black" th:text="#{user-list-changeTo}"></span>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${listUsers}">
+            <td th:text="${user.getUsername()}"></td>
+            <td th:text="${user.getFullName()}"></td>
+            <td  style=" word-wrap: break-word; " th:text="${user.getEmail()}"></td>
+            <td  style=" word-wrap: break-word; " th:text="${user.getPhone()}"></td>
+            <td th:if="${user.isAdmin()}" th:text="#{user-list-admin}"></td>
+            <td th:if="${user.isAdmin()==false}" th:text="#{user-list-user}"></td>
+            <td th:switch="${user.getState()}">
+
+
+                <span th:case="${T(epam.rd.library.domain.UserState).ACTIVE}" data-toggle="tooltip"
+                      data-custom-class="tooltip-light" th:title="#{user-list-active}"
+                      data-placement="right">
+                    <i style="color: green ;     padding-left: 35%;" class="fa-lg fas green fa-check-circle"></i></span>
+                <span th:case="${T(epam.rd.library.domain.UserState).BLOCKED}" data-toggle="tooltip"
+                      data-custom-class="tooltip-light" th:title="#{user-list-blocked}"
+                      data-placement="right" style="align-content: center">
+                    <i style="color: red;     padding-left: 35%;" class="fa-lg fas fa-ban"></i></span>
+                <span th:case="${T(epam.rd.library.domain.UserState).UNBLOCKED}" data-toggle="tooltip"
+                      data-custom-class="tooltip-light" th:title="#{user-list-unBlocked}"
+                      data-placement="right" class="grey-tooltip">
+                    <i style="color: grey;     padding-left: 35%;" class="fa-lg fas fa-exclamation-circle"></i></span>
+            </td>
+
+            <td>
+                <a th:if="${user.getState()==T(epam.rd.library.domain.UserState).BLOCKED}" th:href="@{'/users/unBlock/' + ${user.getId()}}" th:text="#{user-list-unBlock}"></a>
+                <a th:if="${user.getState()==T(epam.rd.library.domain.UserState).UNBLOCKED}" th:href="@{'/users/toActive/' + ${user.getId()}}" th:text="#{user-list-active}"></a>
+                <a th:if="${user.getState()==T(epam.rd.library.domain.UserState).ACTIVE} and ${user.isAdmin()}" th:href="@{'/users/toUser/' + ${user.getId()}}" th:text="#{user-list-user}"></a>
+                <a th:if="${user.getState()==T(epam.rd.library.domain.UserState).ACTIVE} and ${user.isAdmin() == false}"
+                   th:href="@{'/users/toAdmin/' + ${user.getId()}}" th:text="#{user-list-admin}"></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+</div>
+</body>
+</html>

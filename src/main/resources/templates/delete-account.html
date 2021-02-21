@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container delete-account-container"
+     style="width: 46%;" th:fragment="delete-account">
+    <div class="row row1 justify-center"><img alt="" class="image" src="images/cancel-64.png"/></div>
+    <div class="row row2 justify-center"><span class="text1" th:text="#{editProfile.deleteAccount}"></span></div>
+    <div class="row row3 justify-center" style="display: flex;flex-direction: column;">
+        <p style="margin-bottom:0;margin-top: 4%;text-align: center"
+           th:text="#{deleteProfile.warning}"><b id="userName" th:text="${userName}"></b></p>
+        <p style="padding: 1%; text-align: center;"
+           th:text="#{deleteProfile.consequence}"></p>
+    </div>
+    <div class="row row4 justify-center">
+        <div class="col-md-4">
+            <button class="btn activity-whiteButton"
+                    id="cancel-btn2"
+                    style="height: 50px;
+                        border: 1px solid #DCDFF1;"
+                    th:text="#{button.cancel}"></button>
+        </div>
+
+        <div class="col-md-4">
+            <button class="btn activity-main-button"
+                    id="add-activity-btn2"
+                    style="height: 50px;
+                        border: 1px solid #DCDFF1;"
+                    th:text="#{button.yes}" type="submit"></button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,74 @@
+$(document).ready(async function () {
+    let image = $('#image');
+    const csrfHeader = "X-CSRF-TOKEN";
+    let csrfToken = $('input[name^="csrf_token"]').val();
+    let username = $('#fc-username').text();
+
+    // await $.i18n().load({
+    //     "en": "/i18n/en.json",
+    //     "hy": "/i18n/hy.json",
+    //     "ru": "/i18n/ru.json",
+    // });
+
+    // let localeValue = $("#locale").val();
+    // $.i18n().locale = localeValue;
+
+    $.ajax({
+        type: 'GET',
+        url: location.origin + '/edit-profile/avatar/' + username,
+        beforeSend: function (request) {
+            request.setRequestHeader(csrfHeader, csrfToken);
+        },
+        success: function (data, textStatus, xhr) {
+            if (xhr.status === 204) image.attr('src', 'images/no-avatar.png');
+            else image.attr('src', 'data:image/jpg;base64,' + data)
+        },
+        error: function () {
+            image.attr('src', 'images/no-avatar.png');
+        }
+    });
+
+    if (location.pathname === "/myIssues") {
+        $('#products').removeClass("select-tab-border");
+        $("#my-issues").addClass("select-tab-border");
+    } else if (location.pathname === "/products") {
+        $('#products').addClass("select-tab-border");
+        $("#my-issues").removeClass("select-tab-border");
+    } else if (location.pathname === "/users") {
+        $('#users').addClass("select-tab-border");
+        $('#products').removeClass("select-tab-border");
+    } else if (location.pathname === "/reports") {
+        $('#reports').addClass("select-tab-border");
+        $('#products').removeClass("select-tab-border");
+    } else if (location.pathname === "/issues") {
+        $('#issues').addClass("select-tab-border");
+        $('#products').removeClass("select-tab-border");
+    }
+
+
+    $('#issues').click(function () {
+        $(this).addClass("select-tab-border");
+        $('#my-issues').removeClass("select-tab-border");
+        }
+    );
+
+    $("#my-issues").click(function () {
+        saveViewDateAndMoveTo("/myIssues");
+    });
+
+    $("#users").click(function () {
+        saveViewDateAndMoveTo("/users");
+    })
+
+    $("#products").click(function () {
+        saveViewDateAndMoveTo("/");
+    });
+
+    $("#reports").click(function () {
+        saveViewDateAndMoveTo("/reports")
+    })
+});
+
+function saveViewDateAndMoveTo(endpoint) {
+    location.href = location.origin + endpoint;
+}
