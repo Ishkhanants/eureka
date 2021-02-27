@@ -1,6 +1,6 @@
 package com.eureka.capstone.cookies;
 
-import com.eureka.capstone.domain.User;
+import com.eureka.capstone.domain.user.User;
 import lombok.NoArgsConstructor;
 
 import org.apache.commons.codec.binary.Base64;

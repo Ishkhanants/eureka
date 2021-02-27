@@ -115,8 +115,8 @@
                         <div class="row">
                             <div class="col-md-12 mx-auto">
                                 <div class="form-group">
-                                    <label for="email-2" th:text="#{field.registration.email}"></label>
-                                    <input class="form-control optional" id="email-2" name="email-2"
+                                    <label for="email-2" class="control-label required_label" th:text="#{field.registration.email}"></label>
+                                    <input class="form-control required-input" id="email-2" name="email-2"
                                            th:value="${user.email}"
                                            type="text"/>
                                 </div>
@@ -126,19 +126,31 @@
                             <div class="col-md-12 mx-auto">
                                 <div class="form-group">
                                     <label for="group" th:text="#{field.registration.group}"></label>
-                                    <input class="form-control optional" id="group" name="group"
-                                           th:value="${user.group}"
-                                           type="text"/>
+                                    <select class="select form-control required-input" id="group" name="group"
+                                            th:name="group" th:value="${user.group}"
+                                            th:disabled="${user.isAdmin()==false}">
+                                        <option th:each="group : ${T(com.eureka.capstone.domain.user.Group).values()}"
+                                                th:value="${group}"
+                                                th:selected="${user.group == group}"
+                                                th:text="${group.displayValue}">
+                                        </option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="user-type" th:text="#{field.registration.userType}"></label>
-                                    <input class="form-control optional" id="user-type" name="user-type"
-                                           th:value="${user.userType}"
-                                           type="text"/>
+                                    <label for="userType" th:text="#{field.registration.userType}"></label>
+                                    <select class="select form-control required-input" id="userType" name="userType"
+                                            th:name="userType" th:value="${user.userType}"
+                                            th:disabled="${user.isAdmin()==false}">
+                                        <option th:each="userType : ${T(com.eureka.capstone.domain.user.UserType).values()}"
+                                                th:value="${userType}"
+                                                th:selected="${user.userType==userType}"
+                                                th:text="${userType.displayValue}">
+                                        </option>
+                                    </select>
                                 </div>
                             </div>
                         </div>

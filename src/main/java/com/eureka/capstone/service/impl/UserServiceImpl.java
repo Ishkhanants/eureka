@@ -1,7 +1,7 @@
 package com.eureka.capstone.service.impl;
 
-import com.eureka.capstone.domain.RoleEnum;
-import com.eureka.capstone.domain.User;
+import com.eureka.capstone.domain.user.RoleEnum;
+import com.eureka.capstone.domain.user.User;
 import com.eureka.capstone.exception.notfound.UserNotFoundException;
 import com.eureka.capstone.exception.notunique.FieldsAlreadyExistException;
 import com.eureka.capstone.repository.UserRepository;
@@ -19,7 +19,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import javax.transaction.Transactional;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;

@@ -1,6 +1,6 @@
 package com.eureka.capstone.cookies;
 
-import com.eureka.capstone.domain.User;
+import com.eureka.capstone.domain.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

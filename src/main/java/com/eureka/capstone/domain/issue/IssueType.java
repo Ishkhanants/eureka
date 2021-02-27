@@ -1,4 +1,4 @@
-package com.eureka.capstone.domain;
+package com.eureka.capstone.domain.issue;
 
 public enum IssueType {
     PROBLEM,

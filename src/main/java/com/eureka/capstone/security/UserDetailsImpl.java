@@ -1,6 +1,6 @@
 package com.eureka.capstone.security;
 
-import com.eureka.capstone.domain.User;
+import com.eureka.capstone.domain.user.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

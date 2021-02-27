@@ -1,8 +1,8 @@
 package com.eureka.capstone.mapping;
 
-import com.eureka.capstone.domain.Role;
-import com.eureka.capstone.domain.RoleEnum;
-import com.eureka.capstone.domain.User;
+import com.eureka.capstone.domain.user.Role;
+import com.eureka.capstone.domain.user.RoleEnum;
+import com.eureka.capstone.domain.user.User;
 import com.eureka.capstone.dto.UserDto;
 
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.eureka.capstone.service;
 
-import com.eureka.capstone.domain.User;
+import com.eureka.capstone.domain.user.User;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.List;

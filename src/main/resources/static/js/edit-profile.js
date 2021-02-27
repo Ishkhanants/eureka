@@ -166,17 +166,9 @@ $(document).ready(async function () {
                     customRequired: $("#phone-valid-title").text(),
                     validPhone: true
                 },
-                school: {
+                email: {
                     maxlength: MAX_LENGTH
-                },
-                residency: {
-                    maxlength: MAX_LENGTH
-                },
-                occupation: {
-                    maxlength: MAX_LENGTH
-                },
-                address: {
-                    maxlength: MAX_LENGTH
+                    //TODO
                 }
             },
             errorPlacement: function (label, element) {
@@ -219,7 +211,7 @@ $(document).ready(async function () {
                         request.setRequestHeader(csrfHeader, token);
                     },
                     success: function () {
-                        location.href = location.origin + "/homepage";
+                        location.href = location.origin + "/products";
                     },
                 });
             }
