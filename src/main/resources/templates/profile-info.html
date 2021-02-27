@@ -6,7 +6,6 @@
     <button aria-label="Close" class="close custom-close" style="font-size: 32px;" type="button">
         <span aria-hidden="true">&times;</span>
     </button>
-<!--    /*@thymesVar id="user" type="epam.rd.library.domain.User"*/-->
     <form id="form" th:action="@{/edit-profile}" th:method="post" th:object="${user}">
         <div class="lds-dual-ring"></div>
         <div class="container">

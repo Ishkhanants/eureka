@@ -24,6 +24,28 @@
 .table-title .btn-group {
     float: right;
 }
+.btn-group{
+    position: center;
+}
+.activity-main-button {
+    width: 48%;
+    height: 100%;
+    background: #07b7e3 !important;
+    color: #ffffff !important;
+}
+.activity-whiteButton {
+    width: 48%;
+    color: #07b7e3 !important;
+    height: 100%;
+    background-color: #ffffff;
+}
+.cancel-btn:hover, .add-activity-btn:hover {
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    color: #ffffff;
+    transform: perspective(1px) translateZ(0);
+    transition-duration: 0.3s;
+    transition-property: color, background-color;
+}
 .table-title .btn {
     color: #fff;
     float: right;
@@ -159,15 +181,21 @@ table.table .avatar {
     padding: 20px 30px;
 }
 .modal .modal-content {
-    border-radius: 3px;
+    border-radius: 5px;
+    border: none;
     font-size: 14px;
 }
 .modal .modal-footer {
-    background: #ecf0f1;
+    border: none;
     border-radius: 0 0 3px 3px;
+}
+.modal .modal-header {
+    background: #07b7e3;
+    border-radius: 5px 5px 0 0;
 }
 .modal .modal-title {
     display: inline-block;
+    color: white;
 }
 .modal .form-control {
     border-radius: 2px;
@@ -178,11 +206,15 @@ table.table .avatar {
     resize: vertical;
 }
 .modal .btn {
-    border-radius: 2px;
+    border-radius: 0.25rem;
     min-width: 100px;
 }
 .modal form label {
     font-weight: normal;
+}
+.close{
+    color: white;
+    text-shadow: none;
 }
 
 html {
@@ -267,6 +299,7 @@ table {
     color: #a59f9f;
     font-size: 14px;
     padding-top: 0;
+    margin-top: 20px;
 }
 
 div.dataTables_wrapper div.dataTables_paginate ul.pagination {
