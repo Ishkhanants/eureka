@@ -6,16 +6,26 @@ $(document).ready(async function () {
     // });
 
     // Select/Deselect checkboxes
+    var selectAll = $("#selectAll");
+    var deleteAllSelected = $("#deleteAllSelected");
     var checkbox = $('table tbody input[type="checkbox"]');
-    $("#selectAll").click(function(){
+
+    $(":checkbox").on('click', function (){
+        var checkedCheckboxCount = $('table tbody input[type="checkbox"]:checked').length;
+        checkedCheckboxCount > 0 ? deleteAllSelected.removeAttr("hidden") : deleteAllSelected.attr("hidden", true);
+    })
+
+    selectAll.click(function(){
         if(this.checked){
             checkbox.each(function(){
                 this.checked = true;
             });
-        } else{
+            deleteAllSelected.removeAttr("hidden");
+        } else {
             checkbox.each(function(){
                 this.checked = false;
             });
+            deleteAllSelected.attr("hidden", true);
         }
     });
 
@@ -209,7 +219,7 @@ $(document).ready(async function () {
         },
         'sPaginationType': 'twoNumbers',
         language: {
-            searchPlaceholder: "search",//$.i18n("list.search"),
+            searchPlaceholder: "",//$.i18n("list.search"),
             search: "",
             paginate: {
                 next: '>',
@@ -218,9 +228,9 @@ $(document).ready(async function () {
         },
         "aoColumns": [
             {"orderSequence": ["asc"]},
-            {"orderSequence": ["asc"]},
-            {"orderSequence": ["asc"]},
-            {"orderSequence": ["asc"]},
+            {"orderSequence": ["asc", "desc"]},
+            {"orderSequence": ["asc", "desc"]},
+            {"orderSequence": ["asc", "desc"]},
             {"orderSequence": ["asc"]},
         ],
         columnDefs: [
@@ -328,15 +338,17 @@ $(document).ready(async function () {
 
     addErrorIcon();
 
-    $('table .edit').on('click', function(){
-        let id = $(this).parent().find('#id').val();
+    let table = $('#myTable');
+
+    table.on('click','.edit', function() {
+        let id = $(this).parent().find('.id').val();
         $('#editProductModal #id-to-edit').val(id);
         $.ajax({
             type: 'GET',
             url: '/products/' + id,
             success: function (product){
                 $('#editProductModal #edit-name').val(product.name);
-                $('#editProductModal #edit-date').val(product.date);
+                $('#editProductModal #edit-date').val(product.startDate);
                 $('#editProductModal #edit-description').val(product.description);
             }
         })
@@ -351,8 +363,8 @@ $(document).ready(async function () {
     //     return keyValue ? keyValue[2] : null;
     // }
 
-    $('table .delete').on('click', function() {
-        let id = $(this).parent().find('#id').val();
+    table.on('click','.delete', function() {
+        let id = $(this).parent().find('.id').val();
         $('#deleteProductModal #id-to-delete').val(id);
         // console.log(location.origin);
         // $('#deleteProductModal .modal-footer .add-activity-btn').on('click', function() {
@@ -368,4 +380,22 @@ $(document).ready(async function () {
         // alert(id);
     })
 
+    $('#deleteAllSelectedButton').on('click', function () {
+        let array = [];
+        // $('table tbody input[type="checkbox"]:checked').each(function(){
+        dtable.rows().nodes().to$().find('input[type="checkbox"]:checked').each(function(){
+            array.push($(this).val());
+        });
+        $('#ids-to-delete').val(array);
+        // $.ajax({
+        //     type: 'GET',
+        //     url: '/products/delete',
+        //     data:  {array: array},
+        //     dataType: 'application/json',
+        //     contentType: 'application/json',
+        //     success: function (){
+        //     }
+        // })
+    })
+    
 });

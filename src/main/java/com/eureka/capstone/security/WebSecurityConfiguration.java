@@ -67,6 +67,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users/**", "/products/**").hasAnyAuthority("ADMIN_ROLE")
                 .anyRequest().authenticated()
                 .and()
+                .csrf().disable().cors()
+                .and()
                 .formLogin()
                 .loginPage("/login")
                 .defaultSuccessUrl("/products", true)
