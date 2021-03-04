@@ -100,6 +100,12 @@
 
         <dependency>
             <groupId>org.webjars</groupId>
+            <artifactId>jquery-ui</artifactId>
+            <version>1.12.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
             <artifactId>jquery-validation</artifactId>
             <version>1.19.0</version>
         </dependency>
@@ -108,12 +114,6 @@
             <groupId>org.webjars.bowergithub.wikimedia</groupId>
             <artifactId>jquery.i18n</artifactId>
             <version>1.0.5</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>jquery-ui</artifactId>
-            <version>1.12.1</version>
         </dependency>
 
         <dependency>
@@ -167,6 +167,11 @@
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf-spring5</artifactId>
         </dependency>
 
         <dependency>

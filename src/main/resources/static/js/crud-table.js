@@ -1,5 +1,4 @@
 $(document).ready(async function () {
-
     // await $.i18n().load({
     //     "en": "/i18n/en.json",
     //     "hy": "/i18n/hy.json",
@@ -7,16 +6,26 @@ $(document).ready(async function () {
     // });
 
     // Select/Deselect checkboxes
+    var selectAll = $("#selectAll");
+    var deleteAllSelected = $("#deleteAllSelected");
     var checkbox = $('table tbody input[type="checkbox"]');
-    $("#selectAll").click(function(){
+
+    $(":checkbox").on('click', function (){
+        var checkedCheckboxCount = $('table tbody input[type="checkbox"]:checked').length;
+        checkedCheckboxCount > 0 ? deleteAllSelected.removeAttr("hidden") : deleteAllSelected.attr("hidden", true);
+    })
+
+    selectAll.click(function(){
         if(this.checked){
             checkbox.each(function(){
                 this.checked = true;
             });
-        } else{
+            deleteAllSelected.removeAttr("hidden");
+        } else {
             checkbox.each(function(){
                 this.checked = false;
             });
+            deleteAllSelected.attr("hidden", true);
         }
     });
 
@@ -206,11 +215,11 @@ $(document).ready(async function () {
         },
         "pageLength": 15,
         "infoCallback": function (settings, start, end, max, total, pre) {
-            return "Users" /*$.i18n("list.users")*/ + " " + start + "-" + end + " " + "from" /*$.i18n("list.from")*/ + " " + total; //+ $.i18n("list.form.arm");
+            return "Products" /*$.i18n("list.users")*/ + " " + start + "-" + end + " " + "from" /*$.i18n("list.from")*/ + " " + total; //+ $.i18n("list.form.arm");
         },
         'sPaginationType': 'twoNumbers',
         language: {
-            searchPlaceholder: "search",//$.i18n("list.search"),
+            searchPlaceholder: "",//$.i18n("list.search"),
             search: "",
             paginate: {
                 next: '>',
@@ -219,14 +228,15 @@ $(document).ready(async function () {
         },
         "aoColumns": [
             {"orderSequence": ["asc"]},
-            {"orderSequence": ["asc"]},
-            {"orderSequence": ["asc"]},
-            {"orderSequence": ["asc"]},
+            {"orderSequence": ["asc", "desc"]},
+            {"orderSequence": ["asc", "desc"]},
+            {"orderSequence": ["asc", "desc"]},
             {"orderSequence": ["asc"]},
         ],
         columnDefs: [
             {
                 orderable: false,
+                visible: document.getElementById('role').value == 'ADMIN_ROLE',
                 // render: function (data, type, full, meta) {
                 //     return "<div class='text-wrap width-200'>" + data + "</div>";
                 // },
@@ -249,58 +259,58 @@ $(document).ready(async function () {
             return;
         });
 
-    var total_records = dtable.rows().count();
+    var total_records = dtable.page.info().recordsTotal;
     var page_length = dtable.page.info().length;
     var total_pages = Math.ceil(total_records / page_length);
 
     //adding go to page btn
-    $('#myTable_info').parent().removeClass("col-md-5").addClass("col-md-4");
-    $('#myTable_paginate').parent().removeClass("col-md-7").addClass("col-md-4");
-    let gotopage = document.createElement('DIV');
-    gotopage.classList.add("col-md-4");
-    let goToPagebtn = document.createElement('BUTTON');
-    goToPagebtn.classList.add("goToPageBtn");
-    $(goToPagebtn).text($.i18n("list.page"));
-    gotopage.appendChild(goToPagebtn);
-    let myinput = document.createElement("INPUT");
-    myinput.classList.add("goToPageInput");
-    myinput.setAttribute("id", "pageInput");
-    $(myinput).val(total_pages).css("padding-left", "7px");
-    gotopage.appendChild(myinput);
-    $('#myTable_info').parent().parent().append(gotopage);
-    let line = document.createElement("HR");
-    line.classList.add("line");
-    $('#myTable_info').parent().parent().prepend(line);
+    // $('#myTable_info').parent().removeClass("col-md-5").addClass("col-md-4");
+    // $('#myTable_paginate').parent().removeClass("col-md-7").addClass("col-md-4");
+    // let gotopage = document.createElement('DIV');
+    // gotopage.classList.add("col-md-4");
+    // let goToPagebtn = document.createElement('BUTTON');
+    // goToPagebtn.classList.add("goToPageBtn");
+    // $(goToPagebtn).text(/*$.i18n(*/"list.page"/*)*/);
+    // gotopage.appendChild(goToPagebtn);
+    // let myinput = document.createElement("INPUT");
+    // myinput.classList.add("goToPageInput");
+    // myinput.setAttribute("id", "pageInput");
+    // $(myinput).val(total_pages).css("padding-left", "7px");
+    // gotopage.appendChild(myinput);
+    // $('#myTable_info').parent().parent().append(gotopage);
+    // let line = document.createElement("HR");
+    // line.classList.add("line");
+    // $('#myTable_info').parent().parent().prepend(line);
 
-    let parent = document.getElementById('pageInput').parentElement;
-    let invalidFeedback = document.createElement('DIV');
-    invalidFeedback.classList.add('custom-invalid-feedback');
+    // let parent = document.getElementById('pageInput').parentElement;
+    // let invalidFeedback = document.createElement('DIV');
+    // invalidFeedback.classList.add('custom-invalid-feedback');
 
-    let span = document.createElement('SPAN');
-    span.classList.add('error-message');
+    // let span = document.createElement('SPAN');
+    // span.classList.add('error-message');
 
-    invalidFeedback.appendChild(span);
-    parent.appendChild(invalidFeedback)
-    let errorMessage;
+    // invalidFeedback.appendChild(span);
+    // parent.appendChild(invalidFeedback)
+    // let errorMessage;
 
     //adding go to page btn functionality
-    $('.goToPageBtn').click(function () {
-        let input = $('.goToPageInput').val();
-        if (validInput(input)) {
-            dtable.page(input - 1).draw('page');
-            $('.custom-invalid-feedback').hide();
-        } else {
-            showMessage(errorMessage);
-        }
-    })
+    // $('.goToPageBtn').click(function () {
+    //     let input = $('.goToPageInput').val();
+    //     if (validInput(input)) {
+    //         dtable.page(input - 1).draw('page');
+    //         $('.custom-invalid-feedback').hide();
+    //     } else {
+    //         showMessage(errorMessage);
+    //     }
+    // })
 
     function validInput(input) {
         if ((!(input.match(/^-{0,1}\d+$/)))) {
-            errorMessage = $.i18n("list.error.notNumeric");
+            // errorMessage = $.i18n("list.error.notNumeric");
             return false;
         }
         if (input > total_pages || input <= 0) {
-            errorMessage = $.i18n("list.error.greater");
+            // errorMessage = $.i18n("list.error.greater");
             return false;
         }
         return true;
@@ -326,6 +336,66 @@ $(document).ready(async function () {
         }
     }
 
-    addErrorIcon()
+    addErrorIcon();
 
+    let table = $('#myTable');
+
+    table.on('click','.edit', function() {
+        let id = $(this).parent().find('.id').val();
+        $('#editProductModal #id-to-edit').val(id);
+        $.ajax({
+            type: 'GET',
+            url: '/products/' + id,
+            success: function (product){
+                $('#editProductModal #edit-name').val(product.name);
+                $('#editProductModal #edit-date').val(product.startDate);
+                $('#editProductModal #edit-description').val(product.description);
+            }
+        })
+    })
+
+    // $.ajaxSetup({
+    //     headers: {"X-XSRF-TOKEN": getCookie('XSRF-TOKEN')},
+    // });
+    //
+    // function getCookie(key) {
+    //     var keyValue = document.cookie.match('(^|;) ?' + key + '=([^;]*)(;|$)');
+    //     return keyValue ? keyValue[2] : null;
+    // }
+
+    table.on('click','.delete', function() {
+        let id = $(this).parent().find('.id').val();
+        $('#deleteProductModal #id-to-delete').val(id);
+        // console.log(location.origin);
+        // $('#deleteProductModal .modal-footer .add-activity-btn').on('click', function() {
+        //     let id_to_delete = $('#id-to-delete').val();
+        //     $.ajax({
+        //         type: 'DELETE',
+        //         url: 'products/delete/' + id_to_delete,
+        //         success: function () {
+        //             console.log("SUCCESS")
+        //         }
+        //     })
+        // })
+        // alert(id);
+    })
+
+    $('#deleteAllSelectedButton').on('click', function () {
+        let array = [];
+        // $('table tbody input[type="checkbox"]:checked').each(function(){
+        dtable.rows().nodes().to$().find('input[type="checkbox"]:checked').each(function(){
+            array.push($(this).val());
+        });
+        $('#ids-to-delete').val(array);
+        // $.ajax({
+        //     type: 'GET',
+        //     url: '/products/delete',
+        //     data:  {array: array},
+        //     dataType: 'application/json',
+        //     contentType: 'application/json',
+        //     success: function (){
+        //     }
+        // })
+    })
+    
 });
