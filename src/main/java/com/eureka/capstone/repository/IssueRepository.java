@@ -1,6 +1,6 @@
 package com.eureka.capstone.repository;
 
-import com.eureka.capstone.domain.Issue;
+import com.eureka.capstone.domain.issue.Issue;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

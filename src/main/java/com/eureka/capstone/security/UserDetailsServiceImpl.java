@@ -1,6 +1,6 @@
 package com.eureka.capstone.security;
 
-import com.eureka.capstone.domain.User;
+import com.eureka.capstone.domain.user.User;
 import com.eureka.capstone.exception.notfound.UserNotFoundException;
 import com.eureka.capstone.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

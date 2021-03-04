@@ -146,62 +146,54 @@ $(document).ready(async function () {
         const VALID_ANSWER_MAX_LENGTH = 25;
 
         $('#form').validate({
-            rules: {
-                fullName: {
-                    customRequired: $("#full-name-valid-title").text(),
-                    validFullName: true,
-                    maxlength: MAX_LENGTH
-                },
-                password: {
-                    validPassword: [VALID_PASSWORD_MIN_LENGTH, VALID_PASSWORD_MAX_LENGTH]
-                },
-                confirmPassword: {
-                    equalTo: "#password"
-                },
-                profileAvatar: {
-                    fileSize: 16777215,
-                    accept: "image/*"
-                },
-                phone: {
-                    customRequired: $("#phone-valid-title").text(),
-                    validPhone: true
-                },
-                school: {
-                    maxlength: MAX_LENGTH
-                },
-                residency: {
-                    maxlength: MAX_LENGTH
-                },
-                occupation: {
-                    maxlength: MAX_LENGTH
-                },
-                address: {
-                    maxlength: MAX_LENGTH
-                }
-            },
-            errorPlacement: function (label, element) {
-                element.removeClass('error');
-                element.removeClass('valid');
-                label.removeClass('error');
-                let errorMessage = label.text();
-
-                let hasPreviousErrors = element.parent().find('.custom-invalid-feedback').css('display') !== 'none';
-                let customInvalidFeedback = element.parent().find('.custom-invalid-feedback');
-                if (element[0].getAttribute('id') === 'residency') {
-                }
-
-                if (hasPreviousErrors) {
-                    if (errorMessage) {
-                        customInvalidFeedback.find('.error-message').text(errorMessage);
-                        customInvalidFeedback.show()
-                    } else {
-                        customInvalidFeedback.hide();
-                    }
-                } else if (errorMessage) {
-                    customInvalidFeedback.find('.error-message').text(errorMessage);
-                    customInvalidFeedback.show();
-                }
-            },
+            // rules: {
+            //     fullName: {
+            //         customRequired: $("#full-name-valid-title").text(),
+            //         validFullName: true,
+            //         maxlength: MAX_LENGTH
+            //     },
+            //     password: {
+            //         validPassword: [VALID_PASSWORD_MIN_LENGTH, VALID_PASSWORD_MAX_LENGTH]
+            //     },
+            //     confirmPassword: {
+            //         equalTo: "#password"
+            //     },
+            //     profileAvatar: {
+            //         fileSize: 16777215,
+            //         accept: "image/*"
+            //     },
+            //     phone: {
+            //         customRequired: $("#phone-valid-title").text(),
+            //         validPhone: true
+            //     },
+            //     email: {
+            //         maxlength: MAX_LENGTH
+            //         //TODO
+            //     }
+            // },
+            // errorPlacement: function (label, element) {
+            //     element.removeClass('error');
+            //     element.removeClass('valid');
+            //     label.removeClass('error');
+            //     let errorMessage = label.text();
+            //
+            //     let hasPreviousErrors = element.parent().find('.custom-invalid-feedback').css('display') !== 'none';
+            //     let customInvalidFeedback = element.parent().find('.custom-invalid-feedback');
+            //     if (element[0].getAttribute('id') === 'residency') {
+            //     }
+            //
+            //     if (hasPreviousErrors) {
+            //         if (errorMessage) {
+            //             customInvalidFeedback.find('.error-message').text(errorMessage);
+            //             customInvalidFeedback.show()
+            //         } else {
+            //             customInvalidFeedback.hide();
+            //         }
+            //     } else if (errorMessage) {
+            //         customInvalidFeedback.find('.error-message').text(errorMessage);
+            //         customInvalidFeedback.show();
+            //     }
+            // },
             success: function (a, b) {
             },
 
@@ -219,23 +211,26 @@ $(document).ready(async function () {
                         request.setRequestHeader(csrfHeader, token);
                     },
                     success: function () {
-                        location.href = location.origin + "/homepage";
+                        location.href = location.origin + "/products";
                     },
+                    error: function (){
+                        console.log("HELP!")
+                    }
                 });
             }
 
         });
 
-        $.extend($.validator.messages, {
-            customRequired: $.i18n("registration.customRequired"),
-            validFullName: $.i18n("registration.fullName.validation"),
-            validPassword: $.i18n("registration.password.validation", VALID_PASSWORD_MIN_LENGTH, VALID_PASSWORD_MAX_LENGTH),
-            equalTo: $.i18n("registration.password.equals"),
-            validPhone: $.i18n("registration.phone.validation"),
-            fileSize: $.i18n("editProfile.fileSize", MAX_FILE_SIZE_MB),
-            accept: $.i18n("editProfile.accept"),
-            customRangeLength: $.i18n("registration.answers.validation", VALID_ANSWER_MIN_LENGTH, VALID_ANSWER_MAX_LENGTH),
-        });
+        // $.extend($.validator.messages, {
+        //     customRequired: $.i18n("registration.customRequired"),
+        //     validFullName: $.i18n("registration.fullName.validation"),
+        //     validPassword: $.i18n("registration.password.validation", VALID_PASSWORD_MIN_LENGTH, VALID_PASSWORD_MAX_LENGTH),
+        //     equalTo: $.i18n("registration.password.equals"),
+        //     validPhone: $.i18n("registration.phone.validation"),
+        //     fileSize: $.i18n("editProfile.fileSize", MAX_FILE_SIZE_MB),
+        //     accept: $.i18n("editProfile.accept"),
+        //     customRangeLength: $.i18n("registration.answers.validation", VALID_ANSWER_MIN_LENGTH, VALID_ANSWER_MAX_LENGTH),
+        // });
 
 
         addErrorIcon()

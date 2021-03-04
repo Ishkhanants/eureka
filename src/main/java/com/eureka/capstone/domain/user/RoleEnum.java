@@ -1,4 +1,4 @@
-package com.eureka.capstone.domain;
+package com.eureka.capstone.domain.user;
 
 public enum RoleEnum {
     USER_ROLE,

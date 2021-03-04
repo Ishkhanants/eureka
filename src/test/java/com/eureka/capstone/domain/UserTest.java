@@ -1,5 +1,8 @@
 package com.eureka.capstone.domain;
 
+import com.eureka.capstone.domain.user.Role;
+import com.eureka.capstone.domain.user.RoleEnum;
+import com.eureka.capstone.domain.user.User;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;

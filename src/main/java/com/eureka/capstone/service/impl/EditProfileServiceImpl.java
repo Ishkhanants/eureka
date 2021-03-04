@@ -1,7 +1,7 @@
 package com.eureka.capstone.service.impl;
 
 import com.eureka.capstone.controller.Templates;
-import com.eureka.capstone.domain.User;
+import com.eureka.capstone.domain.user.User;
 import com.eureka.capstone.dto.UserDto;
 import com.eureka.capstone.service.EditProfileService;
 import com.eureka.capstone.service.UserService;
@@ -14,9 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor

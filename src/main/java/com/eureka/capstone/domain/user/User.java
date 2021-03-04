@@ -1,5 +1,6 @@
-package com.eureka.capstone.domain;
+package com.eureka.capstone.domain.user;
 
+import com.eureka.capstone.domain.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;

@@ -1,7 +1,7 @@
 package com.eureka.capstone.controller;
 
 import com.eureka.capstone.cookies.RememberMeCookieService;
-import com.eureka.capstone.domain.User;
+import com.eureka.capstone.domain.user.User;
 import com.eureka.capstone.dto.UserDto;
 import com.eureka.capstone.exception.notunique.FieldsAlreadyExistException;
 import com.eureka.capstone.mapping.UserMapperDecorator;
@@ -22,9 +22,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.security.Principal;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/users")
