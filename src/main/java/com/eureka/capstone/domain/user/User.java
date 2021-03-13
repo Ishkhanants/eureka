@@ -29,7 +29,7 @@ public class User extends BaseEntity {
     private UserType userType;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "group")
+    @Column(name = "`group`")
     private Group group;
 
     @Column(name = "full_name", nullable = false)

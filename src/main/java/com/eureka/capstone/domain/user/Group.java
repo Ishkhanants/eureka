@@ -10,7 +10,7 @@ public enum Group {
 
     private final String displayValue;
 
-    private Group(String displayValue) {
+    Group(String displayValue) {
         this.displayValue = displayValue;
     }
 

@@ -8,7 +8,7 @@ public enum UserType {
 
     private final String displayValue;
 
-    private UserType(String displayValue) {
+    UserType(String displayValue) {
         this.displayValue = displayValue;
     }
 

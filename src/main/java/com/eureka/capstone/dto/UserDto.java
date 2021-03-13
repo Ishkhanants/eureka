@@ -1,5 +1,7 @@
 package com.eureka.capstone.dto;
 
+import com.eureka.capstone.domain.user.Group;
+import com.eureka.capstone.domain.user.UserType;
 import com.eureka.capstone.validation.*;
 
 import lombok.AllArgsConstructor;
@@ -8,6 +10,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.context.annotation.PropertySource;
 
+import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Lob;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -31,6 +36,12 @@ public class UserDto {
 
     @NotNull(message = "not.null.confirm.password")
     private String confirmPassword;
+
+    @NotNull
+    private UserType userType;
+
+    @NotNull
+    private Group group;
 
     @NotNull(message = "not.null.full.name")
     @ValidFullName
@@ -101,6 +112,22 @@ public class UserDto {
 
     public void setProfileAvatar(byte[] profileAvatar) {
         this.profileAvatar = profileAvatar;
+    }
+
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 }
 

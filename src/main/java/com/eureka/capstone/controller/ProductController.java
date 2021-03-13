@@ -36,11 +36,9 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    public ModelAndView success(Model model, Principal principal, HttpSession session, ModelAndView modelAndView) {
-        model.addAttribute("currentUser", principal.getName());
-        UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
-//        if (userDetails.getAuthorities().contains(new SimpleGrantedAuthority(RoleEnum.ADMIN_ROLE.name())))
-//            return Templates.HOMEPAGE_ADMIN.getName();
+    public ModelAndView success(/*Model model, Principal principal, HttpSession session,*/ModelAndView modelAndView) {
+//        model.addAttribute("currentUser", principal.getName());
+//        UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
         List<Product> listProducts = productService.getAllProducts();
         modelAndView.setViewName(Templates.PRODUCTS.getName());
         modelAndView.addObject("listProducts", listProducts);
@@ -81,7 +79,6 @@ public class ProductController {
     public String deleteSelectedProducts(HttpServletRequest request) {
         var ids = request.getParameter("ids").split(",");
 
-        var i = 0;
         for (String id: ids) {
             long idl = Long.parseLong(id);
             productService.deleteProductById(idl);

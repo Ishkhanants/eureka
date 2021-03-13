@@ -1,7 +1,10 @@
 package com.eureka.capstone.service.impl;
 
+import com.eureka.capstone.domain.Product;
+import com.eureka.capstone.domain.user.Group;
 import com.eureka.capstone.domain.user.RoleEnum;
 import com.eureka.capstone.domain.user.User;
+import com.eureka.capstone.domain.user.UserType;
 import com.eureka.capstone.exception.notfound.UserNotFoundException;
 import com.eureka.capstone.exception.notunique.FieldsAlreadyExistException;
 import com.eureka.capstone.repository.UserRepository;
@@ -19,7 +22,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -107,6 +112,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User extractUserFromRequest(HttpServletRequest request) {
+        var updatedUser = new User();
+        updatedUser.setId(Long.parseLong(request.getParameter("id")));
+        updatedUser.setUsername(request.getParameter("edit-username"));
+        updatedUser.setFullName(request.getParameter("edit-fullName"));
+        updatedUser.setPhone(request.getParameter("edit-phone"));
+        updatedUser.setGroup(Group.valueOf(request.getParameter("edit-group")));
+        updatedUser.setUserType(UserType.valueOf(request.getParameter("edit-userType")));
+        updatedUser.setEmail(request.getParameter("edit-email"));
+        return updatedUser;
+    }
+
+    @Override
     public void deleteUserByUsername(String userName) {
         repository.deleteByUsername(userName);
     }
@@ -123,8 +141,8 @@ public class UserServiceImpl implements UserService {
                 .filter(r -> !(r.getRoleName().name().equals("ADMIN_ROLE")) && !(r.getRoleName().name().equals("USER_ROLE")))
                 .collect(Collectors.toList()));
         user.addRole(roleService.getRole(RoleEnum.USER_ROLE));
+        repository.save(user);
         logoutUser(id);
-
     }
 
     @Override
@@ -134,7 +152,27 @@ public class UserServiceImpl implements UserService {
                 .filter(r -> !(r.getRoleName().name().equals("ADMIN_ROLE")) && !(r.getRoleName().name().equals("USER_ROLE")))
                 .collect(Collectors.toList()));
         user.addRole(roleService.getRole(RoleEnum.ADMIN_ROLE));
+        repository.save(user);
         logoutUser(id);
+    }
+
+    @Override
+    public void updateUser2(User updatedUser) {
+        var user = getUserById(updatedUser.getId());
+
+        user.setUsername(updatedUser.getUsername());
+        user.setFullName(updatedUser.getFullName());
+        user.setPhone(updatedUser.getPhone());
+        user.setEmail(updatedUser.getEmail());
+        user.setGroup(updatedUser.getGroup());
+        user.setUserType(updatedUser.getUserType());
+
+        repository.save(user);
+    }
+
+    @Override
+    public void deleteUserById(long id) {
+        repository.deleteById(id);
     }
 
 

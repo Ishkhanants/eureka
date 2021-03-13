@@ -1,6 +1,7 @@
 package com.eureka.capstone.controller;
 
 import com.eureka.capstone.cookies.RememberMeCookieService;
+import com.eureka.capstone.domain.Product;
 import com.eureka.capstone.domain.user.User;
 import com.eureka.capstone.dto.UserDto;
 import com.eureka.capstone.exception.notunique.FieldsAlreadyExistException;
@@ -12,7 +13,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.MimeTypeUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +27,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.security.Principal;
 import java.util.*;
 
 @Controller
@@ -38,12 +45,19 @@ public class UserController {
     @Value("${security.secret.key}")
     private String SECRET_KEY;
 
-    @PostMapping("/register")
+    @GetMapping
+    public ModelAndView viewPage(ModelAndView modelAndView) {
+        List<User> listUsers = userService.getAllUsers();
+        modelAndView.setViewName(Templates.USERS.getName());
+        modelAndView.addObject("listUsers", listUsers);
+        modelAndView.addObject("user", new UserDto());
+        return modelAndView;
+    }
+
+    @PostMapping("/create")
     public ModelAndView createUser(@ModelAttribute("user") @Validated UserDto userDto,
                                      BindingResult result,
                                      ModelAndView modelAndView,
-                                     HttpServletRequest request,
-                                     HttpServletResponse response,
                                      Locale locale) {
         if (result.hasErrors()) {
             modelAndView.setViewName(Templates.USERS.getName());
@@ -71,53 +85,54 @@ public class UserController {
             return modelAndView;
         }
 
-        try {
-            request.login(userDto.getUsername(), userDto.getPassword());
-            attachCookieToResponse(user, response);
-        } catch (ServletException e) {
-            modelAndView.setViewName("redirect:/login");
-            return modelAndView;
-        }
+        modelAndView.setViewName("redirect:/users");
 
-        modelAndView.setViewName("redirect:/products");
-
-        return modelAndView;
-    }
-
-    private void attachCookieToResponse(User user, HttpServletResponse response) {
-        Cookie rememberMeCookie = rememberMeCookieService.getCookie(user);
-        response.addCookie(rememberMeCookie);
-    }
-
-//    @GetMapping("/")
-//    public ModelAndView productsPage(ModelAndView modelAndView, Principal principal) {
-//        if (principal != null) {
-//            return new ModelAndView("redirect:/products");
-//        }
-//
-//        modelAndView.setViewName(Templates.USERS.getName());
-//        modelAndView.addObject("user", new UserDto());
-//        modelAndView.setStatus(HttpStatus.OK);
-//
-//        return modelAndView;
-//    }
-
-    @GetMapping
-    public ModelAndView viewPage(ModelAndView modelAndView) {
-        List<User> listEmployees = userService.getAllUsers();
-        modelAndView.setViewName(Templates.USERS.getName());
-        modelAndView.addObject("listUsers", listEmployees);
         return modelAndView;
     }
 
     @GetMapping("/{username}")
     public ModelAndView findByUserName(ModelAndView modelAndView, @PathVariable String username) {
         User user = userService.getUserByUsername(username);
-        List userList = new ArrayList();
+        List<User> userList = new ArrayList<>();
         userList.add(user);
         modelAndView.setViewName(Templates.USERS.getName());
         modelAndView.addObject("listUsers", userList);
         return modelAndView;
+    }
+
+    @GetMapping(value = "/edit/{id}", produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> getUserById(@PathVariable("id") long id) {
+        try {
+            return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/edit")
+    public String editUser(HttpServletRequest request){
+        var updatedUser = userService.extractUserFromRequest(request);
+        userService.updateUser2(updatedUser);
+        return "redirect:/users";
+    }
+
+    @PostMapping("/delete")
+    public String deleteUser(HttpServletRequest request){
+        long id = Long.parseLong(request.getParameter("id"));
+        userService.deleteUserById(id);
+        return "redirect:/users";
+    }
+
+    @PostMapping(value = "/delete-selected")
+    public String deleteSelectedUsers(HttpServletRequest request) {
+        var ids = request.getParameter("ids").split(",");
+
+        for (String id: ids) {
+            long idl = Long.parseLong(id);
+            userService.deleteUserById(idl);
+        }
+
+        return "redirect:/users";
     }
 
     @GetMapping("/toUser/{id}")
