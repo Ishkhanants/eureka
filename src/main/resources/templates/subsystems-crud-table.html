@@ -9,67 +9,62 @@
     <div class="table-responsive">
         <div class="table-wrapper">
 
-            <form method="post" th:action="@{/products/delete}">
-            <div class="table-title">
-                <div class="row">
-                    <div class="col-sm-3">
-                        <h2><span sec:authorize="hasAnyAuthority('ADMIN_ROLE')">Manage</span> <b>Products</b></h2>
-                    </div>
-                    <div class="col-sm-4" sec:authorize="hasAnyAuthority('ADMIN_ROLE')">
-                        <a href="#addProductModal" class="btn" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Product</span></a>
-                        <span id="deleteAllSelected" hidden><a href="#deleteSelectedProductsModal" class="btn" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a></span>
-                    </div>
-                    <div id="myTable_filter" class="col-sm-5">
-                        <label>
-                            <input type="search" placeholder="🔎 Search" class="" aria-controls="myTable"
-                                   style="border: none; border-radius: 5px; margin-left: 100%">
-                        </label>
+            <form method="post" th:action="@{/products/subsystems/delete}">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h2>Manage <b>Subsystems</b></h2>
+                        </div>
+                        <div class="col-sm-4" sec:authorize="hasAnyAuthority('ADMIN_ROLE')">
+                            <a href="#addSubsystemModal" class="btn" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Subsystem</span></a>
+                            <span id="deleteAllSelected" hidden><a href="#deleteSelectedSubsystemsModal" class="btn" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a></span>
+                        </div>
+                        <div id="myTable_filter" class="col-sm-5">
+                            <label>
+                                <input type="search" placeholder="🔎 Search" class="" aria-controls="myTable"
+                                       style="border: none; border-radius: 5px; margin-left: 100%">
+                            </label>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <table id="myTable" class="table table-responsive-md table-striped table-hover">
-                <thead>
-                <tr>
-                    <th>
+                <table id="myTable" class="table table-responsive-md table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>
 							<span class="custom-checkbox">
 								<input type="checkbox" id="selectAll">
 								<label for="selectAll"></label>
 							</span>
-                    </th>
-                    <th th:text="#{product.name}"></th>
-                    <th th:text="#{product.description}"></th>
-                    <th th:text="#{product.start}"></th>
-                    <th th:text="#{product.subsystems}"></th>
-                    <th th:text="#{product.releaseVersions}"></th>
-                    <th th:text="#{user.actions}" ></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="product : ${listProducts}">
-                    <td>
+                        </th>
+                        <th th:text="#{subsystem.name}"></th>
+                        <th th:text="#{subsystem.product}"></th>
+                        <th th:text="#{subsystem.shortName}"></th>
+                        <th th:text="#{subsystem.description}"></th>
+                        <th th:text="#{user.actions}" ></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="subsystem : ${listSubSystems}">
+                        <td>
 							<span class="custom-checkbox">
-								<input type="checkbox" id="checkbox1" name="options[]" th:value="${product.getId()}" />
+								<input type="checkbox" id="checkbox1" name="options[]" th:value="${subsystem.getId()}" />
 								<label for="checkbox1"></label>
 							</span>
-                    </td>
-                    <td th:text="${product.getName()}"></td>
-                    <td th:text="${product.getDescription()}"></td>
-                    <td th:text="${product.getStartDate()}"></td>
-                    <td>
-                        <a style="margin-left: 25%;" th:href="@{'/products/' + ${product.getId()} + '/subsystems'}"><i class="fas fa-boxes"></i></a>
-                    </td>
-                    <td>
-                        <a style="margin-left: 25%;" th:href="@{'/products/' + ${product.getId()} + '/release-versions'}"><i class="fas fa-box-open"></i></a>
-                    </td>
-                    <td>
-                        <a href="#editProductModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                        <a href="#deleteProductModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                        <input type="hidden" th:class="id" name="id" th:value="${product.getId()}"/>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                        </td>
+                        <td th:text="${subsystem.getName()}"></td>
+                        <td th:text="${subsystem.getProduct().getName()}"></td>
+                        <td th:text="${subsystem.getShortName()}"></td>
+                        <td th:text="${subsystem.getDescription()}"></td>
+                        <td>
+                            <a href="#editSubsystemModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                            <a href="#deleteSubsystemModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                            <input type="hidden" th:class="id" name="id" th:value="${subsystem.getId()}"/>
+                            <input th:type="hidden" th:class="subsystem-product-id" th:value="${subsystem.getProduct().getId()}"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </form>
 
         </div>
@@ -77,36 +72,25 @@
 </div>
 
 <!-- Add Modal HTML -->
-<div id="addProductModal" class="modal fade">
+<div id="addSubsystemModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post" th:action="@{/products/create}" th:object="${product}">
+            <form method="post" th:action="@{/products/subsystems/create}" th:object="${subSystem}">
                 <div class="modal-header">
-                    <h4 class="modal-title">Add <b>Product</b></h4>
+                    <h4 class="modal-title">Add <b>Subsystem</b></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group required-input">
-                        <label th:text="#{product.name}"></label>
+                        <label th:text="#{subsystem.name}"></label>
                         <input type="text" th:field="*{name}" class="form-control" required />
                     </div>
-                    <div class="form-group required-input" style="position: relative;">
-                        <label th:text="#{product.start}"></label>
-                        <input class="form-control datepicker bg-white date"
-                               name="date"
-                               type="date"
-                               th:field="*{startDate}"
-                               th:placeholder="#{date.placeholder}"/>
-                        <span class="glyphicon glyphicon-calendar" style="font-size: 15px;
-    				                         position: absolute;
-				  	                         pointer-events: none;
-				  	                         color: dimgray;
-   			 		                         top: 56%;
-   					                         right: 5%;">
-                        </span>
+                    <div class="form-group required-input">
+                        <label th:text="#{subsystem.shortName}"></label>
+                        <input type="text" th:field="*{shortName}" class="form-control" required />
                     </div>
                     <div class="form-group required-input">
-                        <label th:text="#{product.description}"></label>
+                        <label th:text="#{subsystem.description}"></label>
                         <textarea type="text" th:field="*{description}" class="form-control" required ></textarea>
                     </div>
                 </div>
@@ -116,10 +100,13 @@
                             th:text="#{button.cancel}"
                             type="button" data-dismiss="modal"></button>
                     <button class="btn activity-main-button btn-success add-activity-btn"
+                            id="add-button"
                             style="height: 50px;
                                             border: 1px solid #DCDFF1;"
                             th:text="#{button.add}"
                             type="submit"></button>
+                    <input th:type="hidden" name="product-id-to-add" id="product-id-to-add"
+                           th:value="${subSystem.getProduct().getId()}"/>
                 </div>
             </form>
         </div>
@@ -127,37 +114,27 @@
 </div>
 
 <!-- Edit Modal HTML -->
-<div id="editProductModal" class="modal fade">
+<div id="editSubsystemModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post" th:action="@{/products/edit}">
+            <form method="post" th:action="@{/products/subsystems/edit}">
                 <div class="modal-header">
-                    <h4 class="modal-title">Edit <b>Product</b></h4>
+                    <h4 class="modal-title">Edit <b>Subsystem</b></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label th:text="#{product.name}"></label>
+                        <label th:text="#{subsystem.name}"></label>
                         <input id="edit-name" type="text"
                                class="form-control" name="edit-name" required />
                     </div>
-                    <div class="form-group required-input" style="position: relative;">
-                        <label th:text="#{product.start}"></label>
-                        <input class="form-control bg-white date"
-                               name="edit-date"
-                               id="edit-date"
-                               type="date"
-                               th:placeholder="#{date.placeholder}"/>
-                        <span class="glyphicon glyphicon-calendar" style="font-size: 15px;
-    				                         position: absolute;
-				  	                         pointer-events: none;
-				  	                         color: dimgray;
-   			 		                         top: 56%;
-   					                         right: 5%;">
-                        </span>
+                    <div class="form-group">
+                        <label th:text="#{subsystem.shortName}"></label>
+                        <input id="edit-shortName" type="text"
+                               class="form-control" name="edit-shortName" required />
                     </div>
                     <div class="form-group required-input">
-                        <label th:text="#{product.description}"></label>
+                        <label th:text="#{subsystem.description}"></label>
                         <textarea type="text" id="edit-description" name="edit-description" class="form-control" required ></textarea>
                     </div>
                 </div>
@@ -172,6 +149,7 @@
                             th:text="#{button.update}"
                             type="submit"></button>
                     <input type="hidden" name="id" id="id-to-edit">
+                    <input type="hidden" name="product-id-to-edit" id="product-id-to-edit">
                 </div>
             </form>
         </div>
@@ -179,12 +157,12 @@
 </div>
 
 <!-- Delete Modal HTML -->
-<div id="deleteProductModal" class="modal fade">
+<div id="deleteSubsystemModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post" th:action="@{/products/delete}">
+            <form method="post" th:action="@{/products/subsystems/delete}">
                 <div class="modal-header">
-                    <h4 class="modal-title">Delete <b>Product</b></h4>
+                    <h4 class="modal-title">Delete <b>Subsystem</b></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -202,6 +180,7 @@
                             th:text="#{button.delete}"
                             type="submit"></button>
                     <input type="hidden" name="id" id="id-to-delete">
+                    <input type="hidden" name="product-id-to-delete" id="product-id-to-delete">
                 </div>
             </form>
         </div>
@@ -210,12 +189,12 @@
 
 
 <!-- Delete Selected Modal HTML -->
-<div id="deleteSelectedProductsModal" class="modal fade">
+<div id="deleteSelectedSubsystemsModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post" th:action="@{/products/delete-selected}">
+            <form method="post" th:action="@{/products/subsystems/delete-selected}">
                 <div class="modal-header">
-                    <h4 class="modal-title">Delete <b>Products</b></h4>
+                    <h4 class="modal-title">Delete <b>Subsystems</b></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -233,11 +212,11 @@
                             th:text="#{button.delete}"
                             type="submit"></button>
                     <input type="hidden" name="ids" id="ids-to-delete">
+                    <input type="hidden" name="product-ids-to-delete" id="product-ids-to-delete">
                 </div>
             </form>
         </div>
     </div>
 </div>
-<input name="role" id="role" th:each="authority : ${#authentication.getAuthorities()}" th:value="${authority}" type="hidden" />
 </body>
 </html>

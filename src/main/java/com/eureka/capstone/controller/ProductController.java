@@ -1,28 +1,22 @@
 package com.eureka.capstone.controller;
 
-import com.eureka.capstone.domain.Product;
+import com.eureka.capstone.domain.product.Product;
+import com.eureka.capstone.domain.product.ReleaseVersion;
+import com.eureka.capstone.domain.product.SubSystem;
 import com.eureka.capstone.security.UserDetailsServiceImpl;
 import com.eureka.capstone.service.ProductService;
+import com.eureka.capstone.service.ReleaseVersionService;
+import com.eureka.capstone.service.SubsystemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.util.MimeTypeUtils;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.security.Principal;
-import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -34,11 +28,11 @@ public class ProductController {
     UserDetailsServiceImpl userDetailsService;
 
     private final ProductService productService;
+    private final SubsystemService subsystemService;
+    private final ReleaseVersionService releaseVersionService;
 
     @GetMapping
-    public ModelAndView success(/*Model model, Principal principal, HttpSession session,*/ModelAndView modelAndView) {
-//        model.addAttribute("currentUser", principal.getName());
-//        UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
+    public ModelAndView success(ModelAndView modelAndView) {
         List<Product> listProducts = productService.getAllProducts();
         modelAndView.setViewName(Templates.PRODUCTS.getName());
         modelAndView.addObject("listProducts", listProducts);
@@ -85,5 +79,121 @@ public class ProductController {
         }
 
         return "redirect:/products";
+    }
+
+    @GetMapping("/{id}/release-versions")
+    public ModelAndView getReleaseVersions(@PathVariable("id") long id, ModelAndView modelAndView){
+        var listReleaseVersions = releaseVersionService.getReleaseVersionsByProductId(id);
+        var releaseVersion = new ReleaseVersion();
+        releaseVersion.setProduct(productService.getProductById(id));
+        modelAndView.setViewName(Templates.RELEASE_VERSIONS.getName());
+        modelAndView.addObject("listReleaseVersions", listReleaseVersions);
+        modelAndView.addObject("releaseVersion", releaseVersion);
+        return modelAndView;
+    }
+
+    @PostMapping("/release-versions/create")
+    public String addReleaseVersion(@ModelAttribute("releaseVersion") ReleaseVersion releaseVersion, HttpServletRequest request){
+        var productId = Long.parseLong(request.getParameter("product-id-to-add"));
+        releaseVersion.setProduct(productService.getProductById(productId));
+        releaseVersionService.createReleaseVersion(releaseVersion);
+        return "redirect:/products/" + productId + "/release-versions";
+    }
+
+    @GetMapping(value = "/release-versions/{id}", produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ReleaseVersion> getReleaseVersionById(@PathVariable("id") long id) {
+        try {
+            return new ResponseEntity<>(releaseVersionService.getReleaseVersionById(id), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/release-versions/edit")
+    public String editReleaseVersion(HttpServletRequest request){
+        var productId = Long.parseLong(request.getParameter("product-id-to-edit"));
+        var updatedReleaseVersion = releaseVersionService.extractReleaseFromRequest(request);
+        updatedReleaseVersion.setProduct(productService.getProductById(productId));
+        releaseVersionService.updateReleaseVersion(updatedReleaseVersion);
+        return "redirect:/products/" + productId + "/release-versions";
+    }
+
+    @PostMapping("/release-versions/delete")
+    public String deleteReleaseVersion(HttpServletRequest request){
+        var productId = Long.parseLong(request.getParameter("product-id-to-delete"));
+        var id = Long.parseLong(request.getParameter("id"));
+        releaseVersionService.deleteReleaseVersionById(id);
+        return "redirect:/products/" + productId + "/release-versions";
+    }
+
+    @PostMapping("/release-versions/delete-selected")
+    public String deleteSelectedReleaseVersions(HttpServletRequest request) {
+        var productId = Long.parseLong(request.getParameter("product-ids-to-delete"));
+        var ids = request.getParameter("ids").split(",");
+
+        for (String id: ids) {
+            long idl = Long.parseLong(id);
+            releaseVersionService.deleteReleaseVersionById(idl);
+        }
+
+        return "redirect:/products/" + productId + "/release-versions";
+    }
+
+    @GetMapping("/{id}/subsystems")
+    public ModelAndView getSubsystems(@PathVariable("id") long id, ModelAndView modelAndView){
+        var subSystems = subsystemService.getSubsystemsByProductId(id);
+        var subSystem = new SubSystem();
+        subSystem.setProduct(productService.getProductById(id));
+        modelAndView.setViewName(Templates.SUBSYSTEMS.getName());
+        modelAndView.addObject("listSubSystems", subSystems);
+        modelAndView.addObject("subSystem", subSystem);
+        return modelAndView;
+    }
+
+    @PostMapping("/subsystems/create")
+    public String addSubsystem(@ModelAttribute("subSystem") SubSystem subSystem, HttpServletRequest request){
+        var productId = Long.parseLong(request.getParameter("product-id-to-add"));
+        subSystem.setProduct(productService.getProductById(productId));
+        subsystemService.createSubSystem(subSystem);
+        return "redirect:/products/" + productId + "/subsystems";
+    }
+
+    @GetMapping(value = "/subsystems/{id}", produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+    public ResponseEntity<SubSystem> getSubsystemById(@PathVariable("id") long id) {
+        try {
+            return new ResponseEntity<>(subsystemService.getSubSystemById(id), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/subsystems/edit")
+    public String editSubsystem(HttpServletRequest request){
+        var productId = Long.parseLong(request.getParameter("product-id-to-edit"));
+        var updatedSubSystem = subsystemService.extractSubSystemFromRequest(request);
+        updatedSubSystem.setProduct(productService.getProductById(productId));
+        subsystemService.updateSubSystem(updatedSubSystem);
+        return "redirect:/products/" + productId + "/subsystems";
+    }
+
+    @PostMapping("/subsystems/delete")
+    public String deleteSubsystem(HttpServletRequest request){
+        var productId = Long.parseLong(request.getParameter("product-id-to-delete"));
+        var id = Long.parseLong(request.getParameter("id"));
+        subsystemService.deleteSubSystemById(id);
+        return "redirect:/products/" + productId + "/subsystems";
+    }
+
+    @PostMapping("/subsystems/delete-selected")
+    public String deleteSelectedSubsystems(HttpServletRequest request) {
+        var productId = Long.parseLong(request.getParameter("product-ids-to-delete"));
+        var ids = request.getParameter("ids").split(",");
+
+        for (String id: ids) {
+            long idl = Long.parseLong(id);
+            subsystemService.deleteSubSystemById(idl);
+        }
+
+        return "redirect:/products/" + productId + "/subsystems";
     }
 }

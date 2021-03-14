@@ -205,7 +205,7 @@ $(document).ready(async function () {
 
     let dtable = $("#myTable").DataTable({
         "bLengthChange": false,
-        "order": [[3, 'asc'], [1, 'asc']],
+        "order": [1, 'asc'],
         "initComplete": function (settings, json) {
             let word = sessionStorage.getItem('userName');
             if (word != null) {
@@ -215,7 +215,7 @@ $(document).ready(async function () {
         },
         "pageLength": 15,
         "infoCallback": function (settings, start, end, max, total, pre) {
-            return "Products" /*$.i18n("list.users")*/ + " " + start + "-" + end + " " + "from" /*$.i18n("list.from")*/ + " " + total; //+ $.i18n("list.form.arm");
+            return "Subsystems" /*$.i18n("list.users")*/ + " " + start + "-" + end + " " + "from" /*$.i18n("list.from")*/ + " " + total; //+ $.i18n("list.form.arm");
         },
         'sPaginationType': 'twoNumbers',
         language: {
@@ -229,20 +229,18 @@ $(document).ready(async function () {
         "aoColumns": [
             {"orderSequence": ["asc"]},
             {"orderSequence": ["asc", "desc"]},
+            {"orderSequence": ["asc"]},
             {"orderSequence": ["asc", "desc"]},
             {"orderSequence": ["asc", "desc"]},
-            {"orderSequence": ["asc"]},
-            {"orderSequence": ["asc"]},
             {"orderSequence": ["asc"]},
         ],
         columnDefs: [
             {
                 orderable: false,
-                visible: document.getElementById('role').value == 'ADMIN_ROLE',
                 // render: function (data, type, full, meta) {
                 //     return "<div class='text-wrap width-200'>" + data + "</div>";
                 // },
-                targets: [0, 4, 5, 6]
+                targets: [0, 2, 5]
             }
         ]
     });
@@ -344,29 +342,35 @@ $(document).ready(async function () {
 
     table.on('click','.edit', function() {
         let id = $(this).parent().find('.id').val();
-        $('#editProductModal #id-to-edit').val(id);
+        let productId = $('.subsystem-product-id').val();
+        $('#editSubsystemModal #id-to-edit').val(id);
+        $('#editSubsystemModal #product-id-to-edit').val(productId);
         $.ajax({
             type: 'GET',
-            url: '/products/' + id,
-            success: function (product){
-                $('#editProductModal #edit-name').val(product.name);
-                $('#editProductModal #edit-date').val(product.startDate);
-                $('#editProductModal #edit-description').val(product.description);
+            url: '/products/subsystems/' + id,
+            success: function (subsystem){
+                $('#editSubsystemModal #edit-name').val(subsystem.name);
+                $('#editSubsystemModal #edit-shortName').val(subsystem.shortName);
+                $('#editSubsystemModal #edit-description').val(subsystem.description);
             }
         })
     })
 
     table.on('click','.delete', function() {
         let id = $(this).parent().find('.id').val();
-        $('#deleteProductModal #id-to-delete').val(id);
+        let productId = $('.subsystem-product-id').val();
+        $('#deleteSubsystemModal #id-to-delete').val(id);
+        $('#deleteSubsystemModal #product-id-to-delete').val(productId);
     })
 
     $('#deleteAllSelectedButton').on('click', function () {
+        let productId = $('.subsystem-product-id').val();
         let array = [];
         dtable.rows().nodes().to$().find('input[type="checkbox"]:checked').each(function(){
             array.push($(this).val());
         });
         $('#ids-to-delete').val(array);
+        $('#product-ids-to-delete').val(productId);
     })
-    
+
 });

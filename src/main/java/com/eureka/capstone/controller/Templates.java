@@ -3,6 +3,8 @@ package com.eureka.capstone.controller;
 public enum Templates {
     LOGIN("login"),
     PRODUCTS("products"),
+    SUBSYSTEMS("subsystems"),
+    RELEASE_VERSIONS("release-versions"),
     USERS("users"),
     ISSUES("issues"),
     REPORTS("reports"),

@@ -1,14 +1,14 @@
 $(document).ready(async function () {
-    $.validator.setDefaults({
-        ignore: []
-    });
-    await $.i18n().load({
-        "en": "/i18n/en.json",
-        "hy": "/i18n/hy.json",
-        "ru": "/i18n/ru.json",
-    });
-
-    $.i18n().locale = $("#locale").val();
+    // $.validator.setDefaults({
+    //     ignore: []
+    // });
+    // await $.i18n().load({
+    //     "en": "/i18n/en.json",
+    //     "hy": "/i18n/hy.json",
+    //     "ru": "/i18n/ru.json",
+    // });
+    //
+    // $.i18n().locale = $("#locale").val();
     let deleteContainer = $('.delete-account-container');
     let mainContainer = $('.main-container');
     let passwordField = $("#password");

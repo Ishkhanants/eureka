@@ -1,6 +1,6 @@
 package com.eureka.capstone.service.impl;
 
-import com.eureka.capstone.domain.Product;
+import com.eureka.capstone.domain.product.Product;
 import com.eureka.capstone.exception.notfound.ProductNotFoundException;
 import com.eureka.capstone.repository.ProductRepository;
 import com.eureka.capstone.service.ProductService;

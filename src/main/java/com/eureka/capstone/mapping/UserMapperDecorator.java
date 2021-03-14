@@ -27,11 +27,4 @@ public abstract class UserMapperDecorator extends UserMapper {
         return user;
     }
 
-//    @Override
-//    public UserDto toDto(User user){
-//        UserDto userDto = userMapper.toDto(user);
-//        Role role = roleService.getRole(RoleEnum.USER_ROLE);
-//
-//        userDto.
-//    }
 }

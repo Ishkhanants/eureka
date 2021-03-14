@@ -1,6 +1,6 @@
 package com.eureka.capstone.service;
 
-import com.eureka.capstone.domain.Product;
+import com.eureka.capstone.domain.product.Product;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;

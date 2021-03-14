@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta content="width=1536, height=864 initial-scale=1" name="viewport">
+    <meta charset="UTF-8">
+
+    <title th:text="#{page.title.releaseVersion.list}"></title>
+    <link th:href="@{/images/logo.png}" th:rel="icon"/>
+
+    <!--Font Awesome & Etc.-->
+    <link rel="stylesheet" href="/webjars/font-awesome/5.13.0/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/webjars/font-awesome/5.13.0/css/all.css" type="text/css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <!--jQuery-->
+    <script src="/webjars/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
+    <script src="/webjars/popper.js/1.16.0/umd/popper.min.js" type="text/javascript"></script>
+    <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js" type="text/javascript"></script>
+
+    <!--Bootstrap-->
+    <link href="/webjars/bootstrap-glyphicons/bdd2cbfba0/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <!--i18n -->
+    <script src="/webjars/jquery.i18n/src/jquery.i18n.js" type="text/javascript"></script>
+    <script src="/webjars/jquery.i18n/src/jquery.i18n.emitter.bidi.js" type="text/javascript"></script>
+    <script src="/webjars/jquery.i18n/src/jquery.i18n.fallbacks.js" type="text/javascript"></script>
+    <script src="/webjars/jquery.i18n/src/jquery.i18n.language.js" type="text/javascript"></script>
+    <script src="/webjars/jquery.i18n/src/jquery.i18n.messagestore.js" type="text/javascript"></script>
+    <script src="/webjars/jquery.i18n/src/jquery.i18n.emitter.js" type="text/javascript"></script>
+    <script src="/webjars/jquery.i18n/src/jquery.i18n.parser.js" type="text/javascript"></script>
+
+    <!--jQuery Validation-->
+    <script src="/webjars/jquery-validation/1.19.0/jquery.validate.js"></script>
+    <script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="/webjars/jquery-validation/1.19.0/additional-methods.min.js" type="text/javascript"></script>
+
+    <!--DataTables-->
+    <script src="/webjars/datatables/1.10.21/js/jquery.dataTables.js" type="text/javascript"></script>
+    <script src="/webjars/datatables/1.10.21/js/dataTables.bootstrap4.js" type="text/javascript"></script>
+    <link href="/webjars/datatables/1.10.21/css/dataTables.bootstrap4.css" rel="stylesheet" type="text/css"/>
+
+    <!--Stylesheets-->
+    <link rel="stylesheet" th:href="@{/css/crud-table.css}"/>
+    <link rel="stylesheet" th:href="@{/css/navbar-home.css}"/>
+    <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
+    <link rel="stylesheet" th:href="@{/css/footer-home.css}"/>
+
+    <!--JavaScript-->
+    <script th:src="|/js/switchButton-editProfile.js|" type="text/javascript"></script>
+    <script th:src="|/js/validation.js|" type="text/javascript"></script>
+    <script th:src="|/js/navbar-home.js|" type="text/javascript"></script>
+    <script th:src="|/js/footer-home.js|" type="text/javascript"></script>
+    <script th:src="|/js/release-versions-crud-table.js|" type="text/javascript"></script>
+    <script th:src="|/js/general-functions.js|" type="text/javascript"></script>
+</head>
+<body>
+<input id="locale" th:value="${#locale.getLanguage()}" type="hidden">
+
+<div class="container-fluid">
+    <!--    Header-->
+    <div th:replace="homepage-navbar.html::homepage-navbar"></div>
+    <!--    Main-->
+    <div class=" container col-12 " th:insert="release-versions-crud-table.html"></div>
+    <!--    Footer-->
+    <div th:replace="homepage-footer.html::homepage-footer"></div>
+</div>
+
+<!--<script>-->
+<!--    $(document).ready(function(){-->
+<!--        $('[data-toggle="tooltip"]').tooltip();-->
+<!--    });-->
+<!--</script>-->
+
+</body>
+
+</html>

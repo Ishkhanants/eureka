@@ -1,5 +1,6 @@
-package com.eureka.capstone.domain;
+package com.eureka.capstone.domain.product;
 
+import com.eureka.capstone.domain.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.EqualsAndHashCode;
@@ -22,7 +23,7 @@ import java.time.LocalDate;
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
-public class Product extends BaseEntity{
+public class Product extends BaseEntity {
 
     @Column(name = "name", nullable = false)
     private String name;

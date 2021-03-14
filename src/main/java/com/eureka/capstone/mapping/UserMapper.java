@@ -18,7 +18,4 @@ public abstract class UserMapper {
     @Mapping(source = "fullName", target = "fullName")
     abstract User toEntity(UserDto dto);
 
-//    @Mapping(source = "fullName", target = "fullName")
-//    abstract UserDto toDto(User user);
-
 }
