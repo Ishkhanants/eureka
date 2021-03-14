@@ -50,7 +50,7 @@
                         </div>
                     </div>
                     <div class="row first-input-group" style="margin: auto">
-                        <div class="col-md-12 form-group" style="padding-right: 0">
+                        <div class="col-md-12 form-group input_div" style="padding-right: 0">
                             <label class="control-label  required_label " for="password"
                                    th:text="#{editProfile.newPassword}"></label>
                             <div class="input-group new-password-input-group">
@@ -66,7 +66,7 @@
                         </div>
                     </div>
                     <div class="row first-input-group" style="margin: auto">
-                        <div class="col-md-12 form-group" style="padding-right: 0">
+                        <div class="col-md-12 form-group input_div" style="padding-right: 0">
                             <label class="control-label  required_label" for="confirmPassword"
                                    th:text="#{editProfile.confirmNewPassword}"></label>
                             <div class="input-group confirm-password-input-group">
@@ -114,8 +114,8 @@
                         <div class="row">
                             <div class="col-md-12 mx-auto">
                                 <div class="form-group">
-                                    <label for="email-2" class="control-label required_label" th:text="#{field.registration.email}"></label>
-                                    <input class="form-control required-input" id="email-2" name="email-2"
+                                    <label for="email-editable" class="control-label required_label" th:text="#{field.registration.email}"></label>
+                                    <input class="form-control required-input" id="email-editable" name="email-editable"
                                            th:value="${user.email}"
                                            type="text"/>
                                 </div>

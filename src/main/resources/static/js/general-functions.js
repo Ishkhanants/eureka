@@ -14,21 +14,3 @@ $(document).ready(function () {
     });
 
 });
-
-// function addDatePicker() {
-//     let localeValue = $("#locale").val();
-//     let today = new Date();
-//     const GMT = 4;
-//     today.setHours(today.getHours() + GMT);
-//
-//     $("#date").datepicker({
-//         format: "dd-mm-yyyy",
-//         autoclose: true,
-//         todayHighlight: true,
-//         weekStart: 1,
-//         daysOfWeekDisabled: "0",
-//         orientation: "auto bottom",
-//         startDate: today,
-//         language: localeValue
-//     });
-// }

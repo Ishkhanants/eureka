@@ -1,7 +1,9 @@
 package com.eureka.capstone.service.impl;
 
 import com.eureka.capstone.controller.Templates;
+import com.eureka.capstone.domain.user.Group;
 import com.eureka.capstone.domain.user.User;
+import com.eureka.capstone.domain.user.UserType;
 import com.eureka.capstone.dto.UserDto;
 import com.eureka.capstone.service.EditProfileService;
 import com.eureka.capstone.service.UserService;
@@ -33,14 +35,16 @@ public class EditProfileServiceImpl implements EditProfileService {
     }
 
     @Override
-    public UserDto ExtractUserDtoFromRequest(MultipartHttpServletRequest request) {
+    public UserDto extractUserDtoFromRequest(MultipartHttpServletRequest request) {
         UserDto userDto = new UserDto();
         userDto.setFullName(request.getParameter("fullName"));
-        userDto.setEmail(request.getParameter("email"));
+        userDto.setEmail(request.getParameter("email-editable"));
         userDto.setUsername(request.getParameter("userName"));
         userDto.setPhone(request.getParameter("phone"));
         userDto.setPassword(request.getParameter("password"));
         userDto.setConfirmPassword(request.getParameter("confirmPassword"));
+        userDto.setGroup(Group.valueOf(request.getParameter("group")));
+        userDto.setUserType(UserType.valueOf(request.getParameter("userType")));
         try {
             MultipartFile profileFile = request.getFile("profileAvatar");
             assert profileFile != null;

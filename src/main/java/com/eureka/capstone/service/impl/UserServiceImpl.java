@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -99,6 +100,9 @@ public class UserServiceImpl implements UserService {
         if (possibleUser.isPresent()) {
             User user1 = possibleUser.get();
             user1.setFullName(user.getFullName());
+            user1.setUserType(user.getUserType());
+            user1.setGroup(user.getGroup());
+            user1.setEmail(user.getEmail());
             user1.setPhone(user.getPhone());
             if (user.getPassword().length() != 0) user1.setPassword(encoder.encode(user.getPassword()));
             if (user.getProfileAvatar() != null) user1.setProfileAvatar(user.getProfileAvatar());
@@ -123,6 +127,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void deleteUserByUsername(String userName) {
         repository.deleteByUsername(userName);
     }
@@ -172,7 +177,6 @@ public class UserServiceImpl implements UserService {
     public void deleteUserById(long id) {
         repository.deleteById(id);
     }
-
 
     public void logoutUser(Long id) {
         User user = getUserById(id);

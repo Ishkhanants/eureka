@@ -41,7 +41,6 @@
                         <th th:text="#{user-list-full-name}"></th>
                         <th th:text="#{user-list-type}"></th>
                         <th th:text="#{user-list-group}"></th>
-<!--                        <th th:text="#{user-list-password}"></th>-->
                         <th th:text="#{user-list-email}"></th>
                         <th th:text="#{user-list-tel}"></th>
                         <th th:text="#{user-list-role}"></th>
@@ -61,7 +60,6 @@
                         <td th:text="${user.getFullName()}"></td>
                         <td th:text="${user.getUserType().displayValue}"></td>
                         <td th:text="${user.getGroup().displayValue}"></td>
-<!--                        <td th:text="${user.getPassword()}"></td>-->
                         <td th:text="${user.getEmail()}"></td>
                         <td th:text="${user.getPhone()}"></td>
                         <td>
@@ -124,14 +122,37 @@
                                     th:selected="${user.group == group}"
                                     th:text="${group.displayValue}">
                             </option>
-                        </select>                    </div>
-                    <div class="form-group required-input">
-                        <label th:text="#{user.password}"></label>
-                        <input type="text" th:field="*{password}" class="form-control" required />
+                        </select>
                     </div>
-                    <div class="form-group required-input">
-                        <label th:text="#{user.confirmPassword}"></label>
-                        <input type="text" th:field="*{confirmPassword}" class="form-control" required />
+                    <div class="form-group required-input input_div">
+                        <label th:text="#{user.password}" for="password"></label>
+                        <div class="input-group">
+                            <input class="form-control"
+                               th:field="*{password}"
+                               id="password"
+                               name="password"
+                               type="password"/>
+                            <div class="input-group-append">
+                               <span class="input-group-text">
+                                   <i aria-hidden="true" class="fa fa-eye-slash show-hide-password"></i>
+                               </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group required-input input_div">
+                        <label th:text="#{user.confirmPassword}" for="confirmPassword"></label>
+                        <div class="input-group">
+                            <input class="form-control password-field required-input"
+                                   th:field="*{confirmPassword}"
+                                   id="confirmPassword"
+                                   name="confirmPassword"
+                                   type="password"/>
+                            <div class="input-group-append">
+                               <span class="input-group-text">
+                                   <i aria-hidden="true" class="fa fa-eye-slash show-hide-password"></i>
+                               </span>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group required-input">
                         <label th:text="#{user.email}"></label>

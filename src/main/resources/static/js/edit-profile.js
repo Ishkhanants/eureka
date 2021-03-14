@@ -51,7 +51,7 @@ $(document).ready(async function () {
         "  <span aria-hidden=\"true\">&times;</span>\n" +
         "</button>";
     $('#labelContainer').append(xButton);
-    $('.custom-file-upload').html($.i18n("upload.photo"));
+    $('.custom-file-upload').html(/*$.i18n(*/"Upload photo"/*)*/);
 
     if (profileAvatar === null) $("#clear-input").hide();
 
@@ -68,7 +68,7 @@ $(document).ready(async function () {
             $("#deletedAvatar").val("deleted");
         } else if (uploadLabel.html() !== $.i18n("upload.photo")) {
             file.val(null);
-            uploadLabel.html($.i18n("upload.photo"));
+            uploadLabel.html(/*$.i18n(*/"Upload photo"/*)*/);
             if (profileAvatar === null) $(this).hide();
             $("#deletedAvatar").val("notDeleted");
         } else $(this).hide();

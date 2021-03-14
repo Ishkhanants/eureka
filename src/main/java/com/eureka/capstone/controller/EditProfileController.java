@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 
 @Controller
@@ -34,23 +31,21 @@ public class EditProfileController {
     }
 
     @PostMapping(headers = ("content-type=multipart/form-data"))
-    public @ResponseBody
-    ResponseEntity<Object> updateUser(MultipartHttpServletRequest request) {
-        UserDto userDto = editProfileService.ExtractUserDtoFromRequest(request);
+    public @ResponseBody ResponseEntity<Object> updateUser(MultipartHttpServletRequest request) {
+        UserDto userDto = editProfileService.extractUserDtoFromRequest(request);
         User user = mapper.toEntity(userDto);
         userService.updateUser(user, request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping
-    public ResponseEntity<Object> deleteUser(HttpServletRequest request, HttpServletResponse response, Principal principal) throws ServletException {
+    public ResponseEntity<Object> deleteUser(Principal principal){
         userService.deleteUserByUsername(principal.getName());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/avatar/{username}")
-    public @ResponseBody
-    ResponseEntity<Object> getUserPhoto(@PathVariable String username) {
+    public @ResponseBody ResponseEntity<Object> getUserPhoto(@PathVariable String username) {
         final User user = userService.getUserByUsername(username);
         final String avatar = userService.extractAvatarPicture(user);
         return avatar == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(avatar);
