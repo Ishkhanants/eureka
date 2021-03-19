@@ -2,7 +2,7 @@ package com.eureka.capstone.controller;
 
 import com.eureka.capstone.domain.user.User;
 import com.eureka.capstone.dto.UserDto;
-import com.eureka.capstone.mapping.UserMapperDecorator;
+import com.eureka.capstone.mapping.user.UserMapperDecorator;
 import com.eureka.capstone.service.EditProfileService;
 import com.eureka.capstone.service.UserService;
 import lombok.RequiredArgsConstructor;

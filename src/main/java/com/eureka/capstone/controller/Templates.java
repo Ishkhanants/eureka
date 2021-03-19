@@ -7,6 +7,8 @@ public enum Templates {
     RELEASE_VERSIONS("release-versions"),
     USERS("users"),
     ISSUES("issues"),
+    EDIT_ISSUE("edit-issue"),
+    ADD_ISSUE("add-issue"),
     REPORTS("reports"),
     EDIT_PROFILE("edit-profile");
 

@@ -31,16 +31,16 @@ $(document).ready(async function () {
     if (location.pathname === "/myIssues") {
         $('#products').removeClass("select-tab-border");
         $("#my-issues").addClass("select-tab-border");
-    } else if (location.pathname === "/products") {
+    } else if (location.pathname.substring(0,9) === "/products") {
         $('#products').addClass("select-tab-border");
         $("#my-issues").removeClass("select-tab-border");
     } else if (location.pathname === "/users") {
         $('#users').addClass("select-tab-border");
         $('#products').removeClass("select-tab-border");
-    } else if (location.pathname === "/reports") {
+    } else if (location.pathname.includes("/reports")) {
         $('#reports').addClass("select-tab-border");
         $('#products').removeClass("select-tab-border");
-    } else if (location.pathname === "/issues") {
+    } else if (location.pathname.substring(0,7) === "/issues") {
         $('#issues').addClass("select-tab-border");
         $('#products').removeClass("select-tab-border");
     }
@@ -60,12 +60,20 @@ $(document).ready(async function () {
         saveViewDateAndMoveTo("/users");
     })
 
+    $("#issues").click(function () {
+        saveViewDateAndMoveTo("/issues");
+    })
+
+    $("#issues").click(function () {
+        saveViewDateAndMoveTo("/issues/create");
+    })
+
     $("#products").click(function () {
         saveViewDateAndMoveTo("/");
     });
 
     $("#reports").click(function () {
-        saveViewDateAndMoveTo("/reports")
+        saveViewDateAndMoveTo("/issues/reports")
     })
 });
 

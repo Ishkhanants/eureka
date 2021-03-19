@@ -218,3 +218,8 @@ select[disabled] {
     text-indent: 0.01px;
     text-overflow: '';
 }
+
+.ck-rounded-corners .ck.ck-editor__main>.ck-editor__editable, .ck.ck-editor__main>.ck-editor__editable.ck-rounded-corners{
+    height: 150px;
+    resize: vertical;
+}

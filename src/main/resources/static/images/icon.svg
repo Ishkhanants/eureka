@@ -10,7 +10,8 @@
         stroke="#dc3545"
         fill="none"
         height="12"
-        width="12">
+        width="12" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://purl.org/dc/elements/1.1/ ">
     <metadata
             id="metadata14">
         <rdf:RDF>

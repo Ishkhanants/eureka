@@ -212,9 +212,6 @@ $(document).ready(async function () {
                     },
                     success: function () {
                         location.href = location.origin + "/products";
-                    },
-                    error: function (){
-                        console.log("HELP!")
                     }
                 });
             }

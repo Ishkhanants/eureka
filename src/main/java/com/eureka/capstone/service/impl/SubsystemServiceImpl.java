@@ -57,4 +57,9 @@ public class SubsystemServiceImpl implements SubsystemService {
         repository.deleteById(id);
     }
 
+    @Override
+    public List<SubSystem> getAllSubsystems() {
+        return repository.findAll();
+    }
+
 }

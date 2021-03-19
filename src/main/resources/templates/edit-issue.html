@@ -3,7 +3,7 @@
 <head>
     <meta content="width=1536, height=864 initial-scale=1" name="viewport">
     <meta charset="UTF-8">
-    <title th:text="#{editProfile.myProfile}"></title>
+    <title th:text="#{page.title.issue.list}"></title>
     <link th:href="@{/images/logo.png}" th:rel="icon"/>
     <!--Font Awesome-->
     <link href="/webjars/font-awesome/5.13.0/css/fontawesome.min.css" rel="stylesheet">
@@ -11,8 +11,7 @@
 
     <link th:href="@{/css/navbar-home.css}" th:rel="stylesheet"/>
     <link th:href="@{/css/edit-profile.css}" th:rel="stylesheet"/>
-    <link th:href="@{css/delete-account.css}" th:rel="stylesheet">
-    <link th:href="@{css/navbar.css}" th:rel="stylesheet">
+    <link th:href="@{/css/navbar.css}" th:rel="stylesheet">
     <link th:href="@{/css/footer-home.css}" th:rel="stylesheet"/>
     <link th:href="@{/css/shadowed-box.css}" th:rel="stylesheet"/>
 
@@ -38,8 +37,8 @@
     <script th:src="|/js/validation.js|" type="text/javascript"></script>
     <script th:src="|/js/general-functions.js|" type="text/javascript"></script>
     <script th:src="|/js/navbar-home.js|" type="text/javascript"></script>
-    <script th:src="|/js/delete-profile.js|" type="text/javascript"></script>
     <script th:src="|/js/footer-home.js|" type="text/javascript"></script>
+    <script th:src="|/js/edit-issue.js|" type="text/javascript"></script>
 
 </head>
 <body>
@@ -47,22 +46,12 @@
     <!--    Header-->
     <nav th:replace="homepage-navbar.html::homepage-navbar"></nav>
 
-    <div th:insert="delete-account.html::delete-account"></div>
-
     <!--    Main-->
-    <div class="container-fluid" th:replace="profile-info.html::main-container"></div>
+    <div class="container-fluid" th:replace="edit-issue-info.html::main-container"></div>
 
     <!--    Footer-->
     <div th:replace="homepage-footer.html::homepage-footer"></div>
-
-
-    <script th:src="|/js/edit-profile.js|" type="text/javascript"></script>
-
 </div>
-
-<script th:inline="javascript">
-    let profileAvatar = /*[[${profileAvatar}]]*/ null;
-</script>
 
 </body>
 </html>

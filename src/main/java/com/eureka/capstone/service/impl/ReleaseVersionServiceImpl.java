@@ -57,4 +57,9 @@ public class ReleaseVersionServiceImpl implements ReleaseVersionService {
         repository.deleteById(id);
     }
 
+    @Override
+    public List<ReleaseVersion> getAllReleaseVersions() {
+        return repository.findAll();
+    }
+
 }

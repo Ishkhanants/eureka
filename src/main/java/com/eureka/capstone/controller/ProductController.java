@@ -109,6 +109,15 @@ public class ProductController {
         }
     }
 
+    @GetMapping(value = "/release-versions-by-product/{id}", produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ReleaseVersion>> getReleaseVersionsByProductId(@PathVariable("id") long id){
+        try {
+            return new ResponseEntity<>(releaseVersionService.getReleaseVersionsByProductId(id), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PostMapping("/release-versions/edit")
     public String editReleaseVersion(HttpServletRequest request){
         var productId = Long.parseLong(request.getParameter("product-id-to-edit"));
@@ -162,6 +171,15 @@ public class ProductController {
     public ResponseEntity<SubSystem> getSubsystemById(@PathVariable("id") long id) {
         try {
             return new ResponseEntity<>(subsystemService.getSubSystemById(id), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(value = "/subsystems-by-product/{id}", produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<SubSystem>> getSubsystemsByProductId(@PathVariable("id") long id){
+        try {
+            return new ResponseEntity<>(subsystemService.getSubsystemsByProductId(id), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

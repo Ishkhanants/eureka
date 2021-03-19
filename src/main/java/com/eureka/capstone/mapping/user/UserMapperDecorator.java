@@ -1,4 +1,4 @@
-package com.eureka.capstone.mapping;
+package com.eureka.capstone.mapping.user;
 
 import com.eureka.capstone.domain.user.Role;
 import com.eureka.capstone.domain.user.RoleEnum;

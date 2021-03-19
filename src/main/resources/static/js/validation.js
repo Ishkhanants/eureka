@@ -20,7 +20,7 @@ function addErrorIcon(){
         field => {
             let errorIcon = document.createElement("IMG");
             errorIcon.classList.add("error-icon");
-            errorIcon.setAttribute("src", "images/icon.svg");
+            // errorIcon.setAttribute("src", "../images/icon.svg");
             field.prepend(errorIcon);
         })
 }

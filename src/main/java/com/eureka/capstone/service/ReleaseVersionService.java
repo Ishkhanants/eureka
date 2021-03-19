@@ -19,4 +19,6 @@ public interface ReleaseVersionService {
 
     void deleteReleaseVersionById(long id);
 
+    List<ReleaseVersion> getAllReleaseVersions();
+
 }

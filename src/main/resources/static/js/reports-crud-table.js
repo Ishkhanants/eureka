@@ -215,7 +215,7 @@ $(document).ready(async function () {
         },
         "pageLength": 15,
         "infoCallback": function (settings, start, end, max, total, pre) {
-            return "Users" /*$.i18n("list.users")*/ + " " + start + "-" + end + " " + "from" /*$.i18n("list.from")*/ + " " + total; //+ $.i18n("list.form.arm");
+            return "Reports" /*$.i18n("list.users")*/ + " " + start + "-" + end + " " + "from" /*$.i18n("list.from")*/ + " " + total; //+ $.i18n("list.form.arm");
         },
         'sPaginationType': 'twoNumbers',
         language: {
@@ -229,20 +229,18 @@ $(document).ready(async function () {
         "aoColumns": [
             {"orderSequence": ["asc"]},
             {"orderSequence": ["asc", "desc"]},
+            {"orderSequence": ["asc"]},
             {"orderSequence": ["asc", "desc"]},
             {"orderSequence": ["asc", "desc"]},
-            {"orderSequence": ["asc", "desc"]},
-            {"orderSequence": ["asc", "desc"]},
-            {"orderSequence": ["asc", "desc"]},
-            {"orderSequence": ["asc", "desc"]},
-            {"orderSequence": ["asc", "desc"]},
-            // {"orderSequence": ["asc", "desc"]},
             {"orderSequence": ["asc"]},
         ],
         columnDefs: [
             {
                 orderable: false,
-                targets: [0, 9]
+                // render: function (data, type, full, meta) {
+                //     return "<div class='text-wrap width-200'>" + data + "</div>";
+                // },
+                targets: [0, 2, 5]
             }
         ]
     });
@@ -340,36 +338,47 @@ $(document).ready(async function () {
 
     addErrorIcon();
 
+    $('.date-time-id').each(function(){
+        $(this).text(parseDateTime($(this).text()));
+    });
+
+    function parseDateTime(dateTime) {
+        let date = dateTime.substring(0, dateTime.indexOf('T'));
+        let time = dateTime.substring(dateTime.indexOf('T') + 1, dateTime.indexOf('.'));
+        return date + ' ' + time;
+    }
+
     let table = $('#myTable');
 
     table.on('click','.edit', function() {
         let id = $(this).parent().find('.id').val();
-        $('#editUserModal #id-to-edit').val(id);
+        let issueId = $('.report-issue-id').val();
+        $('#editReportModal #id-to-edit').val(id);
+        $('#editReportModal #issue-id-to-edit').val(issueId);
         $.ajax({
             type: 'GET',
-            url: '/users/edit/' + id,
-            success: function (user){
-                $('#editUserModal #edit-username').val(user.username);
-                $('#editUserModal #edit-fullName').val(user.fullName);
-                $('#editUserModal #edit-userType').val(user.userType);
-                $('#editUserModal #edit-group').val(user.group);
-                $('#editUserModal #edit-email').val(user.email);
-                $('#editUserModal #edit-phone').val(user.phone);
+            url: '/issues/reports/' + id,
+            success: function (report){
+                $('#editReportModal #edit-comment').val(report.comment);
             }
         })
     })
 
     table.on('click','.delete', function() {
         let id = $(this).parent().find('.id').val();
-        $('#deleteUserModal #id-to-delete').val(id);
+        let issueId = $('.report-issue-id').val();
+        $('#deleteReportModal #id-to-delete').val(id);
+        $('#deleteReportModal #issue-id-to-delete').val(issueId);
     })
 
     $('#deleteAllSelectedButton').on('click', function () {
+        let issueId = $('.report-issue-id').val();
         let array = [];
         dtable.rows().nodes().to$().find('input[type="checkbox"]:checked').each(function(){
             array.push($(this).val());
         });
         $('#ids-to-delete').val(array);
+        $('#issue-ids-to-delete').val(issueId);
     })
 
 });

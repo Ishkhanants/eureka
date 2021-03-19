@@ -4,7 +4,7 @@ import com.eureka.capstone.cookies.RememberMeCookieService;
 import com.eureka.capstone.domain.user.User;
 import com.eureka.capstone.dto.UserDto;
 import com.eureka.capstone.exception.notunique.FieldsAlreadyExistException;
-import com.eureka.capstone.mapping.UserMapperDecorator;
+import com.eureka.capstone.mapping.user.UserMapperDecorator;
 import com.eureka.capstone.service.UserService;
 import lombok.RequiredArgsConstructor;
 

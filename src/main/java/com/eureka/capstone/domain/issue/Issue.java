@@ -2,22 +2,24 @@ package com.eureka.capstone.domain.issue;
 
 import com.eureka.capstone.domain.BaseEntity;
 import com.eureka.capstone.domain.product.Product;
+import com.eureka.capstone.domain.product.ReleaseVersion;
 import com.eureka.capstone.domain.product.SubSystem;
 import com.eureka.capstone.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.Type;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "ISSUE")
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
@@ -32,6 +34,10 @@ public class Issue extends BaseEntity {
     @JoinColumn(name = "subsystem_id", nullable = false)
     private SubSystem subSystem;
 
+    @ManyToOne
+    @JoinColumn(name = "release_version_id", nullable = false)
+    private ReleaseVersion releaseVersion;
+
     @Enumerated(value = EnumType.STRING)
     @Column(name = "status")
     private IssueStatus status;
@@ -41,11 +47,14 @@ public class Issue extends BaseEntity {
     private IssueSeverity severity;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "type")
+    @Column(name = "type", nullable = false)
     private IssueType type;
 
-    @Column(name = "added_to_release_note")
-    private boolean isAddedToReleaseNote;
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    @Column(name = "found_in_the_field")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    private boolean isFoundInTheField;
 
     @ManyToOne
     @JoinColumn(name = "reported_by", nullable = false)
@@ -61,9 +70,47 @@ public class Issue extends BaseEntity {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "comment", nullable = false)
+    @Column(name = "comment")
     private String comment;
 
+    @Column(name = "report_source")
+    private String reportSource;
+
+    @Column(name = "testing_document")
+    private String testingDocument;
+
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
     @Column(name = "confirmation_mail_sent")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean isConfirmationMailSent;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "report_date", nullable = false)
+    private LocalDate reportDate;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "fix_date")
+    private LocalDate fixDate;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "close_date")
+    private LocalDate closeDate;
+
+    public boolean getIsFoundInTheField() {
+        return isFoundInTheField;
+    }
+
+    public void setIsFoundInTheField(boolean foundInTheField) {
+        isFoundInTheField = foundInTheField;
+    }
+
+    public boolean getIsConfirmationMailSent() {
+        return isConfirmationMailSent;
+    }
+
+    public void setIsConfirmationMailSent(boolean confirmationMailSent) {
+        isConfirmationMailSent = confirmationMailSent;
+    }
+
 }

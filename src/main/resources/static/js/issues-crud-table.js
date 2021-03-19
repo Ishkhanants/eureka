@@ -215,7 +215,7 @@ $(document).ready(async function () {
         },
         "pageLength": 15,
         "infoCallback": function (settings, start, end, max, total, pre) {
-            return "Users" /*$.i18n("list.users")*/ + " " + start + "-" + end + " " + "from" /*$.i18n("list.from")*/ + " " + total; //+ $.i18n("list.form.arm");
+            return "Issues" /*$.i18n("list.users")*/ + " " + start + "-" + end + " " + "from" /*$.i18n("list.from")*/ + " " + total; //+ $.i18n("list.form.arm");
         },
         'sPaginationType': 'twoNumbers',
         language: {
@@ -236,13 +236,15 @@ $(document).ready(async function () {
             {"orderSequence": ["asc", "desc"]},
             {"orderSequence": ["asc", "desc"]},
             {"orderSequence": ["asc", "desc"]},
-            // {"orderSequence": ["asc", "desc"]},
+            {"orderSequence": ["asc", "desc"]},
+            {"orderSequence": ["asc", "desc"]},
+            {"orderSequence": ["asc"]},
             {"orderSequence": ["asc"]},
         ],
         columnDefs: [
             {
                 orderable: false,
-                targets: [0, 9]
+                targets: [0, 11, 12]
             }
         ]
     });
@@ -342,26 +344,9 @@ $(document).ready(async function () {
 
     let table = $('#myTable');
 
-    table.on('click','.edit', function() {
-        let id = $(this).parent().find('.id').val();
-        $('#editUserModal #id-to-edit').val(id);
-        $.ajax({
-            type: 'GET',
-            url: '/users/edit/' + id,
-            success: function (user){
-                $('#editUserModal #edit-username').val(user.username);
-                $('#editUserModal #edit-fullName').val(user.fullName);
-                $('#editUserModal #edit-userType').val(user.userType);
-                $('#editUserModal #edit-group').val(user.group);
-                $('#editUserModal #edit-email').val(user.email);
-                $('#editUserModal #edit-phone').val(user.phone);
-            }
-        })
-    })
-
     table.on('click','.delete', function() {
         let id = $(this).parent().find('.id').val();
-        $('#deleteUserModal #id-to-delete').val(id);
+        $('#deleteIssueModal #id-to-delete').val(id);
     })
 
     $('#deleteAllSelectedButton').on('click', function () {

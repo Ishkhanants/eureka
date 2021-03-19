@@ -20,4 +20,5 @@ public interface SubsystemService {
 
     void deleteSubSystemById(long id);
 
+    List<SubSystem> getAllSubsystems();
 }
