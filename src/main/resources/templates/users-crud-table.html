@@ -7,7 +7,7 @@
 <body>
 <div class="container-xl container my-2" style=" box-shadow: 0 47px 74px -31px rgba(7, 40, 137, 0.19);">
     <div class="table-responsive">
-        <div class="table-wrapper">
+        <td class="table-wrapper">
 
             <form method="post" th:action="@{/users/delete}">
                 <div class="table-title">
@@ -37,6 +37,7 @@
 								<label for="selectAll"></label>
 							</span>
                         </th>
+                        <th th:text="#{user-list-photo}"></th>
                         <th th:text="#{user-list-username}"></th>
                         <th th:text="#{user-list-full-name}"></th>
                         <th th:text="#{user-list-type}"></th>
@@ -55,6 +56,14 @@
 								<input type="checkbox" id="checkbox1" name="options[]" th:value="${user.getId()}" />
 								<label for="checkbox1"></label>
 							</span>
+                        </td>
+                        <td>
+                            <img alt="" class="rounded-circle avatar_crud z-depth-0 nav-image" data-holder-rendered="true"
+                                 src="images/no-avatar.png"
+                                 th:if="${user.getProfileAvatar() == null}">
+                            <img alt="" class="rounded-circle avatar_crud z-depth-0 nav-image" data-holder-rendered="true"
+                                 th:if="${user.getProfileAvatar() != null}"
+                                 th:src="${'data:image/jpg;base64,' + @userServiceImpl.extractAvatarPicture(user)}">
                         </td>
                         <td th:text="${user.getUsername()}"></td>
                         <td th:text="${user.getFullName()}"></td>
@@ -223,10 +232,6 @@
                             </option>
                         </select>
                     </div>
-                    <!--                    <div class="form-group required-input">-->
-                    <!--                        <label th:text="#{user.password}"></label>-->
-                    <!--                        <input type="text" th:field="*{password}" class="form-control" required />-->
-                    <!--                    </div>-->
                     <div class="form-group required-input">
                         <label th:text="#{user.email}"></label>
                         <input id="edit-email" name="edit-email" type="text" class="form-control" required />

@@ -35,6 +35,7 @@
                             <div class="form-group">
                                 <label class="control-label required_label" for="subsystem"
                                        th:text="#{issue.subsystem}"></label>
+                                <input type="hidden" th:value="${issue.subSystemId}" id="subsystem-id"/>
                                 <select class="select form-control required-input" id="subsystem" name="subsystem">
                                 </select>
                                 <span hidden id="full-name-valid-titlemm" th:text="#{field.registration.fullName}">
@@ -47,8 +48,8 @@
                             <div class="form-group">
                                 <label class="control-label required_label" for="release-version"
                                        th:text="#{issue.release.version}"></label>
-                                <select class="select form-control required-input" id="release-version"
-                                        name="release-version">
+                                <input type="hidden" th:value="${issue.releaseVersionId}" id="release-version-id"/>
+                                <select class="select form-control required-input" id="release-version" name="release-version">
                                 </select>
                                 <span hidden id="full-name-valid-titlemmm" th:text="#{field.registration.fullName}">
                             </span>
@@ -110,8 +111,9 @@
                                        th:text="#{issue.found.in.the.field}"></label>
                                 <input name="found-in-the-field"
                                        id="found-in-the-field"
+                                       th:checked="${issue.isFoundInTheField}"
                                        th:value="${issue.isFoundInTheField}"
-                                       th:field="*{isFoundInTheField}"
+                                       onclick="this.value = this.checked"
                                        type="checkbox"/>
                                 <span hidden th:text="#{field.registration.fullName}">
                             </span>
@@ -174,7 +176,7 @@
                         <div class="col-md-12 mx-auto">
                             <div class="form-group">
                                 <label class="control-label required_label" for="type"
-                                       th:text="#{issue.type}" th:field="*{type}"></label>
+                                       th:text="#{issue.type}"></label>
                                 <select class="select form-control required-input" id="type" name="type">
                                     <option th:each="type : ${T(com.eureka.capstone.domain.issue.IssueType).values()}"
                                             th:value="${type}"
@@ -198,6 +200,9 @@
                                             th:value="${assignee.getId()}"
                                             th:selected="${issue.assigneeId == assignee.getId()}"
                                             th:text="${assignee.getFullName()}">
+<!--                                            th:style="${assignee.getProfileAvatar() == null} ?-->
+<!--                                            'background-image: url(../static/images/no-avatar.png)' :-->
+<!--                                            'background-image: url(data:image/jpg;base64,' + @userServiceImpl.extractAvatarPicture(assignee) + ')' "-->
                                     </option>
                                 </select>
                                 <span hidden id="full-name-valid-titlemmmmm" th:text="#{field.registration.fullName}">
@@ -216,6 +221,14 @@
                                             th:value="${reporter.getId()}"
                                             th:selected="${issue.reporterId == reporter.getId()}"
                                             th:text="${reporter.getFullName()}">
+
+<!--                                        <img alt="" class="rounded-circle avatar_issue z-depth-0 nav-image" data-holder-rendered="true"-->
+<!--                                             src="images/no-avatar.png"-->
+<!--                                             th:if="${reporter.getProfileAvatar() == null}">-->
+<!--                                        <img alt="" class="rounded-circle avatar_issue z-depth-0 nav-image" data-holder-rendered="true"-->
+<!--                                             th:if="${reporter.getProfileAvatar() != null}"-->
+<!--                                             th:src="${'data:image/jpg;base64,' + @userServiceImpl.extractAvatarPicture(reporter)}">-->
+
                                     </option>
                                 </select>
                                 <span hidden th:text="#{field.registration.fullName}">
@@ -231,7 +244,8 @@
                                 <input name="send-confirmation-mail"
                                        id="send-confirmation-mail"
                                        th:value="${issue.isConfirmationMailSent}"
-                                       th:field="*{isConfirmationMailSent}"
+                                       th:checked="${issue.isConfirmationMailSent}"
+                                       onclick="this.value = this.checked"
                                        type="checkbox"/>
                                 <span hidden th:text="#{field.registration.fullName}">
                             </span>
@@ -265,7 +279,7 @@
                                           name="description" id="description"
                                           type="text"
                                           th:value="${issue.description}"
-                                          th:field="*{description}"
+                                          th:text="${issue.description}"
                                           style="width: 100%; height: 150px;"></textarea>
                                 </div>
                                 <span hidden th:text="#{field.registration.fullName}">
@@ -282,7 +296,7 @@
                                        th:text="#{issue.testing.document}"></label>
                                 <textarea class="form-control required-input" id="testing-document"
                                           name="testing-document" type="text" style="width: 96%"
-                                          th:field="*{testingDocument}" th:value="${issue.testingDocument}"></textarea>
+                                          th:text="${issue.testingDocument}" th:value="${issue.testingDocument}"></textarea>
                                 <span hidden th:text="#{field.registration.fullName}">
                             </span>
                             </div>
@@ -296,7 +310,7 @@
                                 <label class="control-label" for="comment"
                                        th:text="#{issue.comment}"></label>
                                 <textarea class="form-control required-input" id="comment"
-                                          name="testing-document" type="text" style="width: 96%" th:field="*{comment}"
+                                          name="comment" type="text" style="width: 96%" th:text="${issue.comment}"
                                           th:value="${issue.comment}"></textarea>
                                 <span hidden th:text="#{field.registration.fullName}">
                             </span>

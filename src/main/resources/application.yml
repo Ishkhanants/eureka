@@ -15,6 +15,20 @@ spring:
       enabled: true
       max-file-size: 30MB
       max-request-size: 40MB
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: eurekasoftware2021@gmail.com
+    password: ysopkigeriyqzquf
+    properties:
+      mail:
+        smtp:
+          auth: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+          starttls:
+            enable: true
 logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"

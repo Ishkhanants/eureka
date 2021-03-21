@@ -112,7 +112,7 @@ table.table td a.delete {
 table.table td i {
     font-size: 19px;
 }
-table.table .avatar {
+table.table {
     border-radius: 50%;
     vertical-align: middle;
     margin-right: 10px;
@@ -403,4 +403,9 @@ table.dataTable thead .sorting_desc:before, table.dataTable thead .sorting_asc:a
 
 .dataTables_length {
     display: none;
+}
+
+.avatar_crud {
+    height: 45px;
+    width: 45px;
 }

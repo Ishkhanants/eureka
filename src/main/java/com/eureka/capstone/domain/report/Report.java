@@ -6,14 +6,10 @@ import com.eureka.capstone.domain.product.Product;
 import com.eureka.capstone.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -21,6 +17,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "REPORT")
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,

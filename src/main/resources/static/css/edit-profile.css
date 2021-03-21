@@ -223,3 +223,8 @@ select[disabled] {
     height: 150px;
     resize: vertical;
 }
+
+.avatar_issue {
+    height: 10px;
+    width: 10px;
+}

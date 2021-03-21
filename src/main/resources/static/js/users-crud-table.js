@@ -205,7 +205,7 @@ $(document).ready(async function () {
 
     let dtable = $("#myTable").DataTable({
         "bLengthChange": false,
-        "order": [1, 'asc'],
+        "order": [2, 'asc'],
         "initComplete": function (settings, json) {
             let word = sessionStorage.getItem('userName');
             if (word != null) {
@@ -228,6 +228,7 @@ $(document).ready(async function () {
         },
         "aoColumns": [
             {"orderSequence": ["asc"]},
+            {"orderSequence": ["asc"]},
             {"orderSequence": ["asc", "desc"]},
             {"orderSequence": ["asc", "desc"]},
             {"orderSequence": ["asc", "desc"]},
@@ -236,13 +237,12 @@ $(document).ready(async function () {
             {"orderSequence": ["asc", "desc"]},
             {"orderSequence": ["asc", "desc"]},
             {"orderSequence": ["asc", "desc"]},
-            // {"orderSequence": ["asc", "desc"]},
             {"orderSequence": ["asc"]},
         ],
         columnDefs: [
             {
                 orderable: false,
-                targets: [0, 9]
+                targets: [0, 1, 10]
             }
         ]
     });

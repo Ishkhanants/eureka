@@ -154,3 +154,36 @@ main {
 .container-fluid {
     padding-left: 45px;
 }
+
+/* Modal styles */
+.modal .modal-dialog {
+    max-width: 400px;
+}
+.modal .modal-header, .modal .modal-body, .modal .modal-footer {
+    padding: 20px 30px;
+}
+.modal .modal-content {
+    border-radius: 5px;
+    border: none;
+    font-size: 14px;
+}
+.modal .modal-footer {
+    border: none;
+    border-radius: 0 0 3px 3px;
+}
+.modal .modal-header {
+    background: #07b7e3;
+    border-radius: 5px 5px 0 0;
+}
+.modal .modal-title {
+    display: inline-block;
+    color: white;
+}
+.modal .form-control {
+    border-radius: 2px;
+    box-shadow: none;
+    border-color: #dddddd;
+}
+.modal form label {
+    font-weight: normal;
+}

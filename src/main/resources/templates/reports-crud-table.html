@@ -60,9 +60,10 @@
                             <a href="#editReportModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                             <a href="#deleteReportModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                             <input type="hidden" th:class="id" name="id" th:value="${report.getId()}"/>
-                            <input th:type="hidden" th:class="report-issue-id" th:value="${report.getIssue().getId()}"/>
+                            <input th:type="hidden" th:class="report-issue-id" th:value="${report.getIssue() != null ? report.getIssue().getId() : 0}"/>
+                            <input th:type="hidden" name="issue-flag" class="issue-flag" th:value="${report.getIssue() == null ? 'true' : 'false'}"/>
                         </td>
-                        <span hidden id="reports-size" th:value="${listReports.size()}"></span>
+                        <span hidden></span>
                     </tr>
                     </tbody>
                 </table>
@@ -82,6 +83,16 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
+                    <div th:if="${report.getIssue() == null}" class="form-group required-input">
+                        <label th:text="#{report.issue.title}"></label>
+                        <select class="select form-control required-input select-issue">
+                            <option th:each="issue : ${@issueServiceImpl.getAllIssues()}"
+                                    th:value="${issue.getId()}"
+                                    th:selected="${report.issue == issue}"
+                                    th:text="${issue.getTitle()}">
+                            </option>
+                        </select>
+                    </div>
                     <div class="form-group required-input">
                         <label th:text="#{report.comment}"></label>
                         <textarea style="height: 150px" type="text" th:field="*{comment}" class="form-control" required ></textarea>
@@ -99,7 +110,9 @@
                             th:text="#{button.add}"
                             type="submit"></button>
                     <input th:type="hidden" name="issue-id-to-add" id="issue-id-to-add"
-                           th:value="${report.getIssue().getId()}"/>
+                           th:value="${report.getIssue() != null ? report.getIssue().getId() : 0}"/>
+                    <input th:type="hidden" name="issue-flag" class="issue-flag"
+                           th:value="${report.getIssue() == null ? 'true' : 'false'}"/>
                 </div>
             </form>
         </div>
@@ -133,6 +146,8 @@
                             type="submit"></button>
                     <input type="hidden" name="id" id="id-to-edit">
                     <input type="hidden" name="issue-id-to-edit" id="issue-id-to-edit">
+                    <input th:type="hidden" name="issue-flag" class="issue-flag"
+                           th:value="${report.getIssue() == null ? 'true' : 'false'}"/>
                 </div>
             </form>
         </div>
@@ -164,6 +179,8 @@
                             type="submit"></button>
                     <input type="hidden" name="id" id="id-to-delete">
                     <input type="hidden" name="issue-id-to-delete" id="issue-id-to-delete">
+                    <input th:type="hidden" name="issue-flag" class="issue-flag"
+                           th:value="${report.getIssue() == null ? 'true' : 'false'}"/>
                 </div>
             </form>
         </div>
@@ -196,6 +213,8 @@
                             type="submit"></button>
                     <input type="hidden" name="ids" id="ids-to-delete">
                     <input type="hidden" name="issue-ids-to-delete" id="issue-ids-to-delete">
+                    <input th:type="hidden" name="issue-flag" class="issue-flag"
+                           th:value="${report.getIssue() == null ? 'true' : 'false'}"/>
                 </div>
             </form>
         </div>

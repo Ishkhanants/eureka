@@ -4,36 +4,48 @@ import com.eureka.capstone.domain.issue.Issue;
 import com.eureka.capstone.domain.issue.IssueSeverity;
 import com.eureka.capstone.domain.issue.IssueStatus;
 import com.eureka.capstone.domain.issue.IssueType;
+import com.eureka.capstone.domain.report.Report;
 import com.eureka.capstone.dto.IssueDto;
 import com.eureka.capstone.exception.notfound.NotFoundException;
+import com.eureka.capstone.exception.notfound.UserNotFoundException;
 import com.eureka.capstone.repository.IssueRepository;
+import com.eureka.capstone.repository.ReportRepository;
+import com.eureka.capstone.repository.UserRepository;
 import com.eureka.capstone.service.IssueService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class IssueServiceImpl implements IssueService {
 
-    private final IssueRepository repository;
+    private final IssueRepository issueRepository;
+    private final ReportRepository reportRepository;
+    private final UserRepository userRepository;
+    private final JavaMailSender mailSender;
 
     @Override
     public Issue createIssue(Issue issue) {
-        return repository.save(issue);
+        sendNotificationEmail();
+        return issueRepository.save(issue);
     }
 
     @Override
     public Issue getIssueById(long id) {
-        return repository.findById(id).orElseThrow(NotFoundException::new);
+        return issueRepository.findById(id).orElseThrow(NotFoundException::new);
     }
 
     @Override
     public List<Issue> getAllIssues() {
-        return repository.findAll();
+        return issueRepository.findAll();
     }
 
     @Override
@@ -79,13 +91,44 @@ public class IssueServiceImpl implements IssueService {
     }
 
     @Override
-    public void updateIssue(Issue updatedIssue) {
+    public void updateIssue(Issue updatedIssue, Principal principal) {
         var issue = getIssueById(updatedIssue.getId());
+        var user = userRepository.findByUsername(principal.getName()).orElseThrow(UserNotFoundException::new);
+
+        if(!issue.getAssignee().equals(updatedIssue.getAssignee())){
+//            sendNotificationEmail();
+            reportRepository.save(new Report(user, issue, LocalDateTime.now(), String.format("Assigned to %s", updatedIssue.getAssignee().getFullName())));
+        }
+
+        if(!issue.getReporter().equals(updatedIssue.getReporter())){
+//            sendNotificationEmail();
+            reportRepository.save(new Report(user, issue, LocalDateTime.now(), String.format("Changed reporter to %s", updatedIssue.getReporter().getFullName())));
+        }
+
+        if(!issue.getProduct().equals(updatedIssue.getProduct())){
+            reportRepository.save(new Report(user, issue, LocalDateTime.now(), String.format("Changed Product to %s", updatedIssue.getProduct().getName())));
+        }
+
+        if(!issue.getReleaseVersion().equals(updatedIssue.getReleaseVersion())){
+            reportRepository.save(new Report(user, issue, LocalDateTime.now(), String.format("Changed release version to %s", updatedIssue.getReleaseVersion().getVersion())));
+        }
+
+        if(!issue.getSubSystem().equals(updatedIssue.getSubSystem())){
+            reportRepository.save(new Report(user, issue, LocalDateTime.now(), String.format("Changed subsystem to %s", updatedIssue.getSubSystem().getName())));
+        }
+
+        if(!issue.getType().equals(updatedIssue.getType())){
+            reportRepository.save(new Report(user, issue, LocalDateTime.now(), String.format("Changed issue type to %s", updatedIssue.getType().getDisplayValue())));
+        }
+
         issue.setTestingDocument(updatedIssue.getTestingDocument());
         issue.setReportDate(updatedIssue.getReportDate());
+        issue.setFixDate(updatedIssue.getFixDate());
+        issue.setCloseDate(updatedIssue.getCloseDate());
         issue.setDescription(updatedIssue.getDescription());
         issue.setType(updatedIssue.getType());
         issue.setTitle(updatedIssue.getTitle());
+        issue.setComment(updatedIssue.getComment());
         issue.setReporter(updatedIssue.getReporter());
         issue.setAssignee(updatedIssue.getAssignee());
         issue.setSubSystem(updatedIssue.getSubSystem());
@@ -94,13 +137,26 @@ public class IssueServiceImpl implements IssueService {
         issue.setIsConfirmationMailSent(updatedIssue.getIsConfirmationMailSent());
         issue.setProduct(updatedIssue.getProduct());
         issue.setStatus(updatedIssue.getStatus());
+        issue.setSeverity(updatedIssue.getSeverity());
         issue.setReportSource(updatedIssue.getReportSource());
-        repository.save(issue);
+
+        issueRepository.save(issue);
     }
 
     @Override
     public void deleteIssueById(long id) {
-        repository.deleteById(id);
+        issueRepository.deleteById(id);
+    }
+
+    private void sendNotificationEmail(){
+        SimpleMailMessage msg = new SimpleMailMessage();
+
+//        msg.setFrom("");
+        msg.setTo("for7192group@gmail.com"); //"ishkhanants@gmail.com", "martinmirzoyan00@gmail.com",
+        msg.setSubject("Testing from Spring Boot Application API");
+        msg.setText("Hello World \n Spring Boot Email Sent! \n Martin");
+
+        mailSender.send(msg);
     }
 
 }

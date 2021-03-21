@@ -128,14 +128,14 @@ public class UserController {
     }
 
     @GetMapping("/toUser/{id}")
-    public ModelAndView toUser(@PathVariable Long id, ModelAndView modelAndView) {
+    public String toUser(@PathVariable Long id) {
         userService.toUser(id);
-        return viewPage(modelAndView);
+        return "redirect:/users";
     }
 
     @GetMapping("/toAdmin/{id}")
-    public ModelAndView toAdmin(@PathVariable Long id, ModelAndView modelAndView) {
+    public String toAdmin(@PathVariable Long id) {
         userService.toAdmin(id);
-        return viewPage(modelAndView);
+        return "redirect:/users";
     }
 }

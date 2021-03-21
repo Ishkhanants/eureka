@@ -70,11 +70,11 @@ $(document).ready(async function () {
         mainContainer.css("pointer-events", "none");
     };
 
-    addValidationHtml()
+    addValidationHtml();
+
     $(document).ready(function () {
 
         addErrorIcon()
-
         let product = $('#product');
 
         if(product.val()!==0){
@@ -99,6 +99,7 @@ $(document).ready(async function () {
                     const version = data[i].version;
                     $('#release-version').append($("<option></option>")
                         .attr("value", id)
+                        .attr("selected", $('#release-version-id').val() == id)
                         .text(version));
                 }
             }
@@ -114,6 +115,7 @@ $(document).ready(async function () {
                     const name = data[i].name;
                     $('#subsystem').append($("<option></option>")
                         .attr("value", id)
+                        .attr("selected", $('#subsystem-id').val() == id)
                         .text(name));
                 }
             }

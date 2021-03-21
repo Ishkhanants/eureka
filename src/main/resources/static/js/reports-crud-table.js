@@ -338,6 +338,17 @@ $(document).ready(async function () {
 
     addErrorIcon();
 
+    let selectIssue = $('.select-issue');
+    let issueToAdd = $('#issue-id-to-add');
+
+    if(issueToAdd.val() == 0){
+        issueToAdd.val(selectIssue.val());
+    }
+
+    selectIssue.change(function (){
+        issueToAdd.val($(this).val());
+    })
+
     $('.date-time-id').each(function(){
         $(this).text(parseDateTime($(this).text()));
     });

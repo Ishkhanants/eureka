@@ -30,6 +30,7 @@ public class IssueMapper {
         dto.setReportSource(entity.getReportSource());
         dto.setTitle(entity.getTitle());
         dto.setSeverity(entity.getSeverity());
+        dto.setType(entity.getType());
         dto.setSubSystemId(entity.getSubSystem().getId());
         dto.setReleaseVersionId(entity.getReleaseVersion().getId());
         dto.setTestingDocument(entity.getTestingDocument());
@@ -51,6 +52,7 @@ public class IssueMapper {
         entity.setTitle(dto.getTitle());
         entity.setComment(dto.getComment());
         entity.setType(dto.getType());
+        entity.setSeverity(dto.getSeverity());
         entity.setDescription(dto.getDescription());
         entity.setReportSource(dto.getReportSource());
         entity.setReportDate(dto.getReportDate());

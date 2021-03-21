@@ -4,6 +4,7 @@ import com.eureka.capstone.domain.issue.Issue;
 import com.eureka.capstone.dto.IssueDto;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.List;
 
 public interface IssueService {
@@ -16,7 +17,7 @@ public interface IssueService {
 
     IssueDto extractIssueDtoFromRequest(HttpServletRequest request);
 
-    void updateIssue(Issue issue);
+    void updateIssue(Issue issue, Principal principal);
 
     void deleteIssueById(long id);
 

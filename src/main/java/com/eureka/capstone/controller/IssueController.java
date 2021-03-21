@@ -66,10 +66,10 @@ public class IssueController {
     }
 
     @PostMapping("/edit")
-    public String updateIssue(HttpServletRequest request) {
+    public String updateIssue(HttpServletRequest request, Principal principal) {
         var issueDto = issueService.extractIssueDtoFromRequest(request);
         var issueEntity = issueMapper.toEntity(issueDto);
-        issueService.updateIssue(issueEntity);
+        issueService.updateIssue(issueEntity, principal);
         return "redirect:/issues";
     }
 
@@ -95,8 +95,10 @@ public class IssueController {
     @GetMapping("/reports")
     public ModelAndView getReportsPage(ModelAndView modelAndView) {
         List<Report> listReports = reportService.getAllReports();
+        var report = new Report();
         modelAndView.setViewName(Templates.REPORTS.getName());
         modelAndView.addObject("listReports", listReports);
+        modelAndView.addObject("report", report);
         return modelAndView;
     }
 
@@ -114,11 +116,12 @@ public class IssueController {
     @PostMapping("/reports/create")
     public String addReport(@ModelAttribute("report") Report report, HttpServletRequest request, Principal principal){
         var issueId = Long.parseLong(request.getParameter("issue-id-to-add"));
+        var issueFlag = Boolean.parseBoolean(request.getParameter("issue-flag"));
         report.setIssue(issueService.getIssueById(issueId));
         report.setDateTime(LocalDateTime.now());
         report.setReporter(userService.getUserByUsername(principal.getName()));
         reportService.createReport(report);
-        return "redirect:/issues/" + issueId + "/reports";
+        return issueFlag ? "redirect:/issues/reports" : "redirect:/issues/" + issueId + "/reports";
     }
 
     @GetMapping(value = "/reports/{id}", produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
@@ -142,23 +145,26 @@ public class IssueController {
     @PostMapping("/reports/edit")
     public String editReport(HttpServletRequest request){
         var issueId = Long.parseLong(request.getParameter("issue-id-to-edit"));
+        var issueFlag = Boolean.parseBoolean(request.getParameter("issue-flag"));
         var updatedReport = reportService.extractReportCommentAndIdFromRequest(request);
         updatedReport.setIssue(issueService.getIssueById(issueId));
         reportService.updateReport(updatedReport);
-        return "redirect:/issues/" + issueId + "/reports";
+        return issueFlag ? "redirect:/issues/reports" : "redirect:/issues/" + issueId + "/reports";
     }
 
     @PostMapping("/reports/delete")
     public String deleteReport(HttpServletRequest request){
         var issueId = Long.parseLong(request.getParameter("issue-id-to-delete"));
+        var issueFlag = Boolean.parseBoolean(request.getParameter("issue-flag"));
         var id = Long.parseLong(request.getParameter("id"));
         reportService.deleteReportById(id);
-        return "redirect:/issues/" + issueId + "/reports";
+        return issueFlag ? "redirect:/issues/reports" : "redirect:/issues/" + issueId + "/reports";
     }
 
     @PostMapping("/reports/delete-selected")
     public String deleteSelectedReports(HttpServletRequest request) {
         var issueId = Long.parseLong(request.getParameter("issue-ids-to-delete"));
+        var issueFlag = Boolean.parseBoolean(request.getParameter("issue-flag"));
         var ids = request.getParameter("ids").split(",");
 
         for (String id: ids) {
@@ -166,6 +172,6 @@ public class IssueController {
             reportService.deleteReportById(idl);
         }
 
-        return "redirect:/issues/" + issueId + "/reports";
+        return issueFlag ? "redirect:/issues/reports" : "redirect:/issues/" + issueId + "/reports";
     }
 }
