@@ -55,6 +55,17 @@ $(document).ready(async function () {
 
     if (profileAvatar === null) $("#clear-input").hide();
 
+    let userType = $('#userType');
+
+    if (userType.val() !== 0) {
+        let val = $('#userType').val();
+        populate(val);
+    }
+
+    userType.change(function () {
+        let val = $(this).val();
+        populate(val);
+    })
 
     $("#clear-input").on("click", function (e) {
         $('#profileAvatar').parent().find(".custom-invalid-feedback").hide();
@@ -256,3 +267,37 @@ $(document).ready(async function () {
         })
     });
 });
+
+populate = (val) => {
+    let v = $("#group").val();
+    $.ajax({
+        type: "GET",
+        url: "/users/group-by-type/" + val,
+        success: function (data) {
+            $("#group").empty();
+            for (let i = 0; i < data.length; i++) {
+                $('#group').append($("<option></option>")
+                    .attr("value", data[i])
+                    .attr("selected", data[i] == v)
+                    .text(processUserType(data[i])));
+            }
+        }
+    })
+}
+
+processUserType = (str) => {
+    switch (str){
+        case 'SECURITY_ADMINS':
+            return 'Security Admins';
+        case 'ADMINS_MANAGEMENT':
+            return 'Admins (Management)';
+        case 'ADMINS_DEVELOPMENT':
+            return 'Admins (Development)';
+        case 'TESTERS':
+            return 'Testers';
+        case 'DEVELOPERS':
+            return 'Developers';
+        case 'READ_ONLY_ACCESS':
+            return 'Read Only Access';
+    }
+}

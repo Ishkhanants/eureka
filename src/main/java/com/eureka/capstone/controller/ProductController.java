@@ -3,12 +3,15 @@ package com.eureka.capstone.controller;
 import com.eureka.capstone.domain.product.Product;
 import com.eureka.capstone.domain.product.ReleaseVersion;
 import com.eureka.capstone.domain.product.SubSystem;
+import com.eureka.capstone.domain.user.Group;
+import com.eureka.capstone.domain.user.User;
+import com.eureka.capstone.domain.user.UserType;
 import com.eureka.capstone.security.UserDetailsServiceImpl;
 import com.eureka.capstone.service.ProductService;
 import com.eureka.capstone.service.ReleaseVersionService;
 import com.eureka.capstone.service.SubsystemService;
+import com.eureka.capstone.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,15 +21,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/products")
 @RequiredArgsConstructor
 public class ProductController {
 
-    @Autowired
-    UserDetailsServiceImpl userDetailsService;
-
+    private final UserDetailsServiceImpl userDetailsService;
+    private final UserService userService;
     private final ProductService productService;
     private final SubsystemService subsystemService;
     private final ReleaseVersionService releaseVersionService;
@@ -34,9 +37,13 @@ public class ProductController {
     @GetMapping
     public ModelAndView success(ModelAndView modelAndView) {
         List<Product> listProducts = productService.getAllProducts();
+        var owners = userService.getAllUsers().stream()
+                .filter(u -> u.getUserType().equals(UserType.MANAGER))
+                .collect(Collectors.toList());
         modelAndView.setViewName(Templates.PRODUCTS.getName());
         modelAndView.addObject("listProducts", listProducts);
         modelAndView.addObject("product", new Product());
+        modelAndView.addObject("owners", owners);
         return modelAndView;
     }
 
@@ -58,6 +65,8 @@ public class ProductController {
     @PostMapping("/edit")
     public String editProduct(HttpServletRequest request){
         var updatedProduct = productService.extractProductFromRequest(request);
+        var owner = userService.getUserById(Long.parseLong(request.getParameter("edit-owner")));
+        updatedProduct.setOwner(owner);
         productService.updateProduct(updatedProduct);
         return "redirect:/products";
     }
@@ -213,5 +222,15 @@ public class ProductController {
         }
 
         return "redirect:/products/" + productId + "/subsystems";
+    }
+
+
+    @GetMapping(value = "/owner-by-product/{id}", produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> getOwnerByProductId(@PathVariable("id") long id){
+        try {
+            return new ResponseEntity<>(productService.getOwnerByProductId(id), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }

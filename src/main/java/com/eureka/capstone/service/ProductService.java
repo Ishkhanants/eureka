@@ -1,6 +1,7 @@
 package com.eureka.capstone.service;
 
 import com.eureka.capstone.domain.product.Product;
+import com.eureka.capstone.domain.user.User;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
@@ -20,4 +21,6 @@ public interface ProductService {
     List<Product> getAllProducts();
 
     void deleteProductById(long id);
+
+    User getOwnerByProductId(long id);
 }

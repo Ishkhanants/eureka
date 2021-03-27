@@ -1,6 +1,9 @@
 package com.eureka.capstone.controller;
 
+import com.eureka.capstone.domain.login.LoginDetails;
+import com.eureka.capstone.domain.login.LoginFormatter;
 import com.eureka.capstone.domain.user.User;
+import com.eureka.capstone.service.LoginDetailsService;
 import com.eureka.capstone.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -16,17 +19,35 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
 import java.security.Principal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
 
 @Controller
 @RequiredArgsConstructor
 public class LoginController {
 
     private final UserService userService;
+    private final LoginDetailsService loginDetailsService;
+    private static final Logger LOGGER = Logger.getLogger(LoginController.class.getName());
 
-    @GetMapping("login")
+    @GetMapping("/*")
+    public String landing(HttpServletRequest request, Principal principal) {
+        if (principal != null) {
+            saveLoginDetails(request, principal);
+            return "redirect:/products";
+        }
+
+        return "login";
+    }
+
+    @GetMapping("/login")
     public String login(HttpServletRequest request, Principal principal) {
         if (principal != null) {
+//            saveLoginDetails(request, principal);
             return "redirect:/products";
         }
 
@@ -56,10 +77,30 @@ public class LoginController {
         return "redirect:/";
     }
 
+    private void saveLoginDetails(HttpServletRequest request, Principal principal){
+        var details = new LoginDetails(principal.getName(), request.getRemoteAddr(), LocalDateTime.now());
+        loginDetailsService.save(details);
+        logLoginDetails(details);
+    }
+
+    private void logLoginDetails(LoginDetails details){
+        try {
+            var fileHandler = new FileHandler("sign-in.log", true);
+            fileHandler.setFormatter(new LoginFormatter());
+            LOGGER.addHandler(fileHandler);
+            LOGGER.info(String.format("Login #%d with following credentials\nUsername: %s\nIP Address: %s\nDatetime: %s\n",
+                    details.getId(), details.getUsername(), details.getIp(), details.getDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
+            fileHandler.close();
+        } catch (SecurityException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void deleteCookieIfExists(Cookie cookie, HttpServletResponse response) {
         if (cookie != null) {
             cookie.setMaxAge(0);
             response.addCookie(cookie);
         }
     }
+
 }

@@ -22,7 +22,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@PropertySource("classpath:values.properties")
+@PropertySource("classpath:security.properties")
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
@@ -64,7 +64,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/i18n/**", "/footer-info", "/js/**", "/css/**", "/images/**", "/", "/products", "/login", "/webjars/**").permitAll()
                 .antMatchers("/edit-profile/").hasAnyRole("ADMIN_ROLE", "USER_ROLE")
-                .antMatchers("/users/**", "/products/**").hasAnyAuthority("ADMIN_ROLE")
+                .antMatchers("/users/**", "/products/edit", "/products/create", "/products/delete",
+                                              "/products/delete-selected", "/issues").hasAnyAuthority("ADMIN_ROLE")
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable().cors()

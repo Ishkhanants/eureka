@@ -13,7 +13,7 @@
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-3">
-                            <h2>Manage <b>Subsystems</b></h2>
+                            <h2><span sec:authorize="hasAnyAuthority('ADMIN_ROLE')">Manage</span> <b>Subsystems</b></h2>
                         </div>
                         <div class="col-sm-4" sec:authorize="hasAnyAuthority('ADMIN_ROLE')">
                             <a href="#addSubsystemModal" class="btn" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Subsystem</span></a>
@@ -218,5 +218,6 @@
         </div>
     </div>
 </div>
+<input name="role" id="role" th:each="authority : ${#authentication.getAuthorities()}" th:value="${authority}" type="hidden" />
 </body>
 </html>

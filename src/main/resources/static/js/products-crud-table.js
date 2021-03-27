@@ -231,18 +231,22 @@ $(document).ready(async function () {
             {"orderSequence": ["asc", "desc"]},
             {"orderSequence": ["asc", "desc"]},
             {"orderSequence": ["asc", "desc"]},
+            {"orderSequence": ["asc", "desc"]},
             {"orderSequence": ["asc"]},
             {"orderSequence": ["asc"]},
             {"orderSequence": ["asc"]},
         ],
         columnDefs: [
             {
-                orderable: false,
                 visible: document.getElementById('role').value == 'ADMIN_ROLE',
                 // render: function (data, type, full, meta) {
                 //     return "<div class='text-wrap width-200'>" + data + "</div>";
                 // },
-                targets: [0, 4, 5, 6]
+                targets: [0, 7]
+            },
+            {
+                orderable: false,
+                targets: [0, 5, 6, 7]
             }
         ]
     });
@@ -344,12 +348,15 @@ $(document).ready(async function () {
 
     table.on('click','.edit', function() {
         let id = $(this).parent().find('.id').val();
+        let ownerId = $('.product-owner-id').val();
         $('#editProductModal #id-to-edit').val(id);
+        $('#editProductModal #owner-id-to-edit').val(ownerId);
         $.ajax({
             type: 'GET',
             url: '/products/' + id,
             success: function (product){
                 $('#editProductModal #edit-name').val(product.name);
+                $('#editProductModal #edit-owner').val(product.owner.id);
                 $('#editProductModal #edit-date').val(product.startDate);
                 $('#editProductModal #edit-description').val(product.description);
             }
@@ -358,15 +365,19 @@ $(document).ready(async function () {
 
     table.on('click','.delete', function() {
         let id = $(this).parent().find('.id').val();
+        let ownerId = $('.product-owner-id').val();
         $('#deleteProductModal #id-to-delete').val(id);
+        $('#deleteProductModal #owner-id-to-delete').val(ownerId);
     })
 
     $('#deleteAllSelectedButton').on('click', function () {
+        let ownerId = $('.product-owner-id').val();
         let array = [];
         dtable.rows().nodes().to$().find('input[type="checkbox"]:checked').each(function(){
             array.push($(this).val());
         });
         $('#ids-to-delete').val(array);
+        $('#owner-ids-to-delete').val(ownerId);
     })
     
 });

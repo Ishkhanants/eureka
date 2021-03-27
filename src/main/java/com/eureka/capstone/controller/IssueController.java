@@ -2,6 +2,7 @@ package com.eureka.capstone.controller;
 
 import com.eureka.capstone.domain.issue.Issue;
 import com.eureka.capstone.domain.report.Report;
+import com.eureka.capstone.domain.user.UserType;
 import com.eureka.capstone.dto.IssueDto;
 import com.eureka.capstone.mapping.issue.IssueMapper;
 import com.eureka.capstone.service.IssueService;
@@ -17,8 +18,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/issues")
@@ -30,11 +33,6 @@ public class IssueController {
     private final IssueService issueService;
     private final IssueMapper issueMapper;
 
-//    @GetMapping("/myIssues")
-//    public String myIssues(Model model, Principal principal) {
-//        return Templates.ISSUES.getName();
-//    }
-
     @GetMapping
     public ModelAndView success(ModelAndView modelAndView) {
         List<Issue> listIssues = issueService.getAllIssues();
@@ -43,25 +41,40 @@ public class IssueController {
         return modelAndView;
     }
 
+    @GetMapping("/my")
+    public ModelAndView myIssues(ModelAndView modelAndView, Principal principal) {
+        var user = userService.getUserByUsername(principal.getName());
+
+        List<Issue> listIssues = issueService.getAllIssues().stream()
+                .filter(i -> i.getAssignee().equals(user) || i.getReporter().equals(user))
+                .collect(Collectors.toList());
+
+        modelAndView.setViewName(Templates.ISSUES.getName());
+        modelAndView.addObject("listIssues", listIssues);
+        return modelAndView;
+    }
+
     @GetMapping("/create")
-    public ModelAndView getAddIssuePage() {
+    public ModelAndView getAddIssuePage(Principal principal) {
         ModelAndView modelAndView = new ModelAndView(Templates.ADD_ISSUE.getName());
         modelAndView.addObject("issue", new IssueDto());
+        modelAndView.addObject("isUserType", userService.getUserByUsername(principal.getName()).getUserType() == UserType.USER);
         return modelAndView;
     }
 
     @PostMapping("/create")
-    public String addIssue(@ModelAttribute("issue") IssueDto issueDto){
+    public String addIssue(@ModelAttribute("issue") IssueDto issueDto, Principal principal){
         var entity = issueMapper.toEntity(issueDto);
-        issueService.createIssue(entity);
-        return "redirect:/issues";
+        issueService.createIssue(entity, principal);
+        return userService.getUserByUsername(principal.getName()).isAdmin() ? "redirect:/issues" : "redirect:/issues/my";
     }
 
     @GetMapping("/edit/{id}")
-    public ModelAndView getEditIssuePage(@PathVariable("id") long id) {
+    public ModelAndView getEditIssuePage(@PathVariable("id") long id, Principal principal) {
         ModelAndView modelAndView = new ModelAndView(Templates.EDIT_ISSUE.getName());
         var dto = issueMapper.toDto(issueService.getIssueById(id));
         modelAndView.addObject("issue", dto);
+        modelAndView.addObject("isUserType", userService.getUserByUsername(principal.getName()).getUserType() == UserType.USER);
         return modelAndView;
     }
 
@@ -70,18 +83,18 @@ public class IssueController {
         var issueDto = issueService.extractIssueDtoFromRequest(request);
         var issueEntity = issueMapper.toEntity(issueDto);
         issueService.updateIssue(issueEntity, principal);
-        return "redirect:/issues";
+        return userService.getUserByUsername(principal.getName()).isAdmin() ? "redirect:/issues" : "redirect:/issues/my";
     }
 
     @PostMapping("/delete")
-    public String deleteIssue(HttpServletRequest request){
+    public String deleteIssue(HttpServletRequest request, Principal principal){
         long id = Long.parseLong(request.getParameter("id"));
         issueService.deleteIssueById(id);
-        return "redirect:/issues";
+        return userService.getUserByUsername(principal.getName()).isAdmin() ? "redirect:/issues" : "redirect:/issues/my";
     }
 
     @PostMapping("/delete-selected")
-    public String deleteSelectedIssues(HttpServletRequest request) {
+    public String deleteSelectedIssues(HttpServletRequest request, Principal principal) {
         var ids = request.getParameter("ids").split(",");
 
         for (String id: ids) {
@@ -89,7 +102,7 @@ public class IssueController {
             issueService.deleteIssueById(idl);
         }
 
-        return "redirect:/issues";
+        return userService.getUserByUsername(principal.getName()).isAdmin() ? "redirect:/issues" : "redirect:/issues/my";
     }
 
     @GetMapping("/reports")
@@ -174,4 +187,5 @@ public class IssueController {
 
         return issueFlag ? "redirect:/issues/reports" : "redirect:/issues/" + issueId + "/reports";
     }
+
 }

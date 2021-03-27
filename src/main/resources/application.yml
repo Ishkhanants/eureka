@@ -19,16 +19,17 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: eurekasoftware2021@gmail.com
-    password: ysopkigeriyqzquf
+    password: wetajloywyfxpwrf
     properties:
       mail:
         smtp:
           auth: true
-          connectiontimeout: 5000
-          timeout: 5000
-          writetimeout: 5000
+          connectiontimeout: 60000
+          timeout: 60000
+          writetimeout: 60000
           starttls:
             enable: true
 logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+

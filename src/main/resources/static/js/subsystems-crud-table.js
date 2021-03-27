@@ -241,6 +241,10 @@ $(document).ready(async function () {
                 //     return "<div class='text-wrap width-200'>" + data + "</div>";
                 // },
                 targets: [0, 2, 5]
+            },
+            {
+                visible: document.getElementById('role').value == 'ADMIN_ROLE',
+                targets: [0, 5]
             }
         ]
     });

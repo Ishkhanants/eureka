@@ -10,27 +10,27 @@ $(document).ready(async function () {
     var deleteAllSelected = $("#deleteAllSelected");
     var checkbox = $('table tbody input[type="checkbox"]');
 
-    $(":checkbox").on('click', function (){
+    $(":checkbox").on('click', function () {
         var checkedCheckboxCount = $('table tbody input[type="checkbox"]:checked').length;
         checkedCheckboxCount > 0 ? deleteAllSelected.removeAttr("hidden") : deleteAllSelected.attr("hidden", true);
     })
 
-    selectAll.click(function(){
-        if(this.checked){
-            checkbox.each(function(){
+    selectAll.click(function () {
+        if (this.checked) {
+            checkbox.each(function () {
                 this.checked = true;
             });
             deleteAllSelected.removeAttr("hidden");
         } else {
-            checkbox.each(function(){
+            checkbox.each(function () {
                 this.checked = false;
             });
             deleteAllSelected.attr("hidden", true);
         }
     });
 
-    checkbox.click(function(){
-        if(!this.checked){
+    checkbox.click(function () {
+        if (!this.checked) {
             $("#selectAll").prop("checked", false);
         }
     });
@@ -186,7 +186,7 @@ $(document).ready(async function () {
     };
 
     $.fn.dataTable.ext.search.push(
-        function( settings, data, dataIndex ) {
+        function (settings, data, dataIndex) {
             var search = $("#myTable_filter input").val();
             var title = data[1];
 
@@ -199,7 +199,7 @@ $(document).ready(async function () {
 
     var cls1 = document.getElementsByClassName('dataTables_filter');
 
-    for(var i = 0; i < cls1.length; i++) {
+    for (var i = 0; i < cls1.length; i++) {
         cls1[i].removeAttribute('id');
     }
 
@@ -251,11 +251,11 @@ $(document).ready(async function () {
         .unbind()
         .bind("input", function (e) {
             if (this.value.length >= 0 || e.keyCode == 13) {
-                dtable.search(this.value,false,true).draw();
+                dtable.search(this.value, false, true).draw();
                 $('.goToPageInput').val(Math.ceil(dtable.page.info().recordsDisplay / dtable.page.info().length));
             }
             if (this.value == "") {
-                dtable.search("",true,false).draw();
+                dtable.search("", true, false).draw();
                 $('.goToPageInput').val(Math.ceil(dtable.page.info().recordsDisplay / dtable.page.info().length));
             }
             return;
@@ -340,36 +340,108 @@ $(document).ready(async function () {
 
     addErrorIcon();
 
+    let userType = $('#userType');
+
+    if (userType.val() !== 0) {
+        let val = $('#userType').val();
+        populateAdd(val);
+    }
+
+    userType.change(function () {
+        let val = $(this).val();
+        populateAdd(val);
+    })
+
     let table = $('#myTable');
 
-    table.on('click','.edit', function() {
+    table.on('click', '.edit', function () {
         let id = $(this).parent().find('.id').val();
         $('#editUserModal #id-to-edit').val(id);
+
+        let editUserType = $('#editUserModal #edit-userType');
+        let editUserGroup = $('#editUserModal #edit-group');
+
         $.ajax({
             type: 'GET',
             url: '/users/edit/' + id,
-            success: function (user){
+            success: function (user) {
                 $('#editUserModal #edit-username').val(user.username);
                 $('#editUserModal #edit-fullName').val(user.fullName);
-                $('#editUserModal #edit-userType').val(user.userType);
-                $('#editUserModal #edit-group').val(user.group);
                 $('#editUserModal #edit-email').val(user.email);
                 $('#editUserModal #edit-phone').val(user.phone);
+                editUserType.val(user.userType);
+                editUserGroup.val(user.group);
+
+                populateEdit(editUserType.val());
             }
+        })
+
+        editUserType.change(function () {
+            let val = $(this).val();
+            populateEdit(val);
         })
     })
 
-    table.on('click','.delete', function() {
+    table.on('click', '.delete', function () {
         let id = $(this).parent().find('.id').val();
         $('#deleteUserModal #id-to-delete').val(id);
     })
 
     $('#deleteAllSelectedButton').on('click', function () {
         let array = [];
-        dtable.rows().nodes().to$().find('input[type="checkbox"]:checked').each(function(){
+        dtable.rows().nodes().to$().find('input[type="checkbox"]:checked').each(function () {
             array.push($(this).val());
         });
         $('#ids-to-delete').val(array);
     })
 
 });
+
+populateAdd = (val) => {
+    $.ajax({
+        type: "GET",
+        url: "/users/group-by-type/" + val,
+        success: function (data) {
+            $("#group").empty();
+            for (let i = 0; i < data.length; i++) {
+                $('#group').append($("<option></option>")
+                    .attr("value", data[i])
+                    .text(processUserType(data[i])));
+            }
+        }
+    })
+}
+
+populateEdit = (val) => {
+    let edv = $('#edit-group').val();
+    $.ajax({
+        type: "GET",
+        url: "/users/group-by-type/" + val,
+        success: function (data) {
+            $('#edit-group').empty();
+            for (let i = 0; i < data.length; i++) {
+                    $('#edit-group').append($("<option></option>")
+                        .attr("value", data[i])
+                        .attr("selected", edv == data[i])
+                        .text(processUserType(data[i])));
+            }
+        }
+    })
+}
+
+processUserType = (str) => {
+    switch (str) {
+        case 'SECURITY_ADMINS':
+            return 'Security Admins';
+        case 'ADMINS_MANAGEMENT':
+            return 'Admins (Management)';
+        case 'ADMINS_DEVELOPMENT':
+            return 'Admins (Development)';
+        case 'TESTERS':
+            return 'Testers';
+        case 'DEVELOPERS':
+            return 'Developers';
+        case 'READ_ONLY_ACCESS':
+            return 'Read Only Access';
+    }
+}

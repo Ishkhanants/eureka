@@ -17,6 +17,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import javax.mail.internet.InternetAddress;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.time.LocalDate;
@@ -33,8 +34,14 @@ public class IssueServiceImpl implements IssueService {
     private final JavaMailSender mailSender;
 
     @Override
-    public Issue createIssue(Issue issue) {
-        sendNotificationEmail();
+    public Issue createIssue(Issue issue, Principal principal) {
+        var user = userRepository.findByUsername(principal.getName()).orElseThrow(UserNotFoundException::new);
+
+        if(issue.getIsConfirmationMailSent()){
+            var reportForAssignee = new Report(user, issue, LocalDateTime.now(), String.format("Assigned to %s", issue.getAssignee().getFullName()));
+            sendNotificationEmail(reportForAssignee);
+        }
+
         return issueRepository.save(issue);
     }
 
@@ -96,12 +103,16 @@ public class IssueServiceImpl implements IssueService {
         var user = userRepository.findByUsername(principal.getName()).orElseThrow(UserNotFoundException::new);
 
         if(!issue.getAssignee().equals(updatedIssue.getAssignee())){
-//            sendNotificationEmail();
-            reportRepository.save(new Report(user, issue, LocalDateTime.now(), String.format("Assigned to %s", updatedIssue.getAssignee().getFullName())));
+            var report = new Report(user, updatedIssue, LocalDateTime.now(), String.format("Assigned to %s", updatedIssue.getAssignee().getFullName()));
+
+            if(updatedIssue.getIsConfirmationMailSent()){
+                sendNotificationEmail(report);
+            }
+
+            reportRepository.save(report);
         }
 
         if(!issue.getReporter().equals(updatedIssue.getReporter())){
-//            sendNotificationEmail();
             reportRepository.save(new Report(user, issue, LocalDateTime.now(), String.format("Changed reporter to %s", updatedIssue.getReporter().getFullName())));
         }
 
@@ -148,13 +159,12 @@ public class IssueServiceImpl implements IssueService {
         issueRepository.deleteById(id);
     }
 
-    private void sendNotificationEmail(){
+    private void sendNotificationEmail(Report report){
         SimpleMailMessage msg = new SimpleMailMessage();
 
-//        msg.setFrom("");
-        msg.setTo("for7192group@gmail.com"); //"ishkhanants@gmail.com", "martinmirzoyan00@gmail.com",
-        msg.setSubject("Testing from Spring Boot Application API");
-        msg.setText("Hello World \n Spring Boot Email Sent! \n Martin");
+        msg.setTo(report.getIssue().getAssignee().getEmail());
+        msg.setSubject(String.format("New Assignment from Issue No. %d: %s", report.getIssue().getId(), report.getIssue().getTitle()));
+        msg.setText(String.format("Dear %s,\n\nIssue with title: %s has been assigned to you.\n\nRespectfully,\nEureka Development Team", report.getIssue().getAssignee().getFullName(), report.getIssue().getTitle()));
 
         mailSender.send(msg);
     }

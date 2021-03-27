@@ -15,9 +15,11 @@
                         <div class="col-sm-3">
                             <h2>Manage <b>Reports</b></h2>
                         </div>
-                        <div class="col-sm-4" sec:authorize="hasAnyAuthority('ADMIN_ROLE')">
-                            <a href="#addReportModal" class="btn" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Report</span></a>
-                            <span id="deleteAllSelected" hidden><a href="#deleteSelectedReportsModal" class="btn" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a></span>
+                        <div class="col-sm-4">
+                            <a href="#addReportModal" class="btn" data-toggle="modal"><i
+                                    class="material-icons">&#xE147;</i> <span>Add New Report</span></a>
+                            <span id="deleteAllSelected" hidden><a href="#deleteSelectedReportsModal" class="btn"
+                                                                   data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a></span>
                         </div>
                         <div id="myTable_filter" class="col-sm-5">
                             <label>
@@ -41,14 +43,15 @@
                         <th th:text="#{report.issue.title}"></th>
                         <th th:text="#{report.datetime}"></th>
                         <th th:text="#{report.comment}"></th>
-                        <th th:text="#{user.actions}" ></th>
+                        <th th:text="#{user.actions}"></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="report : ${listReports}">
                         <td>
-							<span class="custom-checkbox">
-								<input type="checkbox" id="checkbox1" name="options[]" th:value="${report.getId()}" />
+							<span class="custom-checkbox"
+                                  th:if="${report.getReporter().getUsername() == #authentication.getName() || @userServiceImpl.getUserByUsername(#authentication.getName()).isAdmin()}">
+								<input type="checkbox" id="checkbox1" name="options[]" th:value="${report.getId()}"/>
 								<label for="checkbox1"></label>
 							</span>
                         </td>
@@ -57,13 +60,21 @@
                         <td th:text="${report.getDateTime()}" th:class="date-time-id"></td>
                         <td th:text="${report.getComment()}"></td>
                         <td>
-                            <a href="#editReportModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                            <a href="#deleteReportModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                            <span th:if="${report.getReporter().getUsername() == #authentication.getName() || @userServiceImpl.getUserByUsername(#authentication.getName()).isAdmin()}">
+                            <a href="#editReportModal" class="edit" data-toggle="modal"><i class="material-icons"
+                                                                                           data-toggle="tooltip"
+                                                                                           title="Edit">&#xE254;</i></a>
+                            <a href="#deleteReportModal" class="delete" data-toggle="modal"><i class="material-icons"
+                                                                                               data-toggle="tooltip"
+                                                                                               title="Delete">&#xE872;</i></a>
+
                             <input type="hidden" th:class="id" name="id" th:value="${report.getId()}"/>
-                            <input th:type="hidden" th:class="report-issue-id" th:value="${report.getIssue() != null ? report.getIssue().getId() : 0}"/>
-                            <input th:type="hidden" name="issue-flag" class="issue-flag" th:value="${report.getIssue() == null ? 'true' : 'false'}"/>
+                            <input th:type="hidden" th:class="report-issue-id"
+                                   th:value="${report.getIssue() != null ? report.getIssue().getId() : 0}"/>
+                            <input th:type="hidden" name="issue-flag" class="issue-flag"
+                                   th:value="${report.getIssue() == null ? 'true' : 'false'}"/>
+                            </span>
                         </td>
-                        <span hidden></span>
                     </tr>
                     </tbody>
                 </table>
@@ -95,7 +106,8 @@
                     </div>
                     <div class="form-group required-input">
                         <label th:text="#{report.comment}"></label>
-                        <textarea style="height: 150px" type="text" th:field="*{comment}" class="form-control" required ></textarea>
+                        <textarea style="height: 150px" type="text" th:field="*{comment}" class="form-control"
+                                  required></textarea>
                     </div>
                 </div>
                 <div class="modal-footer activity-buttons btn-group" style="margin-left: 2px">
@@ -131,7 +143,8 @@
                 <div class="modal-body">
                     <div class="form-group required-input">
                         <label th:text="#{report.comment}"></label>
-                        <textarea style="height: 150px" type="text" id="edit-comment" name="edit-comment" class="form-control" required ></textarea>
+                        <textarea style="height: 150px" type="text" id="edit-comment" name="edit-comment"
+                                  class="form-control" required></textarea>
                     </div>
                 </div>
                 <div class="modal-footer activity-buttons btn-group" style="margin-left: 2px">

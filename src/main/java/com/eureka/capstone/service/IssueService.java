@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface IssueService {
 
-    Issue createIssue(Issue issue);
+    Issue createIssue(Issue issue, Principal principal);
 
     Issue getIssueById(long id);
 

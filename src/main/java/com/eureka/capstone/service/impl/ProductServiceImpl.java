@@ -1,6 +1,7 @@
 package com.eureka.capstone.service.impl;
 
 import com.eureka.capstone.domain.product.Product;
+import com.eureka.capstone.domain.user.User;
 import com.eureka.capstone.exception.notfound.ProductNotFoundException;
 import com.eureka.capstone.repository.ProductRepository;
 import com.eureka.capstone.service.ProductService;
@@ -37,6 +38,7 @@ public class ProductServiceImpl implements ProductService {
     public void updateProduct(Product updatedProduct) {
         var product = getProductById(updatedProduct.getId());
         product.setName(updatedProduct.getName());
+        product.setOwner(updatedProduct.getOwner());
         product.setDescription(updatedProduct.getDescription());
         product.setStartDate(updatedProduct.getStartDate());
         repository.save(product);
@@ -60,5 +62,16 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProductById(long id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public User getOwnerByProductId(long id) {
+        var product = repository.findById(id);
+
+        if(product.isPresent()){
+            return product.get().getOwner();
+        }else{
+            throw new ProductNotFoundException();
+        }
     }
 }

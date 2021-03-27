@@ -1,5 +1,6 @@
 .table-responsive {
     margin: 30px 0;
+    /*overflow-x: initial;*/
 }
 .table-wrapper {
     background: #fff;
@@ -14,7 +15,7 @@
     color: #fff;
     padding: 16px 30px;
     min-width: 100%;
-    margin: -20px -25px 10px;
+    margin: 0 -25px 10px;
     border-radius: 3px 3px 0 0;
 }
 .table-title h2 {
@@ -408,4 +409,13 @@ table.dataTable thead .sorting_desc:before, table.dataTable thead .sorting_asc:a
 .avatar_crud {
     height: 45px;
     width: 45px;
+}
+
+/*@media (min-width: 1200px)*/
+.container, .container-lg, .container-md, .container-sm, .container-xl {
+    max-width: 95%;
+}
+
+div.dataTables_wrapper div.dataTables_paginate {
+    padding-bottom: 20px;
 }

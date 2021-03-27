@@ -9,6 +9,7 @@
     <form id="form" th:action="@{/issues/create}" th:method="post" th:object="${issue}">
         <div class="lds-dual-ring"></div>
         <div class="container" style="margin-right: auto;">
+            <input type="hidden" id="is-user-type" th:value="${isUserType}" />
             <main class="row" id="main-container">
                 <div class="col-5 margin-left-5">
                     <div class="row">
@@ -64,13 +65,14 @@
                                        name="date-reported"
                                        th:field="*{reportDate}"
                                        th:placeholder="#{date.placeholder}"
+                                       th:readonly="${isUserType}"
                                        type="date"/>
                                 <span hidden id="full-name-valid-titlemmmm" th:text="#{field.registration.fullName}">
                             </span>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" th:if="${isUserType == false}">
                         <div class="col-md-12 mx-auto">
                             <div class="form-group">
                                 <label th:text="#{issue.report.source}"></label>
@@ -84,7 +86,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" th:if="${isUserType == false}">
                         <div class="col-md-12 mx-auto">
                             <div class="form-group">
                                 <label class="control-label" for="found-in-the-field"
@@ -100,7 +102,7 @@
                     </div>
                 </div>
                 <div class="col-5 margin-left-5" style="margin-top: 20px;">
-                    <div class="row">
+                    <div class="row" th:if="${isUserType == false}">
                         <div class="col-md-12 mx-auto">
                             <div class="form-group">
                                 <label class="control-label" for="status"
@@ -124,13 +126,20 @@
                             <div class="form-group">
                                 <label class="control-label" for="severity"
                                        th:text="#{issue.severity}"></label>
-                                <select class="select form-control required-input" id="severity" name="severity"
-                                        th:name="severity" th:field="*{severity}">
-                                    <option value="">Not Selected</option>
-                                    <option th:each="severity : ${T(com.eureka.capstone.domain.issue.IssueSeverity).values()}"
+                                <select class="select form-control required-input" id="severity" name="severity" th:name="severity" th:readonly="${isUserType}">
+                                    <option th:if="${isUserType == false}" value="">
+                                        Not Selected
+                                    </option>
+                                    <option th:if="${isUserType == false}"
+                                            th:each="severity : ${T(com.eureka.capstone.domain.issue.IssueSeverity).values()}"
                                             th:value="${severity}"
                                             th:selected="${issue.severity == severity}"
                                             th:text="${severity.displayValue}">
+                                    </option>
+                                    <option th:if="${isUserType == true}"
+                                            th:value="${T(com.eureka.capstone.domain.issue.IssueSeverity).MINOR}"
+                                            th:selected="${issue.severity == T(com.eureka.capstone.domain.issue.IssueSeverity).MINOR}"
+                                            th:text="${T(com.eureka.capstone.domain.issue.IssueSeverity).MINOR.displayValue}">
                                     </option>
                                 </select>
                                 <span hidden id="fullin" th:text="#{field.registration.fullName}">
@@ -142,13 +151,18 @@
                         <div class="col-md-12 mx-auto">
                             <div class="form-group">
                                 <label class="control-label required_label" for="type"
-                                       th:text="#{issue.type}" th:field="*{type}"></label>
-                                <select class="select form-control required-input" id="type" name="type"
-                                        th:name="type">
-                                    <option th:each="type : ${T(com.eureka.capstone.domain.issue.IssueType).values()}"
+                                       th:text="#{issue.type}"></label>
+                                <select class="select form-control required-input" id="type" name="type" th:name="type" th:readonly="${isUserType}">
+                                    <option th:if="${isUserType == false}"
+                                            th:each="type : ${T(com.eureka.capstone.domain.issue.IssueType).values()}"
                                             th:value="${type}"
                                             th:selected="${issue.type == type}"
                                             th:text="${type.displayValue}">
+                                    </option>
+                                    <option th:if="${isUserType == true}"
+                                            th:value="${T(com.eureka.capstone.domain.issue.IssueType).ENHANCEMENT}"
+                                            th:selected="${issue.type == T(com.eureka.capstone.domain.issue.IssueType).ENHANCEMENT}"
+                                            th:text="${T(com.eureka.capstone.domain.issue.IssueType).ENHANCEMENT.displayValue}">
                                     </option>
                                 </select>
                                 <span hidden th:text="#{field.registration.fullName}">
@@ -161,11 +175,10 @@
                             <div class="form-group">
                                 <label class="control-label required_label" for="assignee"
                                        th:text="#{issue.assignee}"></label>
-                                <select class="select form-control required-input" id="assignee" name="assignee"
-                                        th:name="assignee" th:field="*{assigneeId}">
+                                <select class="select form-control required-input" id="assignee" name="assignee" th:name="assigneeId" th:readonly="${isUserType}">
                                     <option th:each="assignee : ${@userServiceImpl.getAllUsers()}"
                                             th:value="${assignee.getId()}"
-                                            th:selected="${issue.assigneeId == assignee.getId()}"
+                                            th:selected="${assignee.getId() == @userServiceImpl.getUserByUsername(#authentication.getName()).getId()}"
                                             th:text="${assignee.getFullName()}">
                                     </option>
                                 </select>
@@ -179,12 +192,17 @@
                             <div class="form-group">
                                 <label class="control-label required_label"
                                        th:text="#{issue.reporter}" for="reporter"></label>
-                                <select class="select form-control required-input" id="reporter" name="reporter"
-                                        th:name="reporter" th:field="*{reporterId}">
-                                    <option th:each="reporter : ${@userServiceImpl.getAllUsers()}"
+                                <select class="select form-control required-input" id="reporter" name="reporter" th:name="reporterId" th:readonly="${isUserType}">
+                                    <option th:if="${isUserType == false}"
+                                            th:each="reporter : ${@userServiceImpl.getAllUsers()}"
                                             th:value="${reporter.getId()}"
-                                            th:selected="${issue.reporterId == reporter.getId()}"
+                                            th:selected="${reporter.getId() == @userServiceImpl.getUserByUsername(#authentication.getName()).getId()}"
                                             th:text="${reporter.getFullName()}">
+                                    </option>
+                                    <option th:if="${isUserType == true}"
+                                            th:value="${@userServiceImpl.getUserByUsername(#authentication.getName()).getId()}"
+                                            th:selected="${issue.reporterId == @userServiceImpl.getUserByUsername(#authentication.getName()).getId()}"
+                                            th:text="${@userServiceImpl.getUserByUsername(#authentication.getName()).getFullName()}">
                                     </option>
                                 </select>
                                 <span hidden  th:text="#{field.registration.fullName}">
@@ -192,7 +210,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" th:if="${isUserType == false}">
                         <div class="col-md-12 mx-auto">
                             <div class="form-group">
                                 <label class="control-label" for="send-confirmation-mail"
@@ -240,7 +258,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-11 margin-left-5">
+                <div class="col-11 margin-left-5" th:if="${isUserType == false}">
                     <div class="row">
                         <div class="col-md-12 mx-auto" >
                             <div class="form-group">

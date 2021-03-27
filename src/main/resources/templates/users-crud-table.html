@@ -5,19 +5,21 @@
     <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
-<div class="container-xl container my-2" style=" box-shadow: 0 47px 74px -31px rgba(7, 40, 137, 0.19);">
+<div class="container-xl container my-2" style="box-shadow: 0 47px 74px -31px rgba(7, 40, 137, 0.19);">
     <div class="table-responsive">
         <td class="table-wrapper">
-
             <form method="post" th:action="@{/users/delete}">
+
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-3">
-                            <h2><span sec:authorize="hasAnyAuthority('ADMIN_ROLE')">Manage</span> <b>Users</b></h2>
+                            <h2>Manage <b>Users</b></h2> <!--style="margin: 5px 10px 0;"-->
                         </div>
                         <div class="col-sm-4" sec:authorize="hasAnyAuthority('ADMIN_ROLE')">
-                            <a href="#addUserModal" class="btn" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New User</span></a>
-                            <span id="deleteAllSelected" hidden><a href="#deleteSelectedUsersModal" class="btn" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a></span>
+                            <a href="#addUserModal" class="btn" data-toggle="modal"><i
+                                    class="material-icons">&#xE147;</i> <span>Add New User</span></a>
+                            <span id="deleteAllSelected" hidden><a href="#deleteSelectedUsersModal" class="btn"
+                                                                   data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a></span>
                         </div>
                         <div id="myTable_filter" class="col-sm-5">
                             <label>
@@ -46,22 +48,24 @@
                         <th th:text="#{user-list-tel}"></th>
                         <th th:text="#{user-list-role}"></th>
                         <th th:text="#{user-list-changeTo}"></th>
-                        <th th:text="#{user.actions}" ></th>
+                        <th th:text="#{user.actions}"></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="user : ${listUsers}">
                         <td>
 							<span class="custom-checkbox">
-								<input type="checkbox" id="checkbox1" name="options[]" th:value="${user.getId()}" />
+								<input type="checkbox" id="checkbox1" name="options[]" th:value="${user.getId()}"/>
 								<label for="checkbox1"></label>
 							</span>
                         </td>
                         <td>
-                            <img alt="" class="rounded-circle avatar_crud z-depth-0 nav-image" data-holder-rendered="true"
+                            <img alt="" class="rounded-circle avatar_crud z-depth-0 nav-image"
+                                 data-holder-rendered="true"
                                  src="images/no-avatar.png"
                                  th:if="${user.getProfileAvatar() == null}">
-                            <img alt="" class="rounded-circle avatar_crud z-depth-0 nav-image" data-holder-rendered="true"
+                            <img alt="" class="rounded-circle avatar_crud z-depth-0 nav-image"
+                                 data-holder-rendered="true"
                                  th:if="${user.getProfileAvatar() != null}"
                                  th:src="${'data:image/jpg;base64,' + @userServiceImpl.extractAvatarPicture(user)}">
                         </td>
@@ -76,12 +80,18 @@
                             <span th:if="${user.isAdmin()==false}" th:text="#{user-list-user}"></span>
                         </td>
                         <td>
-                            <a th:if="${user.isAdmin()}" th:href="@{'/users/toUser/' + ${user.getId()}}" th:text="#{user-list-user}"></a>
-                            <a th:if="${user.isAdmin() == false}" th:href="@{'/users/toAdmin/' + ${user.getId()}}" th:text="#{user-list-admin}"></a>
+                            <a th:if="${user.isAdmin()}" th:href="@{'/users/toUser/' + ${user.getId()}}"
+                               th:text="#{user-list-user}"></a>
+                            <a th:if="${user.isAdmin() == false}" th:href="@{'/users/toAdmin/' + ${user.getId()}}"
+                               th:text="#{user-list-admin}"></a>
                         </td>
                         <td>
-                            <a href="#editUserModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                            <a href="#deleteUserModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                            <a href="#editUserModal" class="edit" data-toggle="modal"><i class="material-icons"
+                                                                                         data-toggle="tooltip"
+                                                                                         title="Edit">&#xE254;</i></a>
+                            <a href="#deleteUserModal" class="delete" data-toggle="modal"><i class="material-icons"
+                                                                                             data-toggle="tooltip"
+                                                                                             title="Delete">&#xE872;</i></a>
                             <input type="hidden" th:class="id" name="id" th:value="${user.getId()}"/>
                         </td>
                     </tr>
@@ -89,8 +99,8 @@
                 </table>
             </form>
 
-        </div>
     </div>
+</div>
 </div>
 
 <!-- Add Modal HTML -->
@@ -105,11 +115,11 @@
                 <div class="modal-body">
                     <div class="form-group required-input">
                         <label th:text="#{user.username}"></label>
-                        <input type="text" th:field="*{username}" class="form-control" required />
+                        <input type="text" th:field="*{username}" class="form-control" required/>
                     </div>
                     <div class="form-group required-input">
                         <label th:text="#{user.fullname}"></label>
-                        <input type="text" th:field="*{fullName}" class="form-control" required />
+                        <input type="text" th:field="*{fullName}" class="form-control" required/>
                     </div>
                     <div class="form-group required-input">
                         <label th:text="#{user.usertype}"></label>
@@ -137,10 +147,10 @@
                         <label th:text="#{user.password}" for="password"></label>
                         <div class="input-group">
                             <input class="form-control"
-                               th:field="*{password}"
-                               id="password"
-                               name="password"
-                               type="password"/>
+                                   th:field="*{password}"
+                                   id="password"
+                                   name="password"
+                                   type="password"/>
                             <div class="input-group-append">
                                <span class="input-group-text">
                                    <i aria-hidden="true" class="fa fa-eye-slash show-hide-password"></i>
@@ -165,11 +175,11 @@
                     </div>
                     <div class="form-group required-input">
                         <label th:text="#{user.email}"></label>
-                        <input type="text" th:field="*{email}" class="form-control" required />
+                        <input type="text" th:field="*{email}" class="form-control" required/>
                     </div>
                     <div class="form-group required-input">
                         <label th:text="#{user.phone}"></label>
-                        <input type="text" th:field="*{phone}" class="form-control" required />
+                        <input type="text" th:field="*{phone}" class="form-control" required/>
                     </div>
                 </div>
                 <div class="modal-footer activity-buttons btn-group" style="margin-left: 2px">
@@ -200,11 +210,11 @@
                 <div class="modal-body">
                     <div class="form-group required-input">
                         <label th:text="#{user.username}"></label>
-                        <input id="edit-username" name="edit-username" type="text" class="form-control" required />
+                        <input id="edit-username" name="edit-username" type="text" class="form-control" required/>
                     </div>
                     <div class="form-group required-input">
                         <label th:text="#{user.fullname}"></label>
-                        <input id="edit-fullName" name="edit-fullName" type="text" class="form-control" required />
+                        <input id="edit-fullName" name="edit-fullName" type="text" class="form-control" required/>
                     </div>
                     <div class="form-group required-input">
                         <label th:text="#{user.usertype}"></label>
@@ -234,11 +244,11 @@
                     </div>
                     <div class="form-group required-input">
                         <label th:text="#{user.email}"></label>
-                        <input id="edit-email" name="edit-email" type="text" class="form-control" required />
+                        <input id="edit-email" name="edit-email" type="text" class="form-control" required/>
                     </div>
                     <div class="form-group required-input">
                         <label th:text="#{user.phone}"></label>
-                        <input id="edit-phone" name="edit-phone" type="text" class="form-control" required />
+                        <input id="edit-phone" name="edit-phone" type="text" class="form-control" required/>
                     </div>
                 </div>
                 <div class="modal-footer activity-buttons btn-group" style="margin-left: 2px">

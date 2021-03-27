@@ -28,7 +28,7 @@ $(document).ready(async function () {
         }
     });
 
-    if (location.pathname === "/myIssues") {
+    if (location.pathname.substring(0,10) === "/issues/my") {
         $('#products').removeClass("select-tab-border");
         $("#my-issues").addClass("select-tab-border");
     } else if (location.pathname.substring(0,9) === "/products") {
@@ -39,9 +39,11 @@ $(document).ready(async function () {
         $('#products').removeClass("select-tab-border");
     } else if (location.pathname.includes("/reports")) {
         $('#reports').addClass("select-tab-border");
+        $("#my-issues").addClass("select-tab-border");
         $('#products').removeClass("select-tab-border");
     } else if (location.pathname.substring(0,7) === "/issues") {
         $('#issues').addClass("select-tab-border");
+        $("#my-issues").addClass("select-tab-border");
         $('#products').removeClass("select-tab-border");
     }
 
@@ -53,7 +55,7 @@ $(document).ready(async function () {
     );
 
     $("#my-issues").click(function () {
-        saveViewDateAndMoveTo("/myIssues");
+        saveViewDateAndMoveTo("/issues/my");
     });
 
     $("#users").click(function () {

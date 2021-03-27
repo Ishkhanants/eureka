@@ -24,20 +24,6 @@ $(document).ready(async function () {
         }
     });
 
-    $('#add-activity-btn2').click(function (e) {
-        e.preventDefault();
-        $.ajax({
-            type: "delete",
-            url: "/edit-profile",
-            beforeSend: function (request) {
-                request.setRequestHeader(csrfHeader, token);
-            },
-            success: function () {
-                location.href = location.origin + "/logoutCustom";
-            },
-        });
-    });
-
     let xButton = "<button type=\"button\" class=\"close\" id='clear-input' aria-label=\"CZlose\">\n" +
         "  <span aria-hidden=\"true\">&times;</span>\n" +
         "</button>";
@@ -45,10 +31,10 @@ $(document).ready(async function () {
     $('.custom-file-upload').html(/*$.i18n(*/"Upload photo"/*)*/);
 
     $("#cancel-btn").click(function () {
-        window.location.href = location.origin + "/homepage";
+        extendEndpoint();
     });
     $(".custom-close").click(function () {
-        window.location.href = location.origin + "/homepage";
+        extendEndpoint();
     });
     $("#pop-up-link").click(function () {
         mainContainer.css("opacity", 0.6);
@@ -123,3 +109,9 @@ $(document).ready(async function () {
     }
 
 })
+
+extendEndpoint = () => {
+    let endpoint;
+    $('#is-user-type').val() == 'true' ? endpoint = "/issues/my" : endpoint = "/issues";
+    window.location.href = location.origin + endpoint;
+}

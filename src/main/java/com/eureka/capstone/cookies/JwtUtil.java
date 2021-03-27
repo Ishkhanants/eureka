@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-@PropertySource("classpath:values.properties")
+@PropertySource("classpath:security.properties")
 public class JwtUtil {
     @Value("${password.reset.key}")
     private String SECRET_KEY;

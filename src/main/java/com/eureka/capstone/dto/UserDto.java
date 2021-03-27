@@ -5,25 +5,18 @@ import com.eureka.capstone.domain.user.UserType;
 import com.eureka.capstone.validation.*;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.context.annotation.PropertySource;
 
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Lob;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 //@Getter
 //@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @MatchingPassword
-@PropertySource("classpath:ValidationMessages.properties")
+@PropertySource("classpath:validation.properties")
 public class UserDto {
 
     @NotNull(message = "not.null.username")

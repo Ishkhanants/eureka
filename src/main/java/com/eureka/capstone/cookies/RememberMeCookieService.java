@@ -17,7 +17,7 @@ import java.time.ZoneId;
 
 @Service
 @NoArgsConstructor
-@PropertySource("classpath:values.properties")
+@PropertySource("classpath:security.properties")
 public class RememberMeCookieService {
     @Value("${security.secret.key}")
     private String SECRET_KEY;

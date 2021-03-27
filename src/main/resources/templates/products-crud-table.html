@@ -38,6 +38,7 @@
 							</span>
                     </th>
                     <th th:text="#{product.name}"></th>
+                    <th th:text="#{product.owner}"></th>
                     <th th:text="#{product.description}"></th>
                     <th th:text="#{product.start}"></th>
                     <th th:text="#{product.subsystems}"></th>
@@ -54,6 +55,7 @@
 							</span>
                     </td>
                     <td th:text="${product.getName()}"></td>
+                    <td th:text="${product.getOwner().getFullName()}"></td>
                     <td th:text="${product.getDescription()}"></td>
                     <td th:text="${product.getStartDate()}"></td>
                     <td>
@@ -66,6 +68,8 @@
                         <a href="#editProductModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                         <a href="#deleteProductModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                         <input type="hidden" th:class="id" name="id" th:value="${product.getId()}"/>
+                        <input th:type="hidden" th:class="product-owner-id"
+                        th:value="${product.getOwner() != null ? product.getOwner().getId() : 0}"/>
                     </td>
                 </tr>
                 </tbody>
@@ -89,6 +93,16 @@
                     <div class="form-group required-input">
                         <label th:text="#{product.name}"></label>
                         <input type="text" th:field="*{name}" class="form-control" required />
+                    </div>
+                    <div class="form-group required-input">
+                        <label th:text="#{product.owner}"></label>
+                        <select class="select form-control required-input" id="owner" name="owner" th:name="owner">
+                            <option th:each="owner : ${owners}"
+                                    th:value="${owner.getId()}"
+                                    th:selected="${product.owner == owner}"
+                                    th:text="${owner.getFullName()}">
+                            </option>
+                        </select>
                     </div>
                     <div class="form-group required-input" style="position: relative;">
                         <label th:text="#{product.start}"></label>
@@ -120,6 +134,8 @@
                                             border: 1px solid #DCDFF1;"
                             th:text="#{button.add}"
                             type="submit"></button>
+                    <input th:type="hidden" name="owner-id-to-add" id="owner-id-to-add"
+                           th:value="${product.getOwner() != null ? product.getOwner().getId() : 0}"/>
                 </div>
             </form>
         </div>
@@ -140,6 +156,16 @@
                         <label th:text="#{product.name}"></label>
                         <input id="edit-name" type="text"
                                class="form-control" name="edit-name" required />
+                    </div>
+                    <div class="form-group required-input">
+                        <label th:text="#{product.owner}"></label>
+                        <select class="select form-control required-input" id="edit-owner" name="edit-owner" th:name="edit-owner">
+                            <option th:each="owner : ${owners}"
+                                    th:value="${owner.getId()}"
+                                    th:selected="${product.owner == owner}"
+                                    th:text="${owner.getFullName()}">
+                            </option>
+                        </select>
                     </div>
                     <div class="form-group required-input" style="position: relative;">
                         <label th:text="#{product.start}"></label>
@@ -172,6 +198,7 @@
                             th:text="#{button.update}"
                             type="submit"></button>
                     <input type="hidden" name="id" id="id-to-edit">
+                    <input type="hidden" name="owner-id-to-edit" id="owner-id-to-edit">
                 </div>
             </form>
         </div>
@@ -202,6 +229,7 @@
                             th:text="#{button.delete}"
                             type="submit"></button>
                     <input type="hidden" name="id" id="id-to-delete">
+                    <input type="hidden" name="owner-id-to-delete" id="owner-id-to-delete">
                 </div>
             </form>
         </div>
@@ -233,6 +261,7 @@
                             th:text="#{button.delete}"
                             type="submit"></button>
                     <input type="hidden" name="ids" id="ids-to-delete">
+                    <input type="hidden" name="owner-ids-to-delete" id="owner-ids-to-delete">
                 </div>
             </form>
         </div>

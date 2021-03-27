@@ -1,6 +1,7 @@
 package com.eureka.capstone.controller;
 
 import com.eureka.capstone.cookies.RememberMeCookieService;
+import com.eureka.capstone.domain.user.Group;
 import com.eureka.capstone.domain.user.User;
 import com.eureka.capstone.dto.UserDto;
 import com.eureka.capstone.exception.notunique.FieldsAlreadyExistException;
@@ -21,12 +22,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Array;
 import java.util.*;
 
 @Controller
 @RequestMapping("/users")
 @RequiredArgsConstructor
-@PropertySource("classpath:values.properties")
+@PropertySource("classpath:security.properties")
 public class UserController {
 
     private final UserService userService;
@@ -48,9 +50,9 @@ public class UserController {
 
     @PostMapping("/create")
     public ModelAndView createUser(@ModelAttribute("user") @Validated UserDto userDto,
-                                     BindingResult result,
-                                     ModelAndView modelAndView,
-                                     Locale locale) {
+                                   BindingResult result,
+                                   ModelAndView modelAndView,
+                                   Locale locale) {
         if (result.hasErrors()) {
             modelAndView.setViewName(Templates.USERS.getName());
             modelAndView.addObject("fieldErrors", result.getFieldErrors());
@@ -102,14 +104,14 @@ public class UserController {
     }
 
     @PostMapping("/edit")
-    public String editUser(HttpServletRequest request){
+    public String editUser(HttpServletRequest request) {
         var updatedUser = userService.extractUserFromRequest(request);
         userService.updateUser2(updatedUser);
         return "redirect:/users";
     }
 
     @PostMapping("/delete")
-    public String deleteUser(HttpServletRequest request){
+    public String deleteUser(HttpServletRequest request) {
         long id = Long.parseLong(request.getParameter("id"));
         userService.deleteUserById(id);
         return "redirect:/users";
@@ -119,7 +121,7 @@ public class UserController {
     public String deleteSelectedUsers(HttpServletRequest request) {
         var ids = request.getParameter("ids").split(",");
 
-        for (String id: ids) {
+        for (String id : ids) {
             long idl = Long.parseLong(id);
             userService.deleteUserById(idl);
         }
@@ -137,5 +139,49 @@ public class UserController {
     public String toAdmin(@PathVariable Long id) {
         userService.toAdmin(id);
         return "redirect:/users";
+    }
+
+    @GetMapping("/group-by-type/{type}")
+    public ResponseEntity<List<Group>> getUserById(@PathVariable("type") String type) {
+        try {
+            var groupList = new ArrayList<Group>();
+
+            switch (type) {
+                case "USER":
+                    groupList.add(Group.READ_ONLY_ACCESS);
+                    break;
+                case "DEVELOPER":
+                    groupList.addAll(Arrays.asList(
+                            Group.ADMINS_DEVELOPMENT,
+                            Group.DEVELOPERS,
+                            Group.SECURITY_ADMINS));
+                    break;
+                case "TESTER":
+                    groupList.addAll(Arrays.asList(
+                            Group.ADMINS_DEVELOPMENT,
+                            Group.TESTERS,
+                            Group.SECURITY_ADMINS));
+                    break;
+                case "MANAGER":
+                    groupList.addAll(Arrays.asList(
+                            Group.READ_ONLY_ACCESS,
+                            Group.ADMINS_MANAGEMENT,
+                            Group.SECURITY_ADMINS));
+                    break;
+            }
+
+            return new ResponseEntity<>(groupList, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(value = "/group-by-user/{id}", produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Group> getGroupByUser(@PathVariable("id") long id) {
+        try {
+            return new ResponseEntity<>(userService.getUserById(id).getGroup(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }
