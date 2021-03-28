@@ -2,6 +2,7 @@ package com.eureka.capstone.exception;
 
 import com.eureka.capstone.exception.notfound.NotFoundException;
 import com.eureka.capstone.exception.notfound.UserNotFoundException;
+
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,31 +24,31 @@ public class RegisterAndLoginControllerAdvice extends ResponseEntityExceptionHan
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        ErrorResponse response = new ErrorResponse(REGISTRATION_FAILED, getErrorList(ex.getBindingResult()));
+        var response = new ErrorResponse(REGISTRATION_FAILED, getErrorList(ex.getBindingResult()));
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @Override
     protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        ErrorResponse response = new ErrorResponse(REGISTRATION_FAILED, getErrorList(ex));
+        var response = new ErrorResponse(REGISTRATION_FAILED, getErrorList(ex));
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({UserNotFoundException.class})
     protected ResponseEntity<ErrorResponse> handleUserNotFound(UserNotFoundException ex) {
-        ErrorResponse response = new ErrorResponse("Login failed", ex.getLocalizedMessage());
+        var response = new ErrorResponse("Login failed", ex.getLocalizedMessage());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler({ValidationException.class})
     protected ResponseEntity<ErrorResponse> handleValidationException(ValidationException ex) {
-        ErrorResponse response = new ErrorResponse("Request validation failed", ex.getLocalizedMessage());
+        var response = new ErrorResponse("Request validation failed", ex.getLocalizedMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({NotFoundException.class})
     protected ResponseEntity<ErrorResponse> handleNotFound(NotFoundException ex) {
-        ErrorResponse response = new ErrorResponse("Failed to obtain requested object!", ex.getMessage());
+        var response = new ErrorResponse("Failed to obtain requested object!", ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
 

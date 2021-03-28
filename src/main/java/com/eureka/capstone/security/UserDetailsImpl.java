@@ -1,6 +1,7 @@
 package com.eureka.capstone.security;
 
 import com.eureka.capstone.domain.user.User;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
 
 public class UserDetailsImpl implements UserDetails {
 
@@ -55,7 +55,6 @@ public class UserDetailsImpl implements UserDetails {
         return true;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -68,4 +67,5 @@ public class UserDetailsImpl implements UserDetails {
     public int hashCode() {
         return Objects.hash(user);
     }
+
 }

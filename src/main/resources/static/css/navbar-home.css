@@ -48,12 +48,6 @@ li {
     margin: auto 2px;
 }
 
-#bell {
-    color: black;
-    font-size: 25px
-}
-
-
 .select-tab-border {
     border-bottom: 3px solid #07b7e3;
 }
@@ -63,19 +57,28 @@ li {
         margin-left: 26%;
     }
 }
+
 @media (max-width: 1374px) {
     .flags{
         display: none;
     }
 }
 
-
 .dropdown-item:active, .dropdown-item:focus {
     background-color: #07b7e3;
     color: white;
-
 }
 
 #my-issues, #products {
     cursor: pointer;
+}
+
+.hvrcenter {
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 4px transparent;
+    position: relative;
+    overflow: hidden;
 }

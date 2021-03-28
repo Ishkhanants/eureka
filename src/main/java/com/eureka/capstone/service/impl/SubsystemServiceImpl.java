@@ -1,14 +1,16 @@
 package com.eureka.capstone.service.impl;
 
-import com.eureka.capstone.domain.product.ReleaseVersion;
 import com.eureka.capstone.domain.product.SubSystem;
 import com.eureka.capstone.exception.notfound.NotFoundException;
 import com.eureka.capstone.repository.SubsystemRepository;
 import com.eureka.capstone.service.SubsystemService;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.util.List;
 
 @Service
@@ -35,20 +37,24 @@ public class SubsystemServiceImpl implements SubsystemService {
     @Override
     public SubSystem extractSubSystemFromRequest(HttpServletRequest request) {
         var updatedSubsystem = new SubSystem();
+
         updatedSubsystem.setId(Long.parseLong(request.getParameter("id")));
         updatedSubsystem.setName(request.getParameter("edit-name"));
         updatedSubsystem.setShortName(request.getParameter("edit-shortName"));
         updatedSubsystem.setDescription(request.getParameter("edit-description"));
+
         return updatedSubsystem;
     }
 
     @Override
     public void updateSubSystem(SubSystem us) {
         var s = getSubSystemById(us.getId());
+
         s.setDescription(us.getDescription());
         s.setName(us.getName());
         s.setShortName(us.getShortName());
         s.setProduct(us.getProduct());
+
         repository.save(s);
     }
 

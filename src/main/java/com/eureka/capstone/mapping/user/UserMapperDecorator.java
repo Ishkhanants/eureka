@@ -18,8 +18,8 @@ public abstract class UserMapperDecorator extends UserMapper {
 
     @Override
     public User toEntity(UserDto dto) {
-        User user = userMapper.toEntity(dto);
-        Role role = roleService.getRole(RoleEnum.USER_ROLE);
+        var user = userMapper.toEntity(dto);
+        var role = roleService.getRole(RoleEnum.USER_ROLE);
 
         user.addRole(role);
         user.setProfileAvatar(dto.getProfileAvatar());

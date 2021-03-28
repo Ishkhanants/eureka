@@ -1,9 +1,9 @@
 package com.eureka.capstone.service;
 
-import com.eureka.capstone.domain.product.ReleaseVersion;
 import com.eureka.capstone.domain.product.SubSystem;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.util.List;
 
 public interface SubsystemService {
@@ -21,4 +21,5 @@ public interface SubsystemService {
     void deleteSubSystemById(long id);
 
     List<SubSystem> getAllSubsystems();
+
 }

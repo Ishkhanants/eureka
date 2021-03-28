@@ -1,12 +1,15 @@
 package com.eureka.capstone.service;
 
 import com.eureka.capstone.domain.user.User;
+
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.util.List;
 
 public interface UserService {
+
     User createUser(User user);
 
     User getUserById(long id);
@@ -16,6 +19,8 @@ public interface UserService {
     User getUserByEmail(String email);
 
     List<User> getAllUsers();
+
+    List<User> getAllUsersWithoutTypeUser();
 
     List<User> getAllAdmins();
 

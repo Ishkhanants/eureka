@@ -1,6 +1,5 @@
 package com.eureka.capstone.exception.notfound;
 
-
 import com.eureka.capstone.domain.user.RoleEnum;
 
 public class RoleNotFoundException extends NotFoundException {

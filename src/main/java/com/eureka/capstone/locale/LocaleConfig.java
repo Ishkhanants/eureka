@@ -15,15 +15,18 @@ public class LocaleConfig implements WebMvcConfigurer {
 
     @Bean(name = "localeResolver")
     public LocaleResolver localeResolver() {
-        CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
+        var cookieLocaleResolver = new CookieLocaleResolver();
+
         cookieLocaleResolver.setCookieName("locale");
         cookieLocaleResolver.setDefaultLocale(new Locale("hy"));
+
         return cookieLocaleResolver;
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
+        var localeChangeInterceptor = new LocaleChangeInterceptor();
+
         localeChangeInterceptor.setParamName("language");
         registry.addInterceptor(localeChangeInterceptor);
     }

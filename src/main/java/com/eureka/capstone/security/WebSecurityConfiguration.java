@@ -1,6 +1,7 @@
 package com.eureka.capstone.security;
 
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -26,6 +27,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
+    private final LoginSuccessHandler loginSuccessHandler;
     private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
     @Value("${security.secret.key}")
     private String SECRET_KEY;
@@ -47,9 +49,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        var authenticationProvider = new DaoAuthenticationProvider();
+
         authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder());
+
         return authenticationProvider;
     }
 
@@ -68,11 +72,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                                               "/products/delete-selected", "/issues").hasAnyAuthority("ADMIN_ROLE")
                 .anyRequest().authenticated()
                 .and()
-                .csrf().disable().cors()
-                .and()
                 .formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/products", true)
+                .successHandler(loginSuccessHandler)
                 .failureHandler(customAuthenticationFailureHandler)
                 .permitAll()
                 .and()

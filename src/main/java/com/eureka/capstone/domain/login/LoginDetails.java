@@ -1,12 +1,9 @@
 package com.eureka.capstone.domain.login;
 
-import com.eureka.capstone.domain.BaseEntity;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+
 import java.time.LocalDateTime;
 
 @Getter
@@ -36,4 +33,5 @@ public class LoginDetails {
         this.ip = ip;
         this.dateTime = dateTime;
     }
+
 }

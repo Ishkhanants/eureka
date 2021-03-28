@@ -1,9 +1,9 @@
 package com.eureka.capstone.service;
 
-import com.eureka.capstone.domain.product.Product;
 import com.eureka.capstone.domain.report.Report;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.util.List;
 
 public interface ReportService {
@@ -21,4 +21,5 @@ public interface ReportService {
     void deleteReportById(long id);
 
     List<Report> getReportsByIssueId(long id);
+
 }

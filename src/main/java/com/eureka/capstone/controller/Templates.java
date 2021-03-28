@@ -1,16 +1,16 @@
 package com.eureka.capstone.controller;
 
 public enum Templates {
-    LOGIN("login"),
-    PRODUCTS("products"),
-    SUBSYSTEMS("subsystems"),
-    RELEASE_VERSIONS("release-versions"),
-    USERS("users"),
-    ISSUES("issues"),
-    EDIT_ISSUE("edit-issue"),
-    ADD_ISSUE("add-issue"),
-    REPORTS("reports"),
-    EDIT_PROFILE("edit-profile");
+    LOGIN("login/login"),
+    PRODUCTS("products/products"),
+    SUBSYSTEMS("products/subsystems"),
+    RELEASE_VERSIONS("products/release-versions"),
+    USERS("users/users"),
+    ISSUES("issues/issues"),
+    EDIT_ISSUE("issues/edit-issue"),
+    ADD_ISSUE("issues/add-issue"),
+    REPORTS("reports/reports"),
+    EDIT_PROFILE("users/edit-profile");
 
     private final String templateName;
 

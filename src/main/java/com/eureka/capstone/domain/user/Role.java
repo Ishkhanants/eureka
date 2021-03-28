@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
 import java.util.List;
 
 @NoArgsConstructor
@@ -30,4 +31,5 @@ public class Role {
     public RoleEnum getRoleName() {
         return roleName;
     }
+
 }

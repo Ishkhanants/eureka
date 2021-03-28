@@ -4,10 +4,13 @@ import com.eureka.capstone.domain.report.Report;
 import com.eureka.capstone.exception.notfound.NotFoundException;
 import com.eureka.capstone.repository.ReportRepository;
 import com.eureka.capstone.service.ReportService;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.util.List;
 
 @Service
@@ -29,15 +32,19 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public void updateReport(Report updatedReport) {
         var report = getReportById(updatedReport.getId());
+
         report.setComment(updatedReport.getComment());
+
         repository.save(report);
     }
 
     @Override
     public Report extractReportCommentAndIdFromRequest(HttpServletRequest request) {
         var updatedReport = new Report();
+
         updatedReport.setId(Long.parseLong(request.getParameter("id")));
         updatedReport.setComment(request.getParameter("edit-comment"));
+
         return updatedReport;
     }
 
@@ -55,4 +62,6 @@ public class ReportServiceImpl implements ReportService {
     public List<Report> getReportsByIssueId(long id) {
         return repository.findByIssue_Id(id);
     }
+
 }
+

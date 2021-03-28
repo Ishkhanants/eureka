@@ -7,6 +7,7 @@ import com.eureka.capstone.dto.UserDto;
 import com.eureka.capstone.exception.notunique.FieldsAlreadyExistException;
 import com.eureka.capstone.mapping.user.UserMapperDecorator;
 import com.eureka.capstone.service.UserService;
+
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Array;
+
 import java.util.*;
 
 @Controller
@@ -41,10 +42,12 @@ public class UserController {
 
     @GetMapping
     public ModelAndView viewPage(ModelAndView modelAndView) {
-        List<User> listUsers = userService.getAllUsers();
+        var listUsers = userService.getAllUsers();
+
         modelAndView.setViewName(Templates.USERS.getName());
         modelAndView.addObject("listUsers", listUsers);
         modelAndView.addObject("user", new UserDto());
+
         return modelAndView;
     }
 
@@ -57,19 +60,20 @@ public class UserController {
             modelAndView.setViewName(Templates.USERS.getName());
             modelAndView.addObject("fieldErrors", result.getFieldErrors());
             modelAndView.setStatus(HttpStatus.BAD_REQUEST);
+
             return modelAndView;
         }
 
-        User user = userMapperDecorator.toEntity(userDto);
+        var user = userMapperDecorator.toEntity(userDto);
 
         try {
             userService.createUser(user);
         } catch (FieldsAlreadyExistException e) {
             modelAndView.setViewName(Templates.USERS.getName());
 
-            final Map<String, Boolean> fieldsErrors = e.getFieldsErrors();
-            String usernameMessage = messageSource.getMessage("valid.userDto.userName.unique.message", new Object[]{}, locale);
-            String emailMessage = messageSource.getMessage("valid.userDto.email.unique.message", new Object[]{}, locale);
+            final var fieldsErrors = e.getFieldsErrors();
+            var usernameMessage = messageSource.getMessage("valid.userDto.userName.unique.message", new Object[]{}, locale);
+            var emailMessage = messageSource.getMessage("valid.userDto.email.unique.message", new Object[]{}, locale);
 
             if (fieldsErrors.get("username")) modelAndView.addObject("usernameError", usernameMessage);
             if (fieldsErrors.get("email")) modelAndView.addObject("emailError", emailMessage);
@@ -86,11 +90,13 @@ public class UserController {
 
     @GetMapping("/{username}")
     public ModelAndView findByUserName(ModelAndView modelAndView, @PathVariable String username) {
-        User user = userService.getUserByUsername(username);
-        List<User> userList = new ArrayList<>();
+        var user = userService.getUserByUsername(username);
+        var userList = new ArrayList<>();
+
         userList.add(user);
         modelAndView.setViewName(Templates.USERS.getName());
         modelAndView.addObject("listUsers", userList);
+
         return modelAndView;
     }
 
@@ -106,14 +112,18 @@ public class UserController {
     @PostMapping("/edit")
     public String editUser(HttpServletRequest request) {
         var updatedUser = userService.extractUserFromRequest(request);
+
         userService.updateUser2(updatedUser);
+
         return "redirect:/users";
     }
 
     @PostMapping("/delete")
     public String deleteUser(HttpServletRequest request) {
         long id = Long.parseLong(request.getParameter("id"));
+
         userService.deleteUserById(id);
+
         return "redirect:/users";
     }
 
@@ -122,7 +132,7 @@ public class UserController {
         var ids = request.getParameter("ids").split(",");
 
         for (String id : ids) {
-            long idl = Long.parseLong(id);
+            var idl = Long.parseLong(id);
             userService.deleteUserById(idl);
         }
 
@@ -132,12 +142,14 @@ public class UserController {
     @GetMapping("/toUser/{id}")
     public String toUser(@PathVariable Long id) {
         userService.toUser(id);
+
         return "redirect:/users";
     }
 
     @GetMapping("/toAdmin/{id}")
     public String toAdmin(@PathVariable Long id) {
         userService.toAdmin(id);
+
         return "redirect:/users";
     }
 
@@ -176,12 +188,4 @@ public class UserController {
         }
     }
 
-    @GetMapping(value = "/group-by-user/{id}", produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Group> getGroupByUser(@PathVariable("id") long id) {
-        try {
-            return new ResponseEntity<>(userService.getUserById(id).getGroup(), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
 }
