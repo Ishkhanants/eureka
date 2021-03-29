@@ -30,6 +30,7 @@ $(document).ready(async function () {
             request.setRequestHeader(csrfHeader, csrfToken);
         },
         success: function (data, textStatus, xhr) {
+            console.log(username);
             if (xhr.status === 204) image.attr('src', 'images/no-avatar.png');
             else image.attr('src', 'data:image/jpg;base64,' + data)
         },

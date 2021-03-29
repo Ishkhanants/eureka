@@ -1,6 +1,5 @@
 package com.eureka.capstone.controller;
 
-import com.eureka.capstone.service.LoginDetailsService;
 import com.eureka.capstone.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,10 +21,9 @@ import java.security.Principal;
 public class LoginController {
 
     private final UserService userService;
-    private final LoginDetailsService loginDetailsService;
 
     @GetMapping("/*")
-    public String landing(HttpServletRequest request, Principal principal) {
+    public String landing(Principal principal) {
         if (principal != null) {
             return "redirect:/products";
         }

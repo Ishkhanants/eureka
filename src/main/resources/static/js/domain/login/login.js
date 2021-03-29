@@ -1,5 +1,6 @@
 function success() {
-    if (document.getElementById("username").value === "" || document.getElementById("password").value === "") {
+    if (document.getElementById("username").value === "" ||
+        document.getElementById("password").value === "") {
         document.getElementById('submit-button').disabled = true;
     } else {
         document.getElementById('submit-button').disabled = false;
@@ -47,7 +48,8 @@ function authenticate(e) {
         data: {"username": username, "password": password, "remember-me": rememberMe},
         datatype: 'json',
         success: function () {
-            window.location.href = "/homepage";
+            window.location.href = "/products";
+            console.log("LOL!")
         },
         error: function (xhr) {
             $("#errorMessage").removeClass("invisible");
