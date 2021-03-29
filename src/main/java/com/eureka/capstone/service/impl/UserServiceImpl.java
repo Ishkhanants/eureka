@@ -10,7 +10,9 @@ import com.eureka.capstone.repository.UserRepository;
 import com.eureka.capstone.security.UserDetailsImpl;
 import com.eureka.capstone.service.RoleService;
 import com.eureka.capstone.service.UserService;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.session.SessionInformation;
@@ -23,6 +25,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -31,11 +34,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository repository;
-    private final RoleService roleService;
-
     @Qualifier("sessionRegistry")
     private final SessionRegistry sessionRegistry;
+    private final UserRepository repository;
+    private final RoleService roleService;
     private PasswordEncoder encoder;
 
     @Autowired
@@ -45,15 +47,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
-        boolean usernameExists = repository.existsByUsername(user.getUsername());
-        boolean emailExists = repository.existsByEmail(user.getEmail());
+        var usernameExists = repository.existsByUsername(user.getUsername());
+        var emailExists = repository.existsByEmail(user.getEmail());
+
         if (usernameExists || emailExists) {
-            Map<String, Boolean> fieldErrors = new HashMap<>();
+            var fieldErrors = new HashMap<String, Boolean>();
+
             fieldErrors.put("username", usernameExists);
             fieldErrors.put("email", emailExists);
+
             throw new FieldsAlreadyExistException(fieldErrors);
         }
+
         user.setPassword(encoder.encode(user.getPassword()));
+
         return repository.save(user);
     }
 
@@ -65,19 +72,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByUsername(String username) {
-        return repository.findByUsername(username).orElseThrow(() ->
-                new UserNotFoundException(username));
+        return repository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
     }
 
     @Override
     public User getUserByEmail(String email) {
-        return repository.findByEmail(email).orElseThrow(() ->
-                new UserNotFoundException(email));
+        return repository.findByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
     }
 
     @Override
     public List<User> getAllUsers() {
         return repository.findAll();
+    }
+
+    @Override
+    public List<User> getAllUsersWithoutTypeUser(){
+        return repository.findAll().stream().filter(u -> !u.getUserType().equals(UserType.USER)).collect(Collectors.toList());
     }
 
     @Override
@@ -88,27 +98,35 @@ public class UserServiceImpl implements UserService {
     @Override
     public String extractAvatarPicture(User user) {
         if (user.getProfileAvatar() == null) return null;
-        byte[] encode = Base64.getEncoder().encode(user.getProfileAvatar());
+
+        var encode = Base64.getEncoder().encode(user.getProfileAvatar());
+
         return new String(encode, StandardCharsets.UTF_8);
     }
 
 
     @Override
     public void updateUser(User user, MultipartHttpServletRequest request) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        Optional<User> possibleUser = repository.findByUsername(user.getUsername());
+        var encoder = new BCryptPasswordEncoder();
+        var possibleUser = repository.findByUsername(user.getUsername());
+
         if (possibleUser.isPresent()) {
-            User user1 = possibleUser.get();
+            var user1 = possibleUser.get();
+
             user1.setFullName(user.getFullName());
             user1.setUserType(user.getUserType());
             user1.setGroup(user.getGroup());
             user1.setEmail(user.getEmail());
             user1.setPhone(user.getPhone());
+
             if (user.getPassword().length() != 0) user1.setPassword(encoder.encode(user.getPassword()));
+
             if (user.getProfileAvatar() != null) user1.setProfileAvatar(user.getProfileAvatar());
+
             else if (request.getParameter("deletedAvatar").equals("deleted")) {
                 user1.setProfileAvatar(null);
             }
+
             repository.save(user1);
         }
     }
@@ -116,6 +134,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User extractUserFromRequest(HttpServletRequest request) {
         var updatedUser = new User();
+
         updatedUser.setId(Long.parseLong(request.getParameter("id")));
         updatedUser.setUsername(request.getParameter("edit-username"));
         updatedUser.setFullName(request.getParameter("edit-fullName"));
@@ -123,6 +142,7 @@ public class UserServiceImpl implements UserService {
         updatedUser.setGroup(Group.valueOf(request.getParameter("edit-group")));
         updatedUser.setUserType(UserType.valueOf(request.getParameter("edit-userType")));
         updatedUser.setEmail(request.getParameter("edit-email"));
+
         return updatedUser;
     }
 
@@ -139,7 +159,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void toUser(Long id) {
-        User user = getUserById(id);
+        var user = getUserById(id);
+
         user.setRoles(user.getRoles().stream()
                 .filter(r -> !(r.getRoleName().name().equals("ADMIN_ROLE")) && !(r.getRoleName().name().equals("USER_ROLE")))
                 .collect(Collectors.toList()));
@@ -150,7 +171,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void toAdmin(Long id) {
-        User user = getUserById(id);
+        var user = getUserById(id);
+
         user.setRoles(user.getRoles().stream()
                 .filter(r -> !(r.getRoleName().name().equals("ADMIN_ROLE")) && !(r.getRoleName().name().equals("USER_ROLE")))
                 .collect(Collectors.toList()));
@@ -179,14 +201,16 @@ public class UserServiceImpl implements UserService {
     }
 
     public void logoutUser(Long id) {
-        User user = getUserById(id);
-        UserDetails userD = new UserDetailsImpl(user);
+        var user = getUserById(id);
+        var userD = new UserDetailsImpl(user);
 
-        List<Object> principals = sessionRegistry.getAllPrincipals();
+        var principals = sessionRegistry.getAllPrincipals();
 
         for (Object principal : principals) {
+
             if (principal.equals(userD)) {
-                List<SessionInformation> sessionInformations = sessionRegistry.getAllSessions(principal, false);
+                var sessionInformations = sessionRegistry.getAllSessions(principal, false);
+
                 for (SessionInformation sessionInformation : sessionInformations) {
                     sessionInformation.expireNow();
                 }

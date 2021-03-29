@@ -12,13 +12,16 @@ import com.eureka.capstone.repository.IssueRepository;
 import com.eureka.capstone.repository.ReportRepository;
 import com.eureka.capstone.repository.UserRepository;
 import com.eureka.capstone.service.IssueService;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import javax.mail.internet.InternetAddress;
 import javax.servlet.http.HttpServletRequest;
+
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -160,7 +163,7 @@ public class IssueServiceImpl implements IssueService {
     }
 
     private void sendNotificationEmail(Report report){
-        SimpleMailMessage msg = new SimpleMailMessage();
+        var msg = new SimpleMailMessage();
 
         msg.setTo(report.getIssue().getAssignee().getEmail());
         msg.setSubject(String.format("New Assignment from Issue No. %d: %s", report.getIssue().getId(), report.getIssue().getTitle()));

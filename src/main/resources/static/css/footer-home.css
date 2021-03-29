@@ -16,10 +16,6 @@
     text-decoration-line: none;
 }
 
-.lang-block:hover {
-    background-color: #eee;
-}
-
 ul {
     padding-left: 0;
     list-style: none;

@@ -18,8 +18,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        Optional<User> OptionalUser = userRepository.findByUsername(username);
-        User user = OptionalUser.orElseThrow(() -> new UserNotFoundException("There isn't registered account with entered username,"));
+        var OptionalUser = userRepository.findByUsername(username);
+        var user = OptionalUser.orElseThrow(() -> new UserNotFoundException("There isn't registered account with entered username,"));
+
         return OptionalUser.map(UserDetailsImpl::new).get();
     }
 }

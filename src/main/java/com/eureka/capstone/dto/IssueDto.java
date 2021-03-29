@@ -3,7 +3,9 @@ package com.eureka.capstone.dto;
 import com.eureka.capstone.domain.issue.IssueSeverity;
 import com.eureka.capstone.domain.issue.IssueStatus;
 import com.eureka.capstone.domain.issue.IssueType;
+
 import lombok.*;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -73,4 +75,5 @@ public class IssueDto {
     public void setIsConfirmationMailSent(boolean confirmationMailSent) {
         isConfirmationMailSent = confirmationMailSent;
     }
+
 }

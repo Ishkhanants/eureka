@@ -22,4 +22,5 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
             httpServletResponse.setStatus(401);
         }
     }
+
 }

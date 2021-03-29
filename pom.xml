@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.4.2</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
+
     <groupId>com.eureka</groupId>
     <artifactId>capstone</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -15,7 +18,7 @@
     <description>Capstone project &quot;Eureka&quot; - Bug detection and management system</description>
 
     <properties>
-        <java.version>11</java.version>
+        <java.version>14</java.version>
         <mapstruct.version>1.4.1.Final</mapstruct.version>
         <swagger.version>3.0.0</swagger.version>
     </properties>
@@ -51,6 +54,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>1.18.18</version>
             <optional>true</optional>
         </dependency>
 
@@ -65,7 +69,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/junit/junit -->
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -78,7 +82,6 @@
             <version>2.3.0.RELEASE</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.webjars/bootstrap -->
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>bootstrap</artifactId>
@@ -201,6 +204,13 @@
             <artifactId>commons-codec</artifactId>
             <version>1.14</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <version>2.4.4</version>
+            <type>maven-plugin</type>
+        </dependency>
     </dependencies>
 
     <build>
@@ -214,28 +224,23 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
                 <configuration>
-                    <!--                    <annotationProcessorPaths>-->
-                    <!--                        <path>-->
-                    <!--                            <groupId>org.mapstruct</groupId>-->
-                    <!--                            <artifactId>mapstruct-processor</artifactId>-->
-                    <!--                            <version>${mapstruct.version}</version>-->
-                    <!--                        </path>-->
-                    <!--                        <path>-->
-                    <!--                            <groupId>org.projectlombok</groupId>-->
-                    <!--                            <artifactId>lombok</artifactId>-->
-                    <!--                            <version>${lombok.version}</version>-->
-                    <!--                        </path>-->
-                    <!--                    </annotationProcessorPaths>-->
                     <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.18</version>
+                        </path>
+                        <!-- This is needed when using Lombok 1.18.16 and above -->
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.2.0</version>
+                        </path>
+                        <!-- Mapstruct should follow the lombok path(s) -->
                         <path>
                             <groupId>org.mapstruct</groupId>
                             <artifactId>mapstruct-processor</artifactId>
                             <version>${mapstruct.version}</version>
-                        </path>
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                            <version>${lombok.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>

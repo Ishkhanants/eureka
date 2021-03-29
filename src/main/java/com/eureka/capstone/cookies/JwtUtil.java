@@ -1,9 +1,11 @@
 package com.eureka.capstone.cookies;
 
 import com.eureka.capstone.domain.user.User;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
@@ -28,7 +30,8 @@ public class JwtUtil {
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
+        final var claims = extractAllClaims(token);
+
         return claimsResolver.apply(claims);
     }
 
@@ -41,7 +44,8 @@ public class JwtUtil {
     }
 
     public String generateToken(String email) {
-        Map<String, Object> claims = new HashMap<>();
+        var claims = new HashMap<String, Object>();
+
         return createToken(claims, email);
     }
 
@@ -53,11 +57,13 @@ public class JwtUtil {
 
     public Boolean validateToken(String jwt, User user) {
         final String userEmail;
+
         try {
             userEmail = extractEmail(jwt);
         } catch (Exception exception) {
             return false;
         }
+
         return (userEmail.equals(user.getEmail()) && !isTokenExpired(jwt));
     }
 }

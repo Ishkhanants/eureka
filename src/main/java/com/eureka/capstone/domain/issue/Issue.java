@@ -5,13 +5,18 @@ import com.eureka.capstone.domain.product.Product;
 import com.eureka.capstone.domain.product.ReleaseVersion;
 import com.eureka.capstone.domain.product.SubSystem;
 import com.eureka.capstone.domain.user.User;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import lombok.*;
+
 import org.hibernate.annotations.Type;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+
 import java.time.LocalDate;
 
 @Getter

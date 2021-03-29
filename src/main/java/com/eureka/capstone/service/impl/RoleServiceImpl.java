@@ -5,7 +5,9 @@ import com.eureka.capstone.domain.user.RoleEnum;
 import com.eureka.capstone.exception.notfound.RoleNotFoundException;
 import com.eureka.capstone.repository.RoleRepository;
 import com.eureka.capstone.service.RoleService;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,7 +17,6 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role getRole(RoleEnum roleName) {
-        return repository.getByRoleName(roleName).orElseThrow(() ->
-                new RoleNotFoundException(roleName));
+        return repository.getByRoleName(roleName).orElseThrow(() -> new RoleNotFoundException(roleName));
     }
 }

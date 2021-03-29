@@ -1,11 +1,11 @@
 package com.eureka.capstone.controller;
 
-import com.eureka.capstone.domain.user.User;
-import com.eureka.capstone.dto.UserDto;
 import com.eureka.capstone.mapping.user.UserMapperDecorator;
 import com.eureka.capstone.service.EditProfileService;
 import com.eureka.capstone.service.UserService;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,28 +26,33 @@ public class EditProfileController {
 
     @GetMapping
     public ModelAndView getEditProfilePage(Principal principal) {
-        User user = userService.getUserByUsername(principal.getName());
+        var user = userService.getUserByUsername(principal.getName());
+
         return editProfileService.getModelWithUserAttributes(user);
     }
 
     @PostMapping(headers = ("content-type=multipart/form-data"))
     public @ResponseBody ResponseEntity<Object> updateUser(MultipartHttpServletRequest request) {
-        UserDto userDto = editProfileService.extractUserDtoFromRequest(request);
-        User user = mapper.toEntity(userDto);
+        var userDto = editProfileService.extractUserDtoFromRequest(request);
+        var user = mapper.toEntity(userDto);
+
         userService.updateUser(user, request);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping
     public ResponseEntity<Object> deleteUser(Principal principal){
         userService.deleteUserByUsername(principal.getName());
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/avatar/{username}")
     public @ResponseBody ResponseEntity<Object> getUserPhoto(@PathVariable String username) {
-        final User user = userService.getUserByUsername(username);
-        final String avatar = userService.extractAvatarPicture(user);
+        final var user = userService.getUserByUsername(username);
+        final var avatar = userService.extractAvatarPicture(user);
+
         return avatar == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(avatar);
     }
 }

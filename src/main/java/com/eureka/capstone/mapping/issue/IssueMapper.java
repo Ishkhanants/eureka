@@ -3,12 +3,15 @@ package com.eureka.capstone.mapping.issue;
 import com.eureka.capstone.domain.issue.Issue;
 import com.eureka.capstone.dto.IssueDto;
 import com.eureka.capstone.service.*;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class IssueMapper {
+
     private final ProductService productService;
     private final UserService userService;
     private final SubsystemService subsystemService;
@@ -16,6 +19,7 @@ public class IssueMapper {
 
     public IssueDto toDto(Issue entity){
         var dto = new IssueDto();
+
         dto.setId(entity.getId());
         dto.setIsConfirmationMailSent(entity.getIsConfirmationMailSent());
         dto.setIsFoundInTheField(entity.getIsFoundInTheField());
@@ -35,11 +39,13 @@ public class IssueMapper {
         dto.setReleaseVersionId(entity.getReleaseVersion().getId());
         dto.setTestingDocument(entity.getTestingDocument());
         dto.setComment(entity.getComment());
+
         return dto;
     }
 
     public Issue toEntity(IssueDto dto){
         var entity = new Issue();
+
         entity.setId(dto.getId());
         entity.setIsConfirmationMailSent(dto.getIsConfirmationMailSent());
         entity.setIsFoundInTheField(dto.getIsFoundInTheField());
@@ -59,6 +65,8 @@ public class IssueMapper {
         entity.setFixDate(dto.getFixDate());
         entity.setCloseDate(dto.getCloseDate());
         entity.setTestingDocument(dto.getTestingDocument());
+
         return entity;
     }
+
 }

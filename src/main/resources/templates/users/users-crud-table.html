@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+</head>
+<body>
+<div class="container-xl container my-2" style="box-shadow: 0 47px 74px -31px rgba(7, 40, 137, 0.19);">
+    <div class="table-responsive">
+        <td class="table-wrapper">
+            <form method="post" th:action="@{/users/delete}">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h2>Manage <b>Users</b></h2> <!--style="margin: 5px 10px 0;"-->
+                        </div>
+                        <div class="col-sm-4" sec:authorize="hasAnyAuthority('ADMIN_ROLE')">
+                            <a href="#addUserModal" class="btn" data-toggle="modal"><i
+                                    class="material-icons">&#xE147;</i> <span>Add New User</span></a>
+                            <span id="deleteAllSelected" hidden><a href="#deleteSelectedUsersModal" class="btn"
+                                                                   data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a></span>
+                        </div>
+                        <div id="myTable_filter" class="col-sm-5">
+                            <label>
+                                <input type="search" placeholder="🔎 Search" class="" aria-controls="myTable"
+                                       style="border: none; border-radius: 5px; margin-left: 100%">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <table id="myTable" class="table table-responsive-md table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>
+							<span class="custom-checkbox">
+								<input type="checkbox" id="selectAll">
+								<label for="selectAll"></label>
+							</span>
+                        </th>
+                        <th th:text="#{user-list-photo}"></th>
+                        <th th:text="#{user-list-username}"></th>
+                        <th th:text="#{user-list-full-name}"></th>
+                        <th th:text="#{user-list-type}"></th>
+                        <th th:text="#{user-list-group}"></th>
+                        <th th:text="#{user-list-email}"></th>
+                        <th th:text="#{user-list-tel}"></th>
+                        <th th:text="#{user-list-role}"></th>
+                        <th th:text="#{user-list-changeTo}"></th>
+                        <th th:text="#{user.actions}"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="user : ${listUsers}">
+                        <td>
+							<span class="custom-checkbox">
+								<input type="checkbox" id="checkbox1" name="options[]" th:value="${user.getId()}"/>
+								<label for="checkbox1"></label>
+							</span>
+                        </td>
+                        <td>
+                            <img alt="" class="rounded-circle avatar_crud z-depth-0 nav-image"
+                                 data-holder-rendered="true"
+                                 src="images/no-avatar.png"
+                                 th:if="${user.getProfileAvatar() == null}">
+                            <img alt="" class="rounded-circle avatar_crud z-depth-0 nav-image"
+                                 data-holder-rendered="true"
+                                 th:if="${user.getProfileAvatar() != null}"
+                                 th:src="${'data:image/jpg;base64,' + @userServiceImpl.extractAvatarPicture(user)}">
+                        </td>
+                        <td th:text="${user.getUsername()}"></td>
+                        <td th:text="${user.getFullName()}"></td>
+                        <td th:text="${user.getUserType().displayValue}"></td>
+                        <td th:text="${user.getGroup().displayValue}"></td>
+                        <td th:text="${user.getEmail()}"></td>
+                        <td th:text="${user.getPhone()}"></td>
+                        <td>
+                            <span th:if="${user.isAdmin()}" th:text="#{user-list-admin}"></span>
+                            <span th:if="${user.isAdmin()==false}" th:text="#{user-list-user}"></span>
+                        </td>
+                        <td>
+                            <a th:if="${user.isAdmin()}" th:href="@{'/users/toUser/' + ${user.getId()}}"
+                               th:text="#{user-list-user}"></a>
+                            <a th:if="${user.isAdmin() == false}" th:href="@{'/users/toAdmin/' + ${user.getId()}}"
+                               th:text="#{user-list-admin}"></a>
+                        </td>
+                        <td>
+                            <a href="#editUserModal" class="edit" data-toggle="modal"><i class="material-icons"
+                                                                                         data-toggle="tooltip"
+                                                                                         title="Edit">&#xE254;</i></a>
+                            <a href="#deleteUserModal" class="delete" data-toggle="modal"><i class="material-icons"
+                                                                                             data-toggle="tooltip"
+                                                                                             title="Delete">&#xE872;</i></a>
+                            <input type="hidden" th:class="id" name="id" th:value="${user.getId()}"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+    </div>
+</div>
+</div>
+
+<!-- Add Modal HTML -->
+<div id="addUserModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" th:action="@{/users/create}" th:object="${user}">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add <b>User</b></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group required-input">
+                        <label th:text="#{user.username}"></label>
+                        <input type="text" th:field="*{username}" class="form-control" required/>
+                    </div>
+                    <div class="form-group required-input">
+                        <label th:text="#{user.fullname}"></label>
+                        <input type="text" th:field="*{fullName}" class="form-control" required/>
+                    </div>
+                    <div class="form-group required-input">
+                        <label th:text="#{user.usertype}"></label>
+                        <select class="select form-control required-input" id="userType" name="userType"
+                                th:name="userType">
+                            <option th:each="userType : ${T(com.eureka.capstone.domain.user.UserType).values()}"
+                                    th:value="${userType}"
+                                    th:selected="${user.userType==userType}"
+                                    th:text="${userType.displayValue}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group required-input">
+                        <label th:text="#{user.group}"></label>
+                        <select class="select form-control required-input" id="group" name="group"
+                                th:name="group">
+                            <option th:each="group : ${T(com.eureka.capstone.domain.user.Group).values()}"
+                                    th:value="${group}"
+                                    th:selected="${user.group == group}"
+                                    th:text="${group.displayValue}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group required-input input_div">
+                        <label th:text="#{user.password}" for="password"></label>
+                        <div class="input-group">
+                            <input class="form-control"
+                                   th:field="*{password}"
+                                   id="password"
+                                   name="password"
+                                   type="password"/>
+                            <div class="input-group-append">
+                               <span class="input-group-text">
+                                   <i aria-hidden="true" class="fa fa-eye-slash show-hide-password"></i>
+                               </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group required-input input_div">
+                        <label th:text="#{user.confirmPassword}" for="confirmPassword"></label>
+                        <div class="input-group">
+                            <input class="form-control password-field required-input"
+                                   th:field="*{confirmPassword}"
+                                   id="confirmPassword"
+                                   name="confirmPassword"
+                                   type="password"/>
+                            <div class="input-group-append">
+                               <span class="input-group-text">
+                                   <i aria-hidden="true" class="fa fa-eye-slash show-hide-password"></i>
+                               </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group required-input">
+                        <label th:text="#{user.email}"></label>
+                        <input type="text" th:field="*{email}" class="form-control" required/>
+                    </div>
+                    <div class="form-group required-input">
+                        <label th:text="#{user.phone}"></label>
+                        <input type="text" th:field="*{phone}" class="form-control" required/>
+                    </div>
+                </div>
+                <div class="modal-footer activity-buttons btn-group" style="margin-left: 2px">
+                    <button class="btn activity-whiteButton btn-default cancel-btn"
+                            style="height: 50px;"
+                            th:text="#{button.cancel}"
+                            type="button" data-dismiss="modal"></button>
+                    <button class="btn activity-main-button btn-success add-activity-btn"
+                            style="height: 50px;
+                                            border: 1px solid #DCDFF1;"
+                            th:text="#{button.add}"
+                            type="submit"></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal HTML -->
+<div id="editUserModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" th:action="@{/users/edit}">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit <b>User</b></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group required-input">
+                        <label th:text="#{user.username}"></label>
+                        <input id="edit-username" name="edit-username" type="text" class="form-control" required/>
+                    </div>
+                    <div class="form-group required-input">
+                        <label th:text="#{user.fullname}"></label>
+                        <input id="edit-fullName" name="edit-fullName" type="text" class="form-control" required/>
+                    </div>
+                    <div class="form-group required-input">
+                        <label th:text="#{user.usertype}"></label>
+                        <select class="select form-control required-input"
+                                id="edit-userType"
+                                name="edit-userType"
+                                th:name="edit-userType">
+                            <option th:each="userType : ${T(com.eureka.capstone.domain.user.UserType).values()}"
+                                    th:value="${userType}"
+                                    th:selected="${user.userType==userType}"
+                                    th:text="${userType.displayValue}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group required-input">
+                        <label th:text="#{user.group}"></label>
+                        <select class="select form-control required-input"
+                                id="edit-group"
+                                name="edit-group"
+                                th:name="edit-group">
+                            <option th:each="group : ${T(com.eureka.capstone.domain.user.Group).values()}"
+                                    th:value="${group}"
+                                    th:selected="${user.group == group}"
+                                    th:text="${group.displayValue}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group required-input">
+                        <label th:text="#{user.email}"></label>
+                        <input id="edit-email" name="edit-email" type="text" class="form-control" required/>
+                    </div>
+                    <div class="form-group required-input">
+                        <label th:text="#{user.phone}"></label>
+                        <input id="edit-phone" name="edit-phone" type="text" class="form-control" required/>
+                    </div>
+                </div>
+                <div class="modal-footer activity-buttons btn-group" style="margin-left: 2px">
+                    <button class="btn activity-whiteButton btn-default cancel-btn"
+                            style="height: 50px;"
+                            th:text="#{button.cancel}"
+                            type="button" data-dismiss="modal"></button>
+                    <button class="btn activity-main-button btn-success add-activity-btn"
+                            style="height: 50px;
+                                            border: 1px solid #DCDFF1;"
+                            th:text="#{button.update}"
+                            type="submit"></button>
+                    <input type="hidden" name="id" id="id-to-edit">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal HTML -->
+<div id="deleteUserModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" th:action="@{/users/delete}">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete <b>User</b></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this record?</p>
+                    <p class="text-warning">This action cannot be undone.</p>
+                </div>
+                <div class="modal-footer activity-buttons btn-group" style="margin-left: 2px">
+                    <button class="btn activity-whiteButton btn-default cancel-btn"
+                            style="height: 50px;"
+                            th:text="#{button.cancel}"
+                            type="button" data-dismiss="modal"></button>
+                    <button class="btn activity-main-button btn-success add-activity-btn"
+                            style="height: 50px;
+                                            border: 1px solid #DCDFF1;"
+                            th:text="#{button.delete}"
+                            type="submit"></button>
+                    <input type="hidden" name="id" id="id-to-delete">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Delete Selected Modal HTML -->
+<div id="deleteSelectedUsersModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" th:action="@{/users/delete-selected}">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete <b>Users</b></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete these records?</p>
+                    <p class="text-warning">This action cannot be undone.</p>
+                </div>
+                <div class="modal-footer activity-buttons btn-group" style="margin-left: 2px">
+                    <button class="btn activity-whiteButton btn-default cancel-btn"
+                            style="height: 50px;"
+                            th:text="#{button.cancel}"
+                            type="button" data-dismiss="modal"></button>
+                    <button id="deleteAllSelectedButton" class="btn activity-main-button btn-success add-activity-btn"
+                            style="height: 50px;
+                                            border: 1px solid #DCDFF1;"
+                            th:text="#{button.delete}"
+                            type="submit"></button>
+                    <input type="hidden" name="ids" id="ids-to-delete">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

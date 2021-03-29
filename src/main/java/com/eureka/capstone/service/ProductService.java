@@ -4,10 +4,12 @@ import com.eureka.capstone.domain.product.Product;
 import com.eureka.capstone.domain.user.User;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.time.LocalDate;
 import java.util.List;
 
 public interface ProductService {
+
     Product createProduct(Product product);
 
     Product getProductById(long id);
@@ -23,4 +25,5 @@ public interface ProductService {
     void deleteProductById(long id);
 
     User getOwnerByProductId(long id);
+
 }
