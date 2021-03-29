@@ -1,6 +1,5 @@
 package com.eureka.capstone.validation;
 
-
 import com.eureka.capstone.dto.UserDto;
 
 import javax.validation.ConstraintValidator;

@@ -20,6 +20,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({FIELD, ANNOTATION_TYPE})
 @Retention(RUNTIME)
 public @interface ValidUsername {
+
     String message() default "{valid.username.message}";
 
     Class<?>[] groups() default {};

@@ -55,40 +55,40 @@ function authenticate(e) {
             $("#errorMessage").removeClass("invisible");
 
             if (xhr.status === 409) {
-                $("#validationMessage").html(/*$.i18n("account.blocked.login")*/);
+                $("#validationMessage").html($.i18n("account.blocked.login"));
             } else if (xhr.status === 404) {
-                $("#validationMessage").html(/*$.i18n("username.not.found")*/);
+                $("#validationMessage").html($.i18n("username.not.found"));
             } else if (xhr.status === 401) {
-                $("#validationMessage").html(/*$.i18n("username.pass.incorrect")*/);
+                $("#validationMessage").html($.i18n("username.pass.incorrect"));
             }
 
-            // localStorage.setItem('ipCounter', 0);
-            //
-            // getIPs().then(ips => {
-            //         let count = localStorage.getItem('ipCounter');
-            //
-            //         if (Object.values(localStorage).indexOf(ips[0]) > -1) {
-            //             localStorage.setItem('ipCounter', parseInt(count) + 1);
-            //         } else {
-            //             localStorage.setItem('ip', ips[0]);
-            //             localStorage.setItem('ipCounter', parseInt(count) + 1);
-            //         }
-            //
-            //         let counter = localStorage.getItem('ipCounter');
-            //
-            //         if (parseInt(counter) >= ATTEMPTS_MAX_COUNT) {
-            //             $('#rejected-login').modal({
-            //                 backdrop: 'static',
-            //                 keyboard: false
-            //             })
-            //
-            //             console.log("EEE");
-            //
-            //             startTimer(REJECTION_TIMEOUT, document.querySelector('#timer'));
-            //             localStorage.clear();
-            //         }
-            //     }
-            // )
+            localStorage.setItem('ipCounter', 0);
+
+            getIPs().then(ips => {
+                    let count = localStorage.getItem('ipCounter');
+
+                    if (Object.values(localStorage).indexOf(ips[0]) > -1) {
+                        localStorage.setItem('ipCounter', parseInt(count) + 1);
+                    } else {
+                        localStorage.setItem('ip', ips[0]);
+                        localStorage.setItem('ipCounter', parseInt(count) + 1);
+                    }
+
+                    let counter = localStorage.getItem('ipCounter');
+
+                    if (parseInt(counter) >= ATTEMPTS_MAX_COUNT) {
+                        $('#rejected-login').modal({
+                            backdrop: 'static',
+                            keyboard: false
+                        })
+
+                        console.log("EEE");
+
+                        startTimer(REJECTION_TIMEOUT, document.querySelector('#timer'));
+                        localStorage.clear();
+                    }
+                }
+            )
 
             ++attemptsCount;
 

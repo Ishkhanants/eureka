@@ -15,11 +15,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = {})
 @Target({FIELD, ANNOTATION_TYPE})
 @Retention(RUNTIME)
-
 public @interface ValidFullName {
+
     String message() default "";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
+
 }
