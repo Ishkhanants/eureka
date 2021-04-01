@@ -1,5 +1,15 @@
 $(document).ready(async function () {
 
+    $.validator.setDefaults({
+        ignore: []
+    });
+
+    await $.i18n().load({
+        "en": "/i18n/en.json",
+        "hy": "/i18n/hy.json",
+        "ru": "/i18n/ru.json",
+    });
+
     let dtable = $("#myTable").DataTable({
         "bLengthChange": false,
         "order": [1, 'asc'],
@@ -12,11 +22,11 @@ $(document).ready(async function () {
         },
         "pageLength": 15,
         "infoCallback": function (settings, start, end, max, total, pre) {
-            return "Reports" /*$.i18n("list.users")*/ + " " + start + "-" + end + " " + "from" /*$.i18n("list.from")*/ + " " + total; //+ $.i18n("list.form.arm");
+            return $.i18n("list.reports") + " " + start + "-" + end + " " + $.i18n("list.from") + " " + total + $.i18n("list.form.arm");
         },
         'sPaginationType': 'twoNumbers',
         language: {
-            searchPlaceholder: "",//$.i18n("list.search"),
+            searchPlaceholder: $.i18n("list.search"),
             search: "",
             paginate: {
                 next: '>',
@@ -60,6 +70,8 @@ $(document).ready(async function () {
         return date + ' ' + time;
     }
 
+    addDataTableFiltering(dtable);
+
     let table = $('#myTable');
 
     table.on('click','.edit', function() {
@@ -91,6 +103,46 @@ $(document).ready(async function () {
         });
         $('#ids-to-delete').val(array);
         $('#issue-ids-to-delete').val(issueId);
+    })
+
+    addValidationHtml();
+
+    $(document).ready(function(){
+        const MIN_COMMENT_LENGTH = 20;
+        const MAX_COMMENT_LENGTH = 200;
+
+        $('#add-form').validate({
+            rules: {
+                comment: {
+                    customRequired: $('#comment-valid-title').text(),
+                    validComment: [MIN_COMMENT_LENGTH, MAX_COMMENT_LENGTH]
+                }
+            },
+
+            errorPlacement: (label, element) => doErrorPlacement(label, element),
+
+            success: function (a, b) {}
+        });
+
+        $('#edit-form').validate({
+            rules: {
+                editComment: {
+                    customRequired: $('#edit-comment-valid-title').text(),
+                    validComment: [MIN_COMMENT_LENGTH, MAX_COMMENT_LENGTH]
+                }
+            },
+
+            errorPlacement: (label, element) => doErrorPlacement(label, element),
+
+            success: function (a, b) {}
+        });
+
+        $.extend($.validator.messages, {
+            customRequired: $.i18n("field.customRequired"),
+            validComment: $.i18n("report.comment.validation", MIN_COMMENT_LENGTH, MAX_COMMENT_LENGTH),
+        });
+
+        addErrorIcon();
     })
 
 });

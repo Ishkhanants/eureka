@@ -42,7 +42,7 @@ public class EditProfileServiceImpl implements EditProfileService {
         UserDto userDto = new UserDto();
 
         userDto.setFullName(request.getParameter("fullName"));
-        userDto.setEmail(request.getParameter("email-editable"));
+        userDto.setEmail(request.getParameter("emailEditable"));
         userDto.setUsername(request.getParameter("userName"));
         userDto.setPhone(request.getParameter("phone"));
         userDto.setPassword(request.getParameter("password"));

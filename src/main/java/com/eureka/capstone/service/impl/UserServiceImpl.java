@@ -136,12 +136,12 @@ public class UserServiceImpl implements UserService {
         var updatedUser = new User();
 
         updatedUser.setId(Long.parseLong(request.getParameter("id")));
-        updatedUser.setUsername(request.getParameter("edit-username"));
-        updatedUser.setFullName(request.getParameter("edit-fullName"));
-        updatedUser.setPhone(request.getParameter("edit-phone"));
+        updatedUser.setUsername(request.getParameter("editUsername"));
+        updatedUser.setFullName(request.getParameter("editFullName"));
+        updatedUser.setPhone(request.getParameter("editPhone"));
         updatedUser.setGroup(Group.valueOf(request.getParameter("edit-group")));
         updatedUser.setUserType(UserType.valueOf(request.getParameter("edit-userType")));
-        updatedUser.setEmail(request.getParameter("edit-email"));
+        updatedUser.setEmail(request.getParameter("editEmail"));
 
         return updatedUser;
     }

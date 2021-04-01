@@ -8,78 +8,84 @@
 <div class="container-xl container my-2" style="box-shadow: 0 47px 74px -31px rgba(7, 40, 137, 0.19);">
     <div class="table-responsive">
         <div class="table-wrapper">
-            <form method="post" th:action="@{/issues/delete}">
-                <div class="table-title">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <h2><span sec:authorize="hasAnyAuthority('ADMIN_ROLE')">Manage</span><span sec:authorize="hasAnyAuthority('USER_ROLE')">My</span> <b>Issues</b></h2>
-                        </div>
-                        <div class="col-sm-4">
-                            <a th:href="@{/issues/create}" class="btn"><i class="material-icons">&#xE147;</i> <span>Add New Issue</span></a>
-                            <span id="deleteAllSelected" hidden><a href="#deleteSelectedIssuesModal" class="btn" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a></span>
-                        </div>
-                        <div id="myTable_filter" class="col-sm-5">
-                            <label>
-                                <input type="search" placeholder="🔎 Search" class="" aria-controls="myTable"
-                                       style="border: none; border-radius: 5px; margin-left: 100%">
-                            </label>
-                        </div>
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h2><span sec:authorize="hasAnyAuthority('ADMIN_ROLE')">Manage</span><span
+                                sec:authorize="hasAnyAuthority('USER_ROLE')">My</span> <b>Issues</b></h2>
+                    </div>
+                    <div class="col-sm-4">
+                        <a th:href="@{/issues/create}" class="btn"><i class="material-icons">&#xE147;</i> <span>Add New Issue</span></a>
+                        <span id="deleteAllSelected" hidden><a href="#deleteSelectedIssuesModal" class="btn"
+                                                               data-toggle="modal"><i
+                                class="material-icons">&#xE15C;</i> <span>Delete</span></a></span>
+                    </div>
+                    <div id="myTable_filter" class="col-sm-5">
+                        <label>
+                            <input type="search" th:placeholder="#{filter.placeholder}" class="" aria-controls="myTable"
+                                   style="border: none; border-radius: 5px; margin-left: 100%">
+                        </label>
                     </div>
                 </div>
+            </div>
 
-                <table id="myTable" class="table table-responsive-md table-striped table-hover">
-                    <thead>
-                    <tr>
-                        <th>
+            <table id="myTable" class="table table-responsive-md table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>
 							<span class="custom-checkbox">
 								<input type="checkbox" id="selectAll">
 								<label for="selectAll"></label>
 							</span>
-                        </th>
-                        <th th:text="#{issue.product}"></th>
-                        <th th:text="#{issue.type}"></th>
-                        <th th:text="#{issue.title}"></th>
-                        <th th:text="#{issue.severity}"></th>
-                        <th th:text="#{issue.status}"></th>
-                        <th th:text="#{issue.assignee}"></th>
-                        <th th:text="#{issue.reporter}"></th>
-                        <th th:text="#{issue.date.reported}"></th>
-                        <th th:text="#{issue.date.fixed}"></th>
-                        <th th:text="#{issue.date.closed}"></th>
-                        <th th:text="#{issue.reports}"></th>
-                        <th th:text="#{user.actions}"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="issue : ${listIssues}">
-                        <td>
+                    </th>
+                    <th th:text="#{issue.product}"></th>
+                    <th th:text="#{issue.type}"></th>
+                    <th th:text="#{issue.title}"></th>
+                    <th th:text="#{issue.severity}"></th>
+                    <th th:text="#{issue.status}"></th>
+                    <th th:text="#{issue.assignee}"></th>
+                    <th th:text="#{issue.reporter}"></th>
+                    <th th:text="#{issue.date.reported}"></th>
+                    <th th:text="#{issue.date.fixed}"></th>
+                    <th th:text="#{issue.date.closed}"></th>
+                    <th th:text="#{issue.reports}"></th>
+                    <th th:text="#{user.actions}"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="issue : ${listIssues}">
+                    <td>
 							<span class="custom-checkbox">
-								<input type="checkbox" id="checkbox1" name="options[]" th:value="${issue.getId()}" />
+								<input type="checkbox" id="checkbox1" name="options[]" th:value="${issue.getId()}"/>
 								<label for="checkbox1"></label>
 							</span>
-                        </td>
-                        <td th:text="${issue.getProduct().getName()}"></td>
-                        <td th:text="${issue.getType().displayValue}"></td>
-                        <td th:text="${issue.getTitle()}"></td>
-                        <td th:text="${issue.getSeverity() != null} ? ${issue.getSeverity().displayValue} : '' "></td>
-                        <td th:text="${issue.getStatus() != null} ? ${issue.getStatus().displayValue} : '' "></td>
-                        <td th:text="${issue.getAssignee().getFullName()}"></td>
-                        <td th:text="${issue.getReporter().getFullName()}"></td>
-                        <td th:text="${issue.getReportDate()}"></td>
-                        <td th:text="${issue.getFixDate()}"></td>
-                        <td th:text="${issue.getCloseDate()}"></td>
-                        <td>
-                            <a style="margin-left: 25%;" th:href="@{/issues/{issueId}/reports(issueId=${issue.getId()})}"><i class="fas fa-file-alt"></i></a>
-                        </td>
-                        <td>
-                            <a th:href="@{/issues/edit/{id}(id=${issue.getId()})}" class="edit" ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                            <a href="#deleteIssueModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                            <input type="hidden" th:class="id" name="id" th:value="${issue.getId()}"/>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </form>
+                    </td>
+                    <td th:text="${issue.getProduct().getName()}"></td>
+                    <td th:text="${issue.getType().displayValue}"></td>
+                    <td th:text="${issue.getTitle()}"></td>
+                    <td th:text="${issue.getSeverity() != null} ? ${issue.getSeverity().displayValue} : '' "></td>
+                    <td th:text="${issue.getStatus() != null} ? ${issue.getStatus().displayValue} : '' "></td>
+                    <td th:text="${issue.getAssignee().getFullName()}"></td>
+                    <td th:text="${issue.getReporter().getFullName()}"></td>
+                    <td th:text="${issue.getReportDate()}"></td>
+                    <td th:text="${issue.getFixDate()}"></td>
+                    <td th:text="${issue.getCloseDate()}"></td>
+                    <td>
+                        <a style="margin-left: 25%;" th:href="@{/issues/{issueId}/reports(issueId=${issue.getId()})}"><i
+                                class="fas fa-file-alt"></i></a>
+                    </td>
+                    <td>
+                        <a th:href="@{/issues/edit/{id}(id=${issue.getId()})}" class="edit"><i class="material-icons"
+                                                                                               data-toggle="tooltip"
+                                                                                               title="Edit">&#xE254;</i></a>
+                        <a href="#deleteIssueModal" class="delete" data-toggle="modal"><i class="material-icons"
+                                                                                          data-toggle="tooltip"
+                                                                                          title="Delete">&#xE872;</i></a>
+                        <input type="hidden" th:class="id" name="id" th:value="${issue.getId()}"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

@@ -1,22 +1,23 @@
-$(document).ready(async function () {
-    // $.validator.setDefaults({
-    //     ignore: []
-    // });
-    // await $.i18n().load({
-    //     "en": "/i18n/en.json",
-    //     "hy": "/i18n/hy.json",
-    //     "ru": "/i18n/ru.json",
-    // });
-    //
-    // $.i18n().locale = $("#locale").val();
+let xButton = "<button type=\"button\" class=\"close\" id='clear-input' aria-label=\"CZlose\">\n" +
+    "  <span aria-hidden=\"true\">&times;</span>\n" +
+    "</button>";
+let spinner = $(".lds-dual-ring");
 
-    let xButton = "<button type=\"button\" class=\"close\" id='clear-input' aria-label=\"CZlose\">\n" +
-        "  <span aria-hidden=\"true\">&times;</span>\n" +
-        "</button>";
+$(document).ready(async function () {
+
+    $.validator.setDefaults({
+        ignore: []
+    });
+
+    await $.i18n().load({
+        "en": "/i18n/en.json",
+        "hy": "/i18n/hy.json",
+        "ru": "/i18n/ru.json",
+    });
+
+    $.i18n().locale = $("#locale").val();
 
     $('#labelContainer').append(xButton);
-
-    $('.custom-file-upload').html(/*$.i18n(*/"Upload photo"/*)*/);
 
     $(".cancel-btn").click(function () {
         extendEndpoint();
@@ -29,8 +30,6 @@ $(document).ready(async function () {
     addValidationHtml();
 
     $(document).ready(function () {
-        addErrorIcon();
-
         let product = $('#product');
 
         if (product.val() !== 0) {
@@ -45,13 +44,57 @@ $(document).ready(async function () {
 
         $('#date-reported').val(new Date().toDateInputValue());
 
-    })
+        const MIN_TITLE_LENGTH = 10;
+        const MAX_TITLE_LENGTH = 50;
+        const MIN_DESCRIPTION_LENGTH = 20;
+        const MAX_DESCRIPTION_LENGTH = 200;
 
-    Date.prototype.toDateInputValue = (function () {
-        let local = new Date(this);
-        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-        return local.toJSON().slice(0, 10);
-    });
+        $('#add-form').validate({
+            rules: {
+                title: {
+                    customRequired: $('#title-valid-title').text(),
+                    validTitle: [MIN_TITLE_LENGTH, MAX_TITLE_LENGTH]
+                },
+                description: {
+                    customRequired: $('#description-valid-title').text(),
+                    validDescription: [MIN_DESCRIPTION_LENGTH, MAX_DESCRIPTION_LENGTH]
+                }
+            },
+
+            errorPlacement: (label, element) => doErrorPlacement(label, element),
+
+            success: function (a, b) {},
+
+            submitHandler: (form) => doFormSubmit(form)
+        });
+
+        $('#edit-form').validate({
+            rules: {
+                title: {
+                    customRequired: $('#edit-title-valid-title').text(),
+                    validTitle: [MIN_TITLE_LENGTH, MAX_TITLE_LENGTH]
+                },
+                description: {
+                    customRequired: $('#edit-description-valid-title').text(),
+                    validDescription: [MIN_DESCRIPTION_LENGTH, MAX_DESCRIPTION_LENGTH]
+                }
+            },
+
+            errorPlacement: (label, element) => doErrorPlacement(label, element),
+
+            success: function (a, b) {},
+
+            submitHandler: (form) => doFormSubmit(form)
+        });
+
+        $.extend($.validator.messages, {
+            customRequired: $.i18n("field.customRequired"),
+            validTitle: $.i18n("issue.title.validation", MIN_TITLE_LENGTH, MAX_TITLE_LENGTH),
+            validDescription: $.i18n("field.description.validation", MIN_DESCRIPTION_LENGTH, MAX_DESCRIPTION_LENGTH),
+        });
+
+        addErrorIcon();
+    })
 })
 
 populate = val => {
@@ -120,4 +163,22 @@ extendEndpoint = () => {
     let endpoint;
     $('#is-user-type').val() == 'true' ? endpoint = "/issues/my" : endpoint = "/issues";
     window.location.href = location.origin + endpoint;
+}
+
+doFormSubmit = form => {
+    let data = new FormData(form);
+    $.ajax({
+        type: 'POST',
+        url: form.action,
+        data: data,
+        processData: false,
+        contentType: false,
+        beforeSend: function (request) {
+            spinner.show();
+            disableBackground();
+        },
+        success: function () {
+            extendEndpoint();
+        }
+    });
 }

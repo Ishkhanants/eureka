@@ -1,17 +1,16 @@
-$(document).ready(async function () {
+$(document).ready(function () {
+    $.i18n().load({
+        "en": "/i18n/en.json",
+        "hy": "/i18n/hy.json",
+        "ru": "/i18n/ru.json",
+    });
+
+    $.i18n().locale = $("#locale").val();
+
     let image = $('#image');
     const csrfHeader = "X-CSRF-TOKEN";
     let csrfToken = $('input[name^="csrf_token"]').val();
     let username = $('#fc-username').text();
-
-    // await $.i18n().load({
-    //     "en": "/i18n/en.json",
-    //     "hy": "/i18n/hy.json",
-    //     "ru": "/i18n/ru.json",
-    // });
-
-    // let localeValue = $("#locale").val();
-    // $.i18n().locale = localeValue;
 
     $(".section").click(function () {
         $(".section").removeClass("active");
@@ -38,10 +37,10 @@ $(document).ready(async function () {
         }
     });
 
-    if (location.pathname.substring(0,10) === "/issues/my") {
+    if (location.pathname.substring(0, 10) === "/issues/my") {
         $('#products').removeClass("select-tab-border");
         $("#my-issues").addClass("select-tab-border");
-    } else if (location.pathname.substring(0,9) === "/products") {
+    } else if (location.pathname.substring(0, 9) === "/products") {
         $('#products').addClass("select-tab-border");
         $("#my-issues").removeClass("select-tab-border");
     } else if (location.pathname === "/users") {
@@ -51,15 +50,15 @@ $(document).ready(async function () {
         $('#reports').addClass("select-tab-border");
         $("#my-issues").addClass("select-tab-border");
         $('#products').removeClass("select-tab-border");
-    } else if (location.pathname.substring(0,7) === "/issues") {
+    } else if (location.pathname.substring(0, 7) === "/issues") {
         $('#issues').addClass("select-tab-border");
         $("#my-issues").addClass("select-tab-border");
         $('#products').removeClass("select-tab-border");
     }
 
     $('#issues').click(function () {
-        $(this).addClass("select-tab-border");
-        $('#my-issues').removeClass("select-tab-border");
+            $(this).addClass("select-tab-border");
+            $('#my-issues').removeClass("select-tab-border");
         }
     );
 

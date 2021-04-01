@@ -1,9 +1,4 @@
-$(document).ready(async function () {
-        // await $.i18n().load({
-        //     "en": "/i18n/en.json",
-        //     "hy": "/i18n/hy.json",
-        //     "ru": "/i18n/ru.json",
-        // });
+$(document).ready(function () {
 
         // Select/Deselect checkboxes
         let selectAll = $("#selectAll");
@@ -203,18 +198,20 @@ $(document).ready(async function () {
             cls1[i].removeAttribute('id');
         }
 
-        $("#myTable_filter input")
-            .unbind()
-            .bind("input", function (e) {
-                if (this.value.length >= 0 || e.keyCode == 13) {
-                    dtable.search(this.value, false, true).draw();
-                }
-                if (this.value == "") {
-                    dtable.search("", true, false).draw();
-                }
-                return;
-            });
-
         addErrorIcon();
     }
 )
+
+addDataTableFiltering = dtable => {
+    $("#myTable_filter input")
+        .unbind()
+        .bind("input", function (e) {
+            if (this.value.length >= 0 || e.keyCode == 13) {
+                dtable.search(this.value, false, true).draw();
+            }
+            if (this.value == "") {
+                dtable.search("", true, false).draw();
+            }
+            return;
+        });
+}

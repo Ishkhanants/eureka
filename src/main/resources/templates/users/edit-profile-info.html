@@ -115,10 +115,12 @@
                         <div class="row">
                             <div class="col-md-12 mx-auto">
                                 <div class="form-group">
-                                    <label for="email-editable" class="control-label required_label" th:text="#{field.registration.email}"></label>
-                                    <input class="form-control required-input" id="email-editable" name="email-editable"
+                                    <label for="emailEditable" class="control-label required_label" th:text="#{field.registration.email}"></label>
+                                    <input class="form-control required-input" id="emailEditable" name="emailEditable"
                                            th:value="${user.email}"
                                            type="text"/>
+                                    <span hidden id="emailEditable-valid-title" th:text="#{field.registration.phone}">
+                                    </span>
                                 </div>
                             </div>
                         </div>

@@ -12,11 +12,11 @@ $(document).ready(async function () {
         },
         "pageLength": 15,
         "infoCallback": function (settings, start, end, max, total, pre) {
-            return "Issues" /*$.i18n("list.users")*/ + " " + start + "-" + end + " " + "from" /*$.i18n("list.from")*/ + " " + total; //+ $.i18n("list.form.arm");
+            return $.i18n("list.issues") + " " + start + "-" + end + " " + $.i18n("list.from") + " " + total + $.i18n("list.form.arm");
         },
         'sPaginationType': 'twoNumbers',
         language: {
-            searchPlaceholder: "",//$.i18n("list.search"),
+            searchPlaceholder: $.i18n("list.search"),
             search: "",
             paginate: {
                 next: '>',
@@ -61,4 +61,5 @@ $(document).ready(async function () {
         $('#ids-to-delete').val(array);
     })
 
+    addDataTableFiltering(dtable);
 });

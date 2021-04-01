@@ -6,7 +6,7 @@
     <button aria-label="Close" class="close custom-close" style="font-size: 32px;" type="button">
         <span aria-hidden="true">&times;</span>
     </button>
-    <form id="form" th:action="@{/issues/edit}" th:method="post" th:object="${issue}">
+    <form id="edit-form" th:action="@{/issues/edit}" th:method="post" th:object="${issue}">
         <div class="lds-dual-ring"></div>
         <div class="container" style="margin-right: auto;">
             <input type="hidden" th:class="id" name="id" th:value="${issue.getId()}"/>
@@ -26,8 +26,6 @@
                                             th:text="${product.getName()}">
                                     </option>
                                 </select>
-                                <span hidden id="full-name-valid-titlem" th:text="#{field.registration.fullName}">
-                            </span>
                             </div>
                         </div>
                     </div>
@@ -39,7 +37,6 @@
                                 <input type="hidden" th:value="${issue.subSystemId}" id="subsystem-id"/>
                                 <select class="select form-control required-input" id="subsystem" name="subsystem">
                                 </select>
-                                <span hidden id="full-name-valid-titlemm" th:text="#{field.registration.fullName}">
                             </span>
                             </div>
                         </div>
@@ -52,7 +49,6 @@
                                 <input type="hidden" th:value="${issue.releaseVersionId}" id="release-version-id"/>
                                 <select class="select form-control required-input" id="release-version" name="release-version">
                                 </select>
-                                <span hidden id="full-name-valid-titlemmm" th:text="#{field.registration.fullName}">
                             </span>
                             </div>
                         </div>
@@ -69,7 +65,6 @@
                                        th:placeholder="#{date.placeholder}"
                                        th:readonly="${isUserType == true}"
                                        type="date"/>
-                                <span hidden id="full-name-valid-titlemmmm" th:text="#{field.registration.fullName}">
                             </span>
                             </div>
                         </div>
@@ -85,7 +80,6 @@
                                        th:value="${issue.fixDate}"
                                        th:placeholder="#{date.placeholder}"
                                        type="date"/>
-                                <span hidden id="full-name-valid-t" th:text="#{field.registration.fullName}">
                             </span>
                             </div>
                         </div>
@@ -101,7 +95,6 @@
                                        th:value="${issue.closeDate}"
                                        th:placeholder="#{date.placeholder}"
                                        type="date"/>
-                                <span hidden id="full-name-valid-titm" th:text="#{field.registration.fullName}">
                             </span>
                             </div>
                         </div>
@@ -117,7 +110,6 @@
                                        th:value="${issue.isFoundInTheField}"
                                        onclick="this.value = this.checked"
                                        type="checkbox"/>
-                                <span hidden th:text="#{field.registration.fullName}">
                             </span>
                             </div>
                         </div>
@@ -133,8 +125,6 @@
                                        id="report-source"
                                        th:value="${issue.reportSource}"
                                        type="text"/>
-                                <span hidden th:text="#{field.registration.fullName}">
-                            </span>
                             </div>
                         </div>
                     </div>
@@ -151,7 +141,6 @@
                                             th:text="${status.displayValue}">
                                     </option>
                                 </select>
-                                <span hidden id="full" th:text="#{field.registration.fullName}">
                             </span>
                             </div>
                         </div>
@@ -169,7 +158,6 @@
                                             th:text="${severity.displayValue}">
                                     </option>
                                 </select>
-                                <span hidden id="fullin" th:text="#{field.registration.fullName}">
                             </span>
                             </div>
                         </div>
@@ -186,7 +174,6 @@
                                             th:text="${type.displayValue}">
                                     </option>
                                 </select>
-                                <span hidden th:text="#{field.registration.fullName}">
                             </span>
                             </div>
                         </div>
@@ -207,7 +194,6 @@
 <!--                                            'background-image: url(data:image/jpg;base64,' + @userServiceImpl.extractAvatarPicture(assignee) + ')' "-->
                                     </option>
                                 </select>
-                                <span hidden id="full-name-valid-titlemmmmm" th:text="#{field.registration.fullName}">
                             </span>
                             </div>
                         </div>
@@ -233,8 +219,6 @@
 
                                     </option>
                                 </select>
-                                <span hidden th:text="#{field.registration.fullName}">
-                            </span>
                             </div>
                         </div>
                     </div>
@@ -249,8 +233,6 @@
                                        th:checked="${issue.isConfirmationMailSent}"
                                        onclick="this.value = this.checked"
                                        type="checkbox"/>
-                                <span hidden th:text="#{field.registration.fullName}">
-                            </span>
                             </div>
                         </div>
                     </div>
@@ -264,7 +246,7 @@
                                 <textarea class="form-control required-input" id="title"
                                           name="title" type="text" style="width: 96%" th:field="*{title}"
                                           th:value="${issue.title}"></textarea>
-                                <span hidden th:text="#{field.registration.fullName}">
+                                <span hidden id="edit-title-valid-title" th:text="#{issue.title}">
                             </span>
                             </div>
                         </div>
@@ -284,7 +266,7 @@
                                           th:text="${issue.description}"
                                           style="width: 100%; height: 150px;"></textarea>
                                 </div>
-                                <span hidden th:text="#{field.registration.fullName}">
+                                <span hidden id="edit-description-valid-title" th:text="#{issue.description}">
                             </span>
                             </div>
                         </div>
@@ -299,8 +281,6 @@
                                 <textarea class="form-control required-input" id="testing-document"
                                           name="testing-document" type="text" style="width: 96%"
                                           th:text="${issue.testingDocument}" th:value="${issue.testingDocument}"></textarea>
-                                <span hidden th:text="#{field.registration.fullName}">
-                            </span>
                             </div>
                         </div>
                     </div>
@@ -314,8 +294,6 @@
                                 <textarea class="form-control required-input" id="comment"
                                           name="comment" type="text" style="width: 96%" th:text="${issue.comment}"
                                           th:value="${issue.comment}"></textarea>
-                                <span hidden th:text="#{field.registration.fullName}">
-                            </span>
                             </div>
                         </div>
                     </div>

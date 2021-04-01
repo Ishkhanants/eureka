@@ -1,4 +1,17 @@
 $(document).ready(async function () {
+
+    await $.i18n().load({
+        "en": "/i18n/en.json",
+        "hy": "/i18n/hy.json",
+        "ru": "/i18n/ru.json",
+    });
+
+    $.i18n().locale = $("#locale").val();
+
+    $.validator.setDefaults({
+        ignore: []
+    });
+
     let dtable = $("#myTable").DataTable({
         "bLengthChange": false,
         "order": [2, 'asc'],
@@ -11,12 +24,12 @@ $(document).ready(async function () {
         },
         "pageLength": 15,
         "infoCallback": function (settings, start, end, max, total, pre) {
-            return "Users" /*$.i18n("list.users")*/ + " " + start + "-" + end + " " + "from" /*$.i18n("list.from")*/ + " " + total; //+ $.i18n("list.form.arm");
+            return $.i18n("list.users") + " " + start + "-" + end + " " + $.i18n("list.from") + " " + total + $.i18n("list.form.arm");
         },
         'sPaginationType': 'twoNumbers',
         language: {
-            searchPlaceholder: "",//$.i18n("list.search"),
-            search: "",
+            searchPlaceholder: "alo",
+            search: "vholuvjb",
             paginate: {
                 next: '>',
                 previous: '<'
@@ -54,6 +67,8 @@ $(document).ready(async function () {
         let val = $(this).val();
         populateAdd(val);
     })
+
+    addDataTableFiltering(dtable);
 
     let table = $('#myTable');
 
@@ -98,9 +113,94 @@ $(document).ready(async function () {
         $('#ids-to-delete').val(array);
     })
 
+    addValidationHtml();
+
+    $(document).ready(function () {
+
+        const MAX_LENGTH = 65;
+        const VALID_USERNAME_MIN_LENGTH = 5;
+        const VALID_USERNAME_MAX_LENGTH = 20;
+        const VALID_PASSWORD_MIN_LENGTH = 6;
+        const VALID_PASSWORD_MAX_LENGTH = 20;
+
+        let confirmPasswordCustomRequired = $("#confirm-password-valid-title").text();
+
+        $('#add-form').validate({
+            rules: {
+                username: {
+                    customRequired: $("#username-valid-title").text(),
+                    validUsername: [VALID_USERNAME_MIN_LENGTH, VALID_USERNAME_MAX_LENGTH]
+                },
+                fullName: {
+                    customRequired: $("#full-name-valid-title").text(),
+                    validFullName: true,
+                    maxlength: MAX_LENGTH
+                },
+                password: {
+                    customRequired: $("#password-valid-title").text(),
+                    validPassword: [VALID_PASSWORD_MIN_LENGTH, VALID_PASSWORD_MAX_LENGTH]
+                },
+                confirmPassword: {
+                    customRequired: confirmPasswordCustomRequired,
+                    equalTo: "#password"
+                },
+                email: {
+                    customRequiredEmail: $("#email-valid-title").text(),
+                    validEmail: true
+                },
+                phone: {
+                    customRequired: $("#phone-valid-title").text(),
+                    validPhone: true
+                }
+            },
+
+            errorPlacement: (label, element) => doErrorPlacement(label, element),
+
+            success: function (a, b) {}
+        });
+
+        $('#edit-form').validate({
+            rules: {
+                editUsername: {
+                    customRequired: $("#edit-username-valid-title").text(),
+                    validUsername: [VALID_USERNAME_MIN_LENGTH, VALID_USERNAME_MAX_LENGTH]
+                },
+                editFullName: {
+                    customRequired: $("#edit-full-name-valid-title").text(),
+                    validFullName: true,
+                    maxlength: MAX_LENGTH
+                },
+                editEmail: {
+                    customRequiredEmail: $("#edit-email-valid-title").text(),
+                    validEmail: true
+                },
+                editPhone: {
+                    customRequired: $("#edit-phone-valid-title").text(),
+                    validPhone: true
+                }
+            },
+
+            errorPlacement: (label, element) => doErrorPlacement(label, element),
+
+            success: function (a, b) {}
+        });
+
+        $.extend($.validator.messages, {
+            customRequired: $.i18n("field.customRequired"),
+            validUsername: $.i18n("user.userName.validation", VALID_USERNAME_MIN_LENGTH, VALID_USERNAME_MAX_LENGTH),
+            validFullName: $.i18n("user.fullName.validation"),
+            validPassword: $.i18n("user.password.validation", VALID_PASSWORD_MIN_LENGTH, VALID_PASSWORD_MAX_LENGTH),
+            equalTo: $.i18n("user.password.equals"),
+            validPhone: $.i18n("user.phone.validation"),
+            validEmail: $.i18n("user.email.validation"),
+        });
+
+        addErrorIcon();
+    });
+
 });
 
-populateAdd = (val) => {
+populateAdd = val => {
     $.ajax({
         type: "GET",
         url: "/users/group-by-type/" + val,
@@ -115,7 +215,7 @@ populateAdd = (val) => {
     })
 }
 
-populateEdit = (val) => {
+populateEdit = val => {
     let edv = $('#edit-group').val();
     $.ajax({
         type: "GET",
@@ -132,19 +232,3 @@ populateEdit = (val) => {
     })
 }
 
-processUserType = (str) => {
-    switch (str) {
-        case 'SECURITY_ADMINS':
-            return 'Security Admins';
-        case 'ADMINS_MANAGEMENT':
-            return 'Admins (Management)';
-        case 'ADMINS_DEVELOPMENT':
-            return 'Admins (Development)';
-        case 'TESTERS':
-            return 'Testers';
-        case 'DEVELOPERS':
-            return 'Developers';
-        case 'READ_ONLY_ACCESS':
-            return 'Read Only Access';
-    }
-}

@@ -40,8 +40,8 @@ public class ReleaseVersionServiceImpl implements ReleaseVersionService {
         var updatedReleaseVersion = new ReleaseVersion();
 
         updatedReleaseVersion.setId(Long.parseLong(request.getParameter("id")));
-        updatedReleaseVersion.setVersion(request.getParameter("edit-version"));
-        updatedReleaseVersion.setDescription(request.getParameter("edit-description"));
+        updatedReleaseVersion.setVersion(request.getParameter("editVersion"));
+        updatedReleaseVersion.setDescription(request.getParameter("editDescription"));
         updatedReleaseVersion.setStartDate(LocalDate.parse(request.getParameter("edit-date")));
 
         return updatedReleaseVersion;

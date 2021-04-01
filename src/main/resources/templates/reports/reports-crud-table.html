@@ -8,57 +8,57 @@
 <div class="container-xl container my-2" style=" box-shadow: 0 47px 74px -31px rgba(7, 40, 137, 0.19);">
     <div class="table-responsive">
         <div class="table-wrapper">
-            <form method="post" th:action="@{/issues/reports/delete}">
-                <div class="table-title">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <h2>Manage <b>Reports</b></h2>
-                        </div>
-                        <div class="col-sm-4">
-                            <a href="#addReportModal" class="btn" data-toggle="modal"><i
-                                    class="material-icons">&#xE147;</i> <span>Add New Report</span></a>
-                            <span id="deleteAllSelected" hidden><a href="#deleteSelectedReportsModal" class="btn"
-                                                                   data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a></span>
-                        </div>
-                        <div id="myTable_filter" class="col-sm-5">
-                            <label>
-                                <input type="search" placeholder="🔎 Search" class="" aria-controls="myTable"
-                                       style="border: none; border-radius: 5px; margin-left: 100%">
-                            </label>
-                        </div>
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h2>Manage <b>Reports</b></h2>
+                    </div>
+                    <div class="col-sm-4">
+                        <a href="#addReportModal" class="btn" data-toggle="modal"><i
+                                class="material-icons">&#xE147;</i> <span>Add New Report</span></a>
+                        <span id="deleteAllSelected" hidden><a href="#deleteSelectedReportsModal" class="btn"
+                                                               data-toggle="modal"><i
+                                class="material-icons">&#xE15C;</i> <span>Delete</span></a></span>
+                    </div>
+                    <div id="myTable_filter" class="col-sm-5">
+                        <label>
+                            <input type="search" class="" aria-controls="myTable" th:placeholder="#{filter.placeholder}"
+                                   style="border: none; border-radius: 5px; margin-left: 100%">
+                        </label>
                     </div>
                 </div>
+            </div>
 
-                <table id="myTable" class="table table-responsive-md table-striped table-hover">
-                    <thead>
-                    <tr>
-                        <th>
+            <table id="myTable" class="table table-responsive-md table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>
 							<span class="custom-checkbox">
 								<input type="checkbox" id="selectAll">
 								<label for="selectAll"></label>
 							</span>
-                        </th>
-                        <th th:text="#{report.reported.by}"></th>
-                        <th th:text="#{report.issue.title}"></th>
-                        <th th:text="#{report.datetime}"></th>
-                        <th th:text="#{report.comment}"></th>
-                        <th th:text="#{user.actions}"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="report : ${listReports}">
-                        <td>
+                    </th>
+                    <th th:text="#{report.reported.by}"></th>
+                    <th th:text="#{report.issue.title}"></th>
+                    <th th:text="#{report.datetime}"></th>
+                    <th th:text="#{report.comment}"></th>
+                    <th th:text="#{user.actions}"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="report : ${listReports}">
+                    <td>
 							<span class="custom-checkbox"
                                   th:if="${report.getReporter().getUsername() == #authentication.getName() || @userServiceImpl.getUserByUsername(#authentication.getName()).isAdmin()}">
 								<input type="checkbox" id="checkbox1" name="options[]" th:value="${report.getId()}"/>
 								<label for="checkbox1"></label>
 							</span>
-                        </td>
-                        <td th:text="${report.getReporter().getFullName()}"></td>
-                        <td th:text="${report.getIssue().getTitle()}"></td>
-                        <td th:text="${report.getDateTime()}" th:class="date-time-id" th:name="date-time-id"></td>
-                        <td th:text="${report.getComment()}"></td>
-                        <td>
+                    </td>
+                    <td th:text="${report.getReporter().getFullName()}"></td>
+                    <td th:text="${report.getIssue().getTitle()}"></td>
+                    <td th:text="${report.getDateTime()}" th:class="date-time-id" th:name="date-time-id"></td>
+                    <td th:text="${report.getComment()}"></td>
+                    <td>
                             <span th:if="${report.getReporter().getUsername() == #authentication.getName() || @userServiceImpl.getUserByUsername(#authentication.getName()).isAdmin()}">
                             <a href="#editReportModal" class="edit" data-toggle="modal"><i class="material-icons"
                                                                                            data-toggle="tooltip"
@@ -73,11 +73,10 @@
                             <input th:type="hidden" name="issue-flag" class="issue-flag"
                                    th:value="${report.getIssue() == null ? 'true' : 'false'}"/>
                             </span>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -86,7 +85,7 @@
 <div id="addReportModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post" th:action="@{/issues/reports/create}" th:object="${report}">
+            <form id="add-form" method="post" th:action="@{/issues/reports/create}" th:object="${report}">
                 <div class="modal-header">
                     <h4 class="modal-title">Add <b>Report</b></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -103,9 +102,9 @@
                         </select>
                     </div>
                     <div class="form-group required-input">
-                        <label th:text="#{report.comment}"></label>
-                        <textarea style="height: 150px" type="text" th:field="*{comment}" class="form-control"
-                                  required></textarea>
+                        <label id="comment-valid-title" th:text="#{report.comment}"></label>
+                        <textarea style="height: 150px" type="text" th:field="*{comment}" class="form-control">
+                        </textarea>
                     </div>
                 </div>
                 <div class="modal-footer activity-buttons btn-group" style="margin-left: 2px">
@@ -133,16 +132,17 @@
 <div id="editReportModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post" th:action="@{/issues/reports/edit}">
+            <form id="edit-form" method="post" th:action="@{/issues/reports/edit}">
                 <div class="modal-header">
                     <h4 class="modal-title">Edit <b>Report</b></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group required-input">
-                        <label th:text="#{report.comment}"></label>
-                        <textarea style="height: 150px" type="text" id="edit-comment" name="edit-comment"
-                                  class="form-control" required></textarea>
+                        <label id="edit-comment-valid-title" th:text="#{report.comment}"></label>
+                        <textarea style="height: 150px" type="text" id="edit-comment" name="editComment"
+                                  class="form-control">
+                        </textarea>
                     </div>
                 </div>
                 <div class="modal-footer activity-buttons btn-group" style="margin-left: 2px">

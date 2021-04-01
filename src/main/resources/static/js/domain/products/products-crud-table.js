@@ -1,5 +1,15 @@
 $(document).ready(async function () {
 
+    $.validator.setDefaults({
+        ignore: []
+    });
+
+    await $.i18n().load({
+        "en": "/i18n/en.json",
+        "hy": "/i18n/hy.json",
+        "ru": "/i18n/ru.json",
+    });
+
     let dtable = $("#myTable").DataTable({
         "bLengthChange": false,
         "order": [[3, 'asc'], [1, 'asc']],
@@ -12,11 +22,11 @@ $(document).ready(async function () {
         },
         "pageLength": 15,
         "infoCallback": function (settings, start, end, max, total, pre) {
-            return "Products" /*$.i18n("list.users")*/ + " " + start + "-" + end + " " + "from" /*$.i18n("list.from")*/ + " " + total; //+ $.i18n("list.form.arm");
+            return $.i18n("list.products") + " " + start + "-" + end + " " + $.i18n("list.from") + " " + total + $.i18n("list.form.arm");
         },
         'sPaginationType': 'twoNumbers',
         language: {
-            searchPlaceholder: "",//$.i18n("list.search"),
+            searchPlaceholder: $.i18n("list.search"),
             search: "",
             paginate: {
                 next: '>',
@@ -80,5 +90,14 @@ $(document).ready(async function () {
         $('#ids-to-delete').val(array);
         $('#owner-ids-to-delete').val(ownerId);
     })
-    
+
+    $('#start-date').val(new Date().toDateInputValue());
+
+    addValidationHtml();
+
+    $(document).ready(function(){
+        addValidationForNameAndDescription();
+    })
+
+    addDataTableFiltering(dtable);
 });

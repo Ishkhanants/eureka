@@ -43,7 +43,7 @@ public class ReportServiceImpl implements ReportService {
         var updatedReport = new Report();
 
         updatedReport.setId(Long.parseLong(request.getParameter("id")));
-        updatedReport.setComment(request.getParameter("edit-comment"));
+        updatedReport.setComment(request.getParameter("editComment"));
 
         return updatedReport;
     }

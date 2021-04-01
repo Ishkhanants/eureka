@@ -54,8 +54,8 @@ public class ProductServiceImpl implements ProductService {
         var updatedProduct = new Product();
 
         updatedProduct.setId(Long.parseLong(request.getParameter("id")));
-        updatedProduct.setName(request.getParameter("edit-name"));
-        updatedProduct.setDescription(request.getParameter("edit-description"));
+        updatedProduct.setName(request.getParameter("editName"));
+        updatedProduct.setDescription(request.getParameter("editDescription"));
         updatedProduct.setStartDate(LocalDate.parse(request.getParameter("edit-date")));
 
         return updatedProduct;
