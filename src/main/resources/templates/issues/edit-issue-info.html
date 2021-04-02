@@ -17,7 +17,7 @@
                         <div class="col-md-12 mx-auto">
                             <div class="form-group" style="margin-top: 20px;">
                                 <label class="control-label required_label" for="product"
-                                       th:text="#{issue.product}"></label>
+                                       th:text="#{usual.product}"></label>
                                 <select class="select form-control required-input" id="product" name="product"
                                         th:value="${issue.productId}">
                                     <option th:each="product : ${@productServiceImpl.getAllProducts()}"
@@ -166,7 +166,7 @@
                         <div class="col-md-12 mx-auto">
                             <div class="form-group">
                                 <label class="control-label required_label" for="type"
-                                       th:text="#{issue.type}"></label>
+                                       th:text="#{usual.type}"></label>
                                 <select class="select form-control required-input" id="type" name="type" th:readonly="${isUserType == true}">
                                     <option th:each="type : ${T(com.eureka.capstone.domain.issue.IssueType).values()}"
                                             th:value="${type}"
@@ -202,7 +202,7 @@
                         <div class="col-md-12 mx-auto">
                             <div class="form-group">
                                 <label class="control-label required_label"
-                                       th:text="#{issue.reporter}" for="reporter"></label>
+                                       th:text="#{usual.reporter}" for="reporter"></label>
                                 <select class="select form-control required-input" id="reporter" name="reporter"
                                         th:value="${issue.reporterId}" th:readonly="${isUserType == true}">
                                     <option th:each="reporter : ${@userServiceImpl.getAllUsers()}"
@@ -257,7 +257,7 @@
                         <div class="col-md-12 mx-auto">
                             <div class="form-group">
                                 <label class="control-label required_label" for="description"
-                                       th:text="#{issue.description}"></label>
+                                       th:text="#{usual.description}"></label>
                                 <div style="width: 96%">
                                 <textarea class="form-control required-input"
                                           name="description" id="description"
@@ -266,7 +266,7 @@
                                           th:text="${issue.description}"
                                           style="width: 100%; height: 150px;"></textarea>
                                 </div>
-                                <span hidden id="edit-description-valid-title" th:text="#{issue.description}">
+                                <span hidden id="edit-description-valid-title" th:text="#{usual.description}">
                             </span>
                             </div>
                         </div>
@@ -290,7 +290,7 @@
                         <div class="col-md-12 mx-auto">
                             <div class="form-group">
                                 <label class="control-label" for="comment"
-                                       th:text="#{issue.comment}"></label>
+                                       th:text="#{usual.comment}"></label>
                                 <textarea class="form-control required-input" id="comment"
                                           name="comment" type="text" style="width: 96%" th:text="${issue.comment}"
                                           th:value="${issue.comment}"></textarea>

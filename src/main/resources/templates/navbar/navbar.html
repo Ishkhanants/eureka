@@ -22,7 +22,7 @@
                 <a class="nav-link hvrcenter"
                    href="/"
                    style="color: black"
-                   th:text="#{navbar.products}"></a>
+                   th:text="#{usual.products}"></a>
             </li>
             <li class="nav-item" id="my-issues" sec:authorize="hasAuthority('USER_ROLE')">
                 <a class="nav-link hvrcenter"
@@ -33,19 +33,19 @@
                 <a class="nav-link hvrcenter"
                    href="#"
                    style="color: black"
-                   th:text="#{navbar.reports}"></a>
+                   th:text="#{usual.reports}"></a>
             </li>
             <li class="nav-item" id="users" sec:authorize="hasAnyAuthority('ADMIN_ROLE')">
                 <a class="nav-link hvrcenter"
                    href="#"
                    style="color: black"
-                   th:text="#{navbar.users}"></a>
+                   th:text="#{usual.users}"></a>
             </li>
             <li class="nav-item" id="issues" sec:authorize="hasAnyAuthority('ADMIN_ROLE')">
                 <a class="nav-link hvrcenter"
                    href="/issues"
                    style="color: black"
-                   th:text="#{navbar.issues}"></a>
+                   th:text="#{usual.issues}"></a>
             </li>
         </ul>
     </div>

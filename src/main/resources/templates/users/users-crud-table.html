@@ -38,16 +38,16 @@
 								<label for="selectAll"></label>
 							</span>
                     </th>
-                    <th th:text="#{user-list-photo}"></th>
-                    <th th:text="#{user-list-username}"></th>
-                    <th th:text="#{user-list-full-name}"></th>
-                    <th th:text="#{user-list-type}"></th>
-                    <th th:text="#{user-list-group}"></th>
-                    <th th:text="#{user-list-email}"></th>
-                    <th th:text="#{user-list-tel}"></th>
-                    <th th:text="#{user-list-role}"></th>
-                    <th th:text="#{user-list-changeTo}"></th>
-                    <th th:text="#{user.actions}"></th>
+                    <th th:text="#{user.photo}"></th>
+                    <th th:text="#{user.username}"></th>
+                    <th th:text="#{user.fullName}"></th>
+                    <th th:text="#{usual.type}"></th>
+                    <th th:text="#{user.group}"></th>
+                    <th th:text="#{user.email}"></th>
+                    <th th:text="#{user.phone}"></th>
+                    <th th:text="#{user.role}"></th>
+                    <th th:text="#{user.changeTo}"></th>
+                    <th th:text="#{usual.actions}"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -75,14 +75,14 @@
                     <td th:text="${user.getEmail()}"></td>
                     <td th:text="${user.getPhone()}"></td>
                     <td>
-                        <span th:if="${user.isAdmin()}" th:text="#{user-list-admin}"></span>
-                        <span th:if="${user.isAdmin()==false}" th:text="#{user-list-user}"></span>
+                        <span th:if="${user.isAdmin()}" th:text="#{user.admin}"></span>
+                        <span th:if="${user.isAdmin()==false}" th:text="#{user.user}"></span>
                     </td>
                     <td>
                         <a th:if="${user.isAdmin()}" th:href="@{'/users/toUser/' + ${user.getId()}}"
-                           th:text="#{user-list-user}"></a>
+                           th:text="#{user.user}"></a>
                         <a th:if="${user.isAdmin() == false}" th:href="@{'/users/toAdmin/' + ${user.getId()}}"
-                           th:text="#{user-list-admin}"></a>
+                           th:text="#{user.admin}"></a>
                     </td>
                     <td>
                         <a href="#editUserModal" class="edit" data-toggle="modal"><i class="material-icons"
@@ -116,12 +116,12 @@
                         <span hidden id="username-valid-title" th:text="#{user.username}"></span>
                     </div>
                     <div class="form-group required-input">
-                        <label th:text="#{user.fullname}"></label>
+                        <label th:text="#{user.fullName}"></label>
                         <input type="text" th:field="*{fullName}" class="form-control"/>
-                        <span hidden id="full-name-valid-title" th:text="#{user.fullname}"></span>
+                        <span hidden id="full-name-valid-title" th:text="#{user.fullName}"></span>
                     </div>
                     <div class="form-group required-input">
-                        <label th:text="#{user.usertype}"></label>
+                        <label th:text="#{usual.type}"></label>
                         <select class="select form-control required-input" id="userType" name="userType"
                                 th:name="userType">
                             <option th:each="userType : ${T(com.eureka.capstone.domain.user.UserType).values()}"
@@ -220,12 +220,12 @@
                         <span hidden id="edit-username-valid-title" th:text="#{user.username}"></span>
                     </div>
                     <div class="form-group required-input">
-                        <label th:text="#{user.fullname}"></label>
+                        <label th:text="#{user.fullName}"></label>
                         <input id="edit-fullName" name="editFullName" type="text" class="form-control"/>
                         <span hidden id="edit-full-name-valid-title" th:text="#{user.username}"></span>
                     </div>
                     <div class="form-group required-input">
-                        <label th:text="#{user.usertype}"></label>
+                        <label th:text="#{usual.type}"></label>
                         <select class="select form-control required-input"
                                 id="edit-userType"
                                 name="edit-userType"

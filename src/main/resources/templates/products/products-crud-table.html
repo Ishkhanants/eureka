@@ -38,13 +38,13 @@
 								<label for="selectAll"></label>
 							</span>
                         </th>
-                        <th th:text="#{product.name}"></th>
+                        <th th:text="#{usual.name}"></th>
                         <th th:text="#{product.owner}"></th>
-                        <th th:text="#{product.description}"></th>
-                        <th th:text="#{product.start}"></th>
-                        <th th:text="#{product.subsystems}"></th>
-                        <th th:text="#{product.releaseVersions}"></th>
-                        <th th:text="#{user.actions}"></th>
+                        <th th:text="#{usual.description}"></th>
+                        <th th:text="#{usual.start}"></th>
+                        <th th:text="#{usual.subsystems}"></th>
+                        <th th:text="#{usual.releaseVersions}"></th>
+                        <th th:text="#{usual.actions}"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -98,7 +98,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group required-input">
-                        <label id="name-valid-title" th:text="#{product.name}"></label>
+                        <label id="name-valid-title" th:text="#{usual.name}"></label>
                         <input id="name" name="name" type="text" th:field="*{name}" class="form-control"/>
                     </div>
                     <div class="form-group required-input">
@@ -112,7 +112,7 @@
                         </select>
                     </div>
                     <div class="form-group required-input" style="position: relative;">
-                        <label th:text="#{product.start}"></label>
+                        <label th:text="#{usual.start}"></label>
                         <input class="form-control datepicker bg-white date"
                                id="start-date"
                                name="date"
@@ -128,7 +128,7 @@
                         </span>
                     </div>
                     <div class="form-group required-input">
-                        <label id="description-valid-title" th:text="#{product.description}"></label>
+                        <label id="description-valid-title" th:text="#{usual.description}"></label>
                         <textarea type="text" id="description" name="description" th:field="*{description}"
                                   class="form-control"></textarea>
                     </div>
@@ -161,7 +161,7 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label id="edit-name-valid-title" th:text="#{product.name}"></label>
+                    <label id="edit-name-valid-title" th:text="#{usual.name}"></label>
                     <input id="edit-name" type="text"
                            class="form-control" name="editName"/>
                 </div>
@@ -177,7 +177,7 @@
                     </select>
                 </div>
                 <div class="form-group required-input" style="position: relative;">
-                    <label th:text="#{product.start}"></label>
+                    <label th:text="#{usual.start}"></label>
                     <input class="form-control bg-white date"
                            name="edit-date"
                            id="edit-date"
@@ -192,7 +192,7 @@
                         </span>
                 </div>
                 <div class="form-group required-input">
-                    <label id="edit-description-valid-title" th:text="#{product.description}"></label>
+                    <label id="edit-description-valid-title" th:text="#{usual.description}"></label>
                     <textarea type="text" id="edit-description" name="editDescription" class="form-control"></textarea>
                 </div>
             </div>

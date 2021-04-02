@@ -4,7 +4,7 @@
     <meta content="width=1536, height=864 initial-scale=1" name="viewport">
     <meta charset="UTF-8">
 
-    <title th:text="#{page.title.issue.list}"></title>
+    <title th:text="#{usual.issues}"></title>
     <link th:href="@{/images/logo.png}" th:rel="icon"/>
 
     <!--Font Awesome & Etc.-->
@@ -31,9 +31,9 @@
     <script defer src="/webjars/jquery.i18n/src/jquery.i18n.parser.js" type="text/javascript"></script>
 
     <!--jQuery Validation-->
-    <script src="/webjars/jquery-validation/1.19.0/jquery.validate.js"></script>
-    <script src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js" type="text/javascript"></script>
-    <script src="/webjars/jquery-validation/1.19.0/additional-methods.min.js" type="text/javascript"></script>
+    <script defer src="/webjars/jquery-validation/1.19.0/jquery.validate.js"></script>
+    <script defer src="/webjars/jquery-validation/1.19.0/jquery.validate.min.js" type="text/javascript"></script>
+    <script defer src="/webjars/jquery-validation/1.19.0/additional-methods.min.js" type="text/javascript"></script>
 
     <!--DataTables-->
     <script src="/webjars/datatables/1.10.21/js/jquery.dataTables.js" type="text/javascript"></script>
@@ -46,7 +46,7 @@
     <link rel="stylesheet" th:href="@{/css/footer-home.css}"/>
     <link rel="stylesheet" th:href="@{/css/modal-styles.css}"/>
 
-    <script th:src="|/js/validation/validation.js|" type="text/javascript"></script>
+    <script defer th:src="|/js/validation/validation.js|" type="text/javascript"></script>
     <script th:src="|/js/navbar/navbar.js|" type="text/javascript"></script>
     <script th:src="|/js/domain/crud-table.js|" type="text/javascript"></script>
     <script th:src="|/js/domain/issues/issues-crud-table.js|" type="text/javascript"></script>

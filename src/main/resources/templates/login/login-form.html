@@ -7,12 +7,12 @@
             <p class="shadowedSubheader" th:text="#{loginForm.hintMessage}"></p>
         </div>
         <div class="form-group shadowedInput text-left input_div">
-            <label class="input-title" for="username" th:text="#{loginForm.username.label}"></label>
+            <label class="input-title" for="username" th:text="#{user.username}"></label>
             <input autofocus="autofocus" class="form-control" id="username" name="username"
                    onkeyup="success()" th:placeholder="#{loginForm.username.placeholder}" type="text">
         </div>
         <div class="form-group text-left shadowedInput input_div">
-            <label class="input-title" for="password" th:text="#{loginForm.password.label}"></label>
+            <label class="input-title" for="password" th:text="#{user.password}"></label>
             <div class="input-group">
                 <input class="form-control" id="password" name="password" onkeyup="success()"
                        th:placeholder="#{loginForm.password.placeholder}" type="password">

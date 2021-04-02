@@ -38,11 +38,11 @@
 								<label for="selectAll"></label>
 							</span>
                     </th>
-                    <th th:text="#{report.reported.by}"></th>
+                    <th th:text="#{usual.reporter}"></th>
                     <th th:text="#{report.issue.title}"></th>
                     <th th:text="#{report.datetime}"></th>
-                    <th th:text="#{report.comment}"></th>
-                    <th th:text="#{user.actions}"></th>
+                    <th th:text="#{usual.comment}"></th>
+                    <th th:text="#{usual.actions}"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -102,7 +102,7 @@
                         </select>
                     </div>
                     <div class="form-group required-input">
-                        <label id="comment-valid-title" th:text="#{report.comment}"></label>
+                        <label id="comment-valid-title" th:text="#{usual.comment}"></label>
                         <textarea style="height: 150px" type="text" th:field="*{comment}" class="form-control">
                         </textarea>
                     </div>
@@ -139,7 +139,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group required-input">
-                        <label id="edit-comment-valid-title" th:text="#{report.comment}"></label>
+                        <label id="edit-comment-valid-title" th:text="#{usual.comment}"></label>
                         <textarea style="height: 150px" type="text" id="edit-comment" name="editComment"
                                   class="form-control">
                         </textarea>

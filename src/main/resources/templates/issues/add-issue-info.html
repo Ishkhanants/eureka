@@ -16,7 +16,7 @@
                         <div class="col-md-12 mx-auto">
                             <div class="form-group" style="margin-top: 20px;">
                                 <label class="control-label required_label" for="product"
-                                       th:text="#{issue.product}"></label>
+                                       th:text="#{usual.product}"></label>
                                 <select class="select form-control required-input" id="product" name="product"
                                         th:name="product" th:field="*{productId}">
                                     <option th:each="product : ${@productServiceImpl.getAllProducts()}"
@@ -135,7 +135,7 @@
                         <div class="col-md-12 mx-auto">
                             <div class="form-group">
                                 <label class="control-label required_label" for="type"
-                                       th:text="#{issue.type}"></label>
+                                       th:text="#{usual.type}"></label>
                                 <select class="select form-control required-input" id="type" name="type" th:name="type" th:readonly="${isUserType}">
                                     <option th:if="${isUserType == false}"
                                             th:each="type : ${T(com.eureka.capstone.domain.issue.IssueType).values()}"
@@ -171,7 +171,7 @@
                         <div class="col-md-12 mx-auto">
                             <div class="form-group">
                                 <label class="control-label required_label"
-                                       th:text="#{issue.reporter}" for="reporter"></label>
+                                       th:text="#{usual.reporter}" for="reporter"></label>
                                 <select class="select form-control required-input" id="reporter" name="reporter" th:name="reporterId" th:readonly="${isUserType}">
                                     <option th:if="${isUserType == false}"
                                             th:each="reporter : ${@userServiceImpl.getAllUsers()}"
@@ -219,7 +219,7 @@
                             <div class="form-group">
 <!--                                for="editor"-->
                                 <label id="description-valid-title" class="control-label required_label" for="description"
-                                       th:text="#{issue.description}"></label>
+                                       th:text="#{usual.description}"></label>
                                 <div style="width: 96%">
                                     <!--                                          name="content" id="editor">-->
                                     <textarea class="form-control required-input"

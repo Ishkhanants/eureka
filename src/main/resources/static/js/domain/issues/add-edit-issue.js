@@ -5,10 +5,6 @@ let spinner = $(".lds-dual-ring");
 
 $(document).ready(async function () {
 
-    $.validator.setDefaults({
-        ignore: []
-    });
-
     await $.i18n().load({
         "en": "/i18n/en.json",
         "hy": "/i18n/hy.json",
@@ -16,6 +12,10 @@ $(document).ready(async function () {
     });
 
     $.i18n().locale = $("#locale").val();
+
+    $.validator.setDefaults({
+        ignore: []
+    });
 
     $('#labelContainer').append(xButton);
 

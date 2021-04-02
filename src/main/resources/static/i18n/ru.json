@@ -1,6 +1,6 @@
 {
   "field.customRequired": "\"{0}\" не может быть пустым, пожалуйста, заполните поле",
-  "field.description.validation": "Description should consist of $1 to $2 characters.",
+  "field.description.validation": "Описание должно содержать от $1 до $2 символов",
 
   "user.customRequired.email": "\"{0}\" не может быть пустым, пожалуйста, заполните поле",
   "user.fullName.validation": "Полное имя не должно содержать никаких символов, должно содержать только буквы",
@@ -12,15 +12,15 @@
   "user.account.alreadyExists": "Введенные имя пользователя и адрес электронной почты уже существуют",
   "user.editProfile.fileSize": "Размер файла не должен привышать $1 мегабайт",
   "user.editProfile.accept": "Пожалуйста загрузите файл с расширением .jpg или .png",
-  "user.username.not.found": "Зарегистрированной учетной записи с введенным именем пользователя не существует, пожалуйста, <a href = '/register'>зарегистрируйтесь</a>",
+  "user.username.not.found": "Зарегистрированной учетной записи с введенным именем пользователя не существует, пожалуйста, свяжитесь с администратором",
   "user.username.pass.incorrect": "Имя пользователя и / или пароль неверные",
 
-  "issue.title.validation": "Title should consist of $1 to $2 characters.",
+  "issue.title.validation": "Название должно содержать от $1 до $2 символов",
 
-  "report.comment.validation": "Comment should consist of $1 to $2 characters.",
+  "report.comment.validation": "Комментарий должен содержать от $1 до $2 символов",
 
-  "product.name.validation": "Name should consist of $1 to $2 characters.",
-  "product.version.validation": "Version should consist of $1 to $2 characters.",
+  "product.name.validation": "Имя должно содержать от $1 до $2 символов",
+  "product.version.validation": "Версия должно содержать от $1 до $2 символов",
 
   "file.too.big": "Размер файла не может превышать 16МБ",
   "accept.image": "Пожалуйста загрузите рисунок",
@@ -29,11 +29,11 @@
 
   "list.page": "Перейти на страницу",
   "list.users": "Пользователи",
-  "list.issues": "Issues",
-  "list.products": "Products",
-  "list.releases": "Releases",
-  "list.subsystems": "Subsystems",
-  "list.reports": "Reports",
+  "list.issues": "Темы",
+  "list.products": "Продукты",
+  "list.releases": "Релизы",
+  "list.subsystems": "Подсистема",
+  "list.reports": "Доклады",
   "list.from": "из",
   "list.form.arm": " "
 }

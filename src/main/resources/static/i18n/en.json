@@ -22,7 +22,6 @@
   "product.name.validation": "Name should consist of $1 to $2 characters.",
   "product.version.validation": "Version should consist of $1 to $2 characters.",
 
-
   "file.too.big": "The file cannot be bigger than 16MB",
   "accept.image": "Please upload an image",
   "upload.photo": "Upload photo",

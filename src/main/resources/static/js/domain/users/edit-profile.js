@@ -1,5 +1,13 @@
 $(document).ready(async function () {
 
+    await $.i18n().load({
+        "en": "/i18n/en.json",
+        "hy": "/i18n/hy.json",
+        "ru": "/i18n/ru.json",
+    });
+
+    $.i18n().locale = $("#locale").val();
+
     $.validator.setDefaults({
         ignore: []
     });

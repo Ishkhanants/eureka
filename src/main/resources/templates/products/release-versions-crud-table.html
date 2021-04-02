@@ -39,10 +39,10 @@
 							</span>
                     </th>
                     <th th:text="#{release.version}"></th>
-                    <th th:text="#{release.product}"></th>
-                    <th th:text="#{release.description}"></th>
-                    <th th:text="#{release.start}"></th>
-                    <th th:text="#{user.actions}"></th>
+                    <th th:text="#{usual.product}"></th>
+                    <th th:text="#{usual.description}"></th>
+                    <th th:text="#{usual.start}"></th>
+                    <th th:text="#{usual.actions}"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -91,7 +91,7 @@
                         <input type="text" th:field="*{version}" class="form-control"/>
                     </div>
                     <div class="form-group required-input" style="position: relative;">
-                        <label th:text="#{release.start}"></label>
+                        <label th:text="#{usual.start}"></label>
                         <input class="form-control datepicker bg-white date"
                                name="date"
                                type="date"
@@ -107,7 +107,7 @@
                         </span>
                     </div>
                     <div class="form-group required-input">
-                        <label id="release-description" th:text="#{product.description}"></label>
+                        <label id="release-description" th:text="#{usual.description}"></label>
                         <textarea type="text" th:field="*{description}" class="form-control"></textarea>
                     </div>
                 </div>
@@ -146,7 +146,7 @@
                                class="form-control" name="editVersion"/>
                     </div>
                     <div class="form-group required-input" style="position: relative;">
-                        <label th:text="#{release.start}"></label>
+                        <label th:text="#{usual.start}"></label>
                         <input class="form-control bg-white date"
                                name="edit-date"
                                id="edit-date"
@@ -161,7 +161,7 @@
                         </span>
                     </div>
                     <div class="form-group required-input">
-                        <label th:text="#{release.description}"></label>
+                        <label th:text="#{usual.description}"></label>
                         <textarea type="text" id="edit-description" name="editDescription"
                                   class="form-control"></textarea>
                     </div>

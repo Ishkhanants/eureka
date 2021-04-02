@@ -39,7 +39,8 @@
                                     <label class="control-label custom-file-upload"
                                            for="profileAvatar"
                                            style="word-break: break-word;
-                                              margin-bottom: 0"></label></div>
+                                              margin-bottom: 0"></label>
+                                </div>
                                 <input accept="image/*"
                                        class="form-control"
                                        id="profileAvatar"
@@ -89,12 +90,12 @@
                             <div class="col-md-12 mx-auto">
                                 <div class="form-group">
                             <label class="control-label required_label" for="fullName"
-                                   th:text="#{field.registration.fullName}"></label>
+                                   th:text="#{user.fullName}"></label>
                             <input class="form-control required-input" id="fullName"
                                    name="fullName"
                                    th:value="${user.fullName}"
                                    type="text"/>
-                            <span hidden id="full-name-valid-title" th:text="#{field.registration.fullName}">
+                            <span hidden id="full-name-valid-title" th:text="#{user.fullName}">
                             </span>
                                  </div>
                             </div>
@@ -103,11 +104,11 @@
                             <div class="col-md-12 mx-auto">
                                 <div class="form-group">
                             <label class="control-label required_label" for="phone"
-                                   th:text="#{field.registration.phone}"></label>
+                                   th:text="#{user.phone}"></label>
                             <input class="form-control required-input" id="phone"
                                    name="phone" th:value="${user.phone}"
                                    type="text"/>
-                            <span hidden id="phone-valid-title" th:text="#{field.registration.phone}">
+                            <span hidden id="phone-valid-title" th:text="#{user.phone}">
                             </span>
                                 </div>
                             </div>
@@ -115,11 +116,11 @@
                         <div class="row">
                             <div class="col-md-12 mx-auto">
                                 <div class="form-group">
-                                    <label for="emailEditable" class="control-label required_label" th:text="#{field.registration.email}"></label>
+                                    <label for="emailEditable" class="control-label required_label" th:text="#{user.email}"></label>
                                     <input class="form-control required-input" id="emailEditable" name="emailEditable"
                                            th:value="${user.email}"
                                            type="text"/>
-                                    <span hidden id="emailEditable-valid-title" th:text="#{field.registration.phone}">
+                                    <span hidden id="emailEditable-valid-title" th:text="#{user.phone}">
                                     </span>
                                 </div>
                             </div>
@@ -127,7 +128,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="userType" th:text="#{field.registration.userType}"></label>
+                                    <label for="userType" th:text="#{usual.type}"></label>
                                     <select class="select form-control required-input" id="userType" name="userType"
                                             th:name="userType" th:value="${user.userType}"
                                             th:readonly="${user.isAdmin()==false}">
@@ -149,7 +150,7 @@
                         <div class="row">
                             <div class="col-md-12 mx-auto">
                                 <div class="form-group">
-                                    <label for="group" th:text="#{field.registration.group}"></label>
+                                    <label for="group" th:text="#{user.group}"></label>
                                     <select class="select form-control required-input" id="group" name="group"
                                             th:name="group" th:value="${user.group}"
                                             th:readonly="${user.isAdmin()==false}">

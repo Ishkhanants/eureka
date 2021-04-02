@@ -38,11 +38,11 @@
 								<label for="selectAll"></label>
 							</span>
                     </th>
-                    <th th:text="#{subsystem.name}"></th>
-                    <th th:text="#{subsystem.product}"></th>
+                    <th th:text="#{usual.name}"></th>
+                    <th th:text="#{usual.product}"></th>
                     <th th:text="#{subsystem.shortName}"></th>
-                    <th th:text="#{subsystem.description}"></th>
-                    <th th:text="#{user.actions}"></th>
+                    <th th:text="#{usual.description}"></th>
+                    <th th:text="#{usual.actions}"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -86,7 +86,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group required-input">
-                        <label id="name-valid-title" th:text="#{subsystem.name}"></label>
+                        <label id="name-valid-title" th:text="#{usual.name}"></label>
                         <input id="name" name="name" type="text" th:field="*{name}" class="form-control"/>
                     </div>
                     <div class="form-group required-input">
@@ -94,7 +94,7 @@
                         <input type="text" th:field="*{shortName}" class="form-control"/>
                     </div>
                     <div class="form-group required-input">
-                        <label id="description-valid-title" th:text="#{subsystem.description}"></label>
+                        <label id="description-valid-title" th:text="#{usual.description}"></label>
                         <textarea type="text" id="description" name="description" th:field="*{description}"
                                   class="form-control"></textarea>
                     </div>
@@ -129,7 +129,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label id="edit-name-valid-title" th:text="#{subsystem.name}"></label>
+                        <label id="edit-name-valid-title" th:text="#{usual.name}"></label>
                         <input id="edit-name" type="text"
                                class="form-control" name="editName"/>
                     </div>
@@ -139,7 +139,7 @@
                                class="form-control" name="edit-shortName"/>
                     </div>
                     <div class="form-group required-input">
-                        <label id="edit-description-valid-title" th:text="#{subsystem.description}"></label>
+                        <label id="edit-description-valid-title" th:text="#{usual.description}"></label>
                         <textarea type="text" id="edit-description" name="editDescription"
                                   class="form-control"></textarea>
                     </div>
