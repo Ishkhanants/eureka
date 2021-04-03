@@ -1,10 +1,9 @@
-package com.eureka.capstone.service.impl;
+package com.eureka.capstone.service.user;
 
 import com.eureka.capstone.domain.user.Role;
 import com.eureka.capstone.domain.user.RoleEnum;
 import com.eureka.capstone.exception.notfound.RoleNotFoundException;
-import com.eureka.capstone.repository.RoleRepository;
-import com.eureka.capstone.service.RoleService;
+import com.eureka.capstone.repository.user.RoleRepository;
 
 import lombok.RequiredArgsConstructor;
 

@@ -1,8 +1,8 @@
 package com.eureka.capstone.controller;
 
 import com.eureka.capstone.mapping.user.UserMapperDecorator;
-import com.eureka.capstone.service.EditProfileService;
-import com.eureka.capstone.service.UserService;
+import com.eureka.capstone.service.user.EditProfileService;
+import com.eureka.capstone.service.user.UserService;
 
 import lombok.RequiredArgsConstructor;
 

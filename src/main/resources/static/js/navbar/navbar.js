@@ -29,11 +29,11 @@ $(document).ready(function () {
             request.setRequestHeader(csrfHeader, csrfToken);
         },
         success: function (data, textStatus, xhr) {
-            if (xhr.status === 204) image.attr('src', 'images/no-avatar.png');
+            if (xhr.status === 204) image.attr('src', '../../images/no-avatar.png');
             else image.attr('src', 'data:image/jpg;base64,' + data)
         },
         error: function () {
-            image.attr('src', 'images/no-avatar.png');
+            image.attr('src', '../../images/no-avatar.png');
         }
     });
 

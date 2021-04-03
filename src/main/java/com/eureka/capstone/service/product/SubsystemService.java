@@ -1,4 +1,4 @@
-package com.eureka.capstone.service;
+package com.eureka.capstone.service.product;
 
 import com.eureka.capstone.domain.product.SubSystem;
 

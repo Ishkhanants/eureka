@@ -1,4 +1,4 @@
-package com.eureka.capstone.service.impl;
+package com.eureka.capstone.service.user;
 
 import com.eureka.capstone.domain.user.Group;
 import com.eureka.capstone.domain.user.RoleEnum;
@@ -6,10 +6,8 @@ import com.eureka.capstone.domain.user.User;
 import com.eureka.capstone.domain.user.UserType;
 import com.eureka.capstone.exception.notfound.UserNotFoundException;
 import com.eureka.capstone.exception.notunique.FieldsAlreadyExistException;
-import com.eureka.capstone.repository.UserRepository;
+import com.eureka.capstone.repository.user.UserRepository;
 import com.eureka.capstone.security.UserDetailsImpl;
-import com.eureka.capstone.service.RoleService;
-import com.eureka.capstone.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -76,11 +73,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserByEmail(String email) {
-        return repository.findByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
-    }
-
-    @Override
     public List<User> getAllUsers() {
         return repository.findAll();
     }
@@ -88,11 +80,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUsersWithoutTypeUser(){
         return repository.findAll().stream().filter(u -> !u.getUserType().equals(UserType.USER)).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<User> getAllAdmins() {
-        return repository.findAll().stream().filter(User::isAdmin).collect(Collectors.toList());
     }
 
     @Override
@@ -113,11 +100,7 @@ public class UserServiceImpl implements UserService {
         if (possibleUser.isPresent()) {
             var user1 = possibleUser.get();
 
-            user1.setFullName(user.getFullName());
-            user1.setUserType(user.getUserType());
-            user1.setGroup(user.getGroup());
-            user1.setEmail(user.getEmail());
-            user1.setPhone(user.getPhone());
+            updateUserMainData(user1, user);
 
             if (user.getPassword().length() != 0) user1.setPassword(encoder.encode(user.getPassword()));
 
@@ -181,16 +164,10 @@ public class UserServiceImpl implements UserService {
         logoutUser(id);
     }
 
-    @Override
-    public void updateUser2(User updatedUser) {
+    public void updateUserByAdmin(User updatedUser) {
         var user = getUserById(updatedUser.getId());
 
-        user.setUsername(updatedUser.getUsername());
-        user.setFullName(updatedUser.getFullName());
-        user.setPhone(updatedUser.getPhone());
-        user.setEmail(updatedUser.getEmail());
-        user.setGroup(updatedUser.getGroup());
-        user.setUserType(updatedUser.getUserType());
+        updateUserMainData(user, updatedUser);
 
         repository.save(user);
     }
@@ -216,6 +193,15 @@ public class UserServiceImpl implements UserService {
                 }
             }
         }
+    }
+
+    private void updateUserMainData(User user, User updatedUser){
+        user.setUsername(updatedUser.getUsername());
+        user.setFullName(updatedUser.getFullName());
+        user.setPhone(updatedUser.getPhone());
+        user.setEmail(updatedUser.getEmail());
+        user.setGroup(updatedUser.getGroup());
+        user.setUserType(updatedUser.getUserType());
     }
 
 }

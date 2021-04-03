@@ -2,7 +2,7 @@ package com.eureka.capstone.mapping.user;
 
 import com.eureka.capstone.domain.user.User;
 import com.eureka.capstone.dto.UserDto;
-import com.eureka.capstone.service.RoleService;
+import com.eureka.capstone.service.user.RoleService;
 
 import org.mapstruct.DecoratedWith;
 import org.mapstruct.Mapper;

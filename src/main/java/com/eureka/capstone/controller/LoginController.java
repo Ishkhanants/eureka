@@ -1,6 +1,6 @@
 package com.eureka.capstone.controller;
 
-import com.eureka.capstone.service.UserService;
+import com.eureka.capstone.service.user.UserService;
 
 import lombok.RequiredArgsConstructor;
 

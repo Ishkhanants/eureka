@@ -5,10 +5,10 @@ import com.eureka.capstone.domain.product.ReleaseVersion;
 import com.eureka.capstone.domain.product.SubSystem;
 import com.eureka.capstone.domain.user.User;
 import com.eureka.capstone.domain.user.UserType;
-import com.eureka.capstone.service.ProductService;
-import com.eureka.capstone.service.ReleaseVersionService;
-import com.eureka.capstone.service.SubsystemService;
-import com.eureka.capstone.service.UserService;
+import com.eureka.capstone.service.product.ProductService;
+import com.eureka.capstone.service.product.ReleaseVersionService;
+import com.eureka.capstone.service.product.SubsystemService;
+import com.eureka.capstone.service.user.UserService;
 
 import lombok.RequiredArgsConstructor;
 

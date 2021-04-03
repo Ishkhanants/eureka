@@ -1,4 +1,4 @@
-package com.eureka.capstone.repository;
+package com.eureka.capstone.repository.report;
 
 import com.eureka.capstone.domain.report.Report;
 

@@ -1,4 +1,4 @@
-package com.eureka.capstone.service;
+package com.eureka.capstone.service.user;
 
 import com.eureka.capstone.domain.user.User;
 
@@ -16,13 +16,9 @@ public interface UserService {
 
     User getUserByUsername(String username);
 
-    User getUserByEmail(String email);
-
     List<User> getAllUsers();
 
     List<User> getAllUsersWithoutTypeUser();
-
-    List<User> getAllAdmins();
 
     String extractAvatarPicture(User user);
 
@@ -38,7 +34,7 @@ public interface UserService {
 
     void toAdmin(Long id);
 
-    void updateUser2(User user);
+    void updateUserByAdmin(User user);
 
     void deleteUserById(long id);
 

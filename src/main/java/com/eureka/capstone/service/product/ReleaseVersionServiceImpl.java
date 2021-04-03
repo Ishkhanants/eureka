@@ -1,9 +1,8 @@
-package com.eureka.capstone.service.impl;
+package com.eureka.capstone.service.product;
 
 import com.eureka.capstone.domain.product.ReleaseVersion;
 import com.eureka.capstone.exception.notfound.NotFoundException;
-import com.eureka.capstone.repository.ReleaseVersionRepository;
-import com.eureka.capstone.service.ReleaseVersionService;
+import com.eureka.capstone.repository.product.ReleaseVersionRepository;
 
 import lombok.RequiredArgsConstructor;
 

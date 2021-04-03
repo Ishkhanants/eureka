@@ -1,4 +1,4 @@
-package com.eureka.capstone.repository;
+package com.eureka.capstone.repository.user;
 
 import com.eureka.capstone.domain.user.User;
 
@@ -20,8 +20,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Override
     <S extends User> S save(S s);
-
-    Optional<User> findByEmailEndingWith(String email);
 
     void deleteByUsername(String userName);
 

@@ -1,4 +1,4 @@
-package com.eureka.capstone.service.impl;
+package com.eureka.capstone.service.issue;
 
 import com.eureka.capstone.domain.issue.Issue;
 import com.eureka.capstone.domain.issue.IssueSeverity;
@@ -8,10 +8,9 @@ import com.eureka.capstone.domain.report.Report;
 import com.eureka.capstone.dto.IssueDto;
 import com.eureka.capstone.exception.notfound.NotFoundException;
 import com.eureka.capstone.exception.notfound.UserNotFoundException;
-import com.eureka.capstone.repository.IssueRepository;
-import com.eureka.capstone.repository.ReportRepository;
-import com.eureka.capstone.repository.UserRepository;
-import com.eureka.capstone.service.IssueService;
+import com.eureka.capstone.repository.issue.IssueRepository;
+import com.eureka.capstone.repository.report.ReportRepository;
+import com.eureka.capstone.repository.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,7 +18,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import javax.mail.internet.InternetAddress;
 import javax.servlet.http.HttpServletRequest;
 
 import java.security.Principal;

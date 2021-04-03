@@ -1,3 +1,6 @@
+const csrfHeader = "X-CSRF-TOKEN";
+const token = $('input[name^="_csrf"]').val();
+
 $(document).ready(async function () {
 
     await $.i18n().load({
@@ -16,11 +19,8 @@ $(document).ready(async function () {
     let mainContainer = $('.main-container');
     let passwordField = $("#password");
     let profileAvatarImage = $(".avatar");
-
     let navAvatarImage = $(".nav-image");
-    const csrfHeader = "X-CSRF-TOKEN";
 
-    const token = $('input[name^="_csrf"]').val();
     passwordField.on('input', function () {
         if (passwordField.val().length === 0) {
             $(".new-password-input-group").find(".custom-invalid-feedback").css("display", "none");
@@ -76,8 +76,8 @@ $(document).ready(async function () {
         let uploadLabel = $('.custom-file-upload');
         let file = $('#profileAvatar');
         if (profileAvatar !== null && uploadLabel.html() === $.i18n("upload.photo")) {
-            profileAvatarImage.attr('src', 'images/no-avatar.png');
-            navAvatarImage.attr('src', 'images/no-avatar.png');
+            profileAvatarImage.attr('src', '../../images/no-avatar.png');
+            navAvatarImage.attr('src', '../../images/no-avatar.png');
             profileAvatar = null;
             $("#clear-input").hide();
             $("#deletedAvatar").val("deleted");

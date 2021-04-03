@@ -1,4 +1,4 @@
-package com.eureka.capstone.repository;
+package com.eureka.capstone.repository.product;
 
 import com.eureka.capstone.domain.product.ReleaseVersion;
 

@@ -1,4 +1,4 @@
-package com.eureka.capstone.repository;
+package com.eureka.capstone.repository.login;
 
 import com.eureka.capstone.domain.login.LoginDetails;
 

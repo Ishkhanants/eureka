@@ -1,10 +1,9 @@
-package com.eureka.capstone.service.impl;
+package com.eureka.capstone.service.product;
 
 import com.eureka.capstone.domain.product.Product;
 import com.eureka.capstone.domain.user.User;
 import com.eureka.capstone.exception.notfound.ProductNotFoundException;
-import com.eureka.capstone.repository.ProductRepository;
-import com.eureka.capstone.service.ProductService;
+import com.eureka.capstone.repository.product.ProductRepository;
 
 import lombok.RequiredArgsConstructor;
 

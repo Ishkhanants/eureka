@@ -1,9 +1,8 @@
-package com.eureka.capstone.service.impl;
+package com.eureka.capstone.service.report;
 
 import com.eureka.capstone.domain.report.Report;
 import com.eureka.capstone.exception.notfound.NotFoundException;
-import com.eureka.capstone.repository.ReportRepository;
-import com.eureka.capstone.service.ReportService;
+import com.eureka.capstone.repository.report.ReportRepository;
 
 import lombok.RequiredArgsConstructor;
 

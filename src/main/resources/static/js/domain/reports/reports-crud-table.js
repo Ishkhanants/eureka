@@ -111,7 +111,7 @@ $(document).ready(async function () {
 
     $(document).ready(function(){
         const MIN_COMMENT_LENGTH = 20;
-        const MAX_COMMENT_LENGTH = 200;
+        const MAX_COMMENT_LENGTH = 1000;
 
         $('#add-form').validate({
             rules: {

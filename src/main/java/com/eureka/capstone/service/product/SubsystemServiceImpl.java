@@ -1,9 +1,8 @@
-package com.eureka.capstone.service.impl;
+package com.eureka.capstone.service.product;
 
 import com.eureka.capstone.domain.product.SubSystem;
 import com.eureka.capstone.exception.notfound.NotFoundException;
-import com.eureka.capstone.repository.SubsystemRepository;
-import com.eureka.capstone.service.SubsystemService;
+import com.eureka.capstone.repository.product.SubsystemRepository;
 
 import lombok.RequiredArgsConstructor;
 

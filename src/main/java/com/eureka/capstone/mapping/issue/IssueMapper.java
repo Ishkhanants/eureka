@@ -2,8 +2,11 @@ package com.eureka.capstone.mapping.issue;
 
 import com.eureka.capstone.domain.issue.Issue;
 import com.eureka.capstone.dto.IssueDto;
-import com.eureka.capstone.service.*;
 
+import com.eureka.capstone.service.product.ProductService;
+import com.eureka.capstone.service.product.ReleaseVersionService;
+import com.eureka.capstone.service.product.SubsystemService;
+import com.eureka.capstone.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Component;

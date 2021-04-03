@@ -1,8 +1,7 @@
-package com.eureka.capstone.service.impl;
+package com.eureka.capstone.service.login;
 
 import com.eureka.capstone.domain.login.LoginDetails;
-import com.eureka.capstone.repository.LoginDetailsRepository;
-import com.eureka.capstone.service.LoginDetailsService;
+import com.eureka.capstone.repository.login.LoginDetailsRepository;
 
 import lombok.RequiredArgsConstructor;
 

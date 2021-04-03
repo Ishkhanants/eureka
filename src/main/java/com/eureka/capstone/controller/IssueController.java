@@ -4,9 +4,9 @@ import com.eureka.capstone.domain.report.Report;
 import com.eureka.capstone.domain.user.UserType;
 import com.eureka.capstone.dto.IssueDto;
 import com.eureka.capstone.mapping.issue.IssueMapper;
-import com.eureka.capstone.service.IssueService;
-import com.eureka.capstone.service.ReportService;
-import com.eureka.capstone.service.UserService;
+import com.eureka.capstone.service.issue.IssueService;
+import com.eureka.capstone.service.report.ReportService;
+import com.eureka.capstone.service.user.UserService;
 
 import lombok.RequiredArgsConstructor;
 

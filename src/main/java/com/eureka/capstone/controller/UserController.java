@@ -6,7 +6,7 @@ import com.eureka.capstone.domain.user.User;
 import com.eureka.capstone.dto.UserDto;
 import com.eureka.capstone.exception.notunique.FieldsAlreadyExistException;
 import com.eureka.capstone.mapping.user.UserMapperDecorator;
-import com.eureka.capstone.service.UserService;
+import com.eureka.capstone.service.user.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -113,7 +113,7 @@ public class UserController {
     public String editUser(HttpServletRequest request) {
         var updatedUser = userService.extractUserFromRequest(request);
 
-        userService.updateUser2(updatedUser);
+        userService.updateUserByAdmin(updatedUser);
 
         return "redirect:/users";
     }

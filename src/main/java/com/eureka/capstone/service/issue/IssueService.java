@@ -1,4 +1,4 @@
-package com.eureka.capstone.service;
+package com.eureka.capstone.service.issue;
 
 import com.eureka.capstone.domain.issue.Issue;
 import com.eureka.capstone.dto.IssueDto;

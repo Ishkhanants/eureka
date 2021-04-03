@@ -1,4 +1,4 @@
-package com.eureka.capstone.repository;
+package com.eureka.capstone.repository.issue;
 
 import com.eureka.capstone.domain.issue.Issue;
 

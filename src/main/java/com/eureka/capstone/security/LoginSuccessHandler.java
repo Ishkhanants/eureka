@@ -2,7 +2,7 @@ package com.eureka.capstone.security;
 
 import com.eureka.capstone.domain.login.LoginDetails;
 import com.eureka.capstone.domain.login.LoginFormatter;
-import com.eureka.capstone.service.LoginDetailsService;
+import com.eureka.capstone.service.login.LoginDetailsService;
 
 import lombok.RequiredArgsConstructor;
 

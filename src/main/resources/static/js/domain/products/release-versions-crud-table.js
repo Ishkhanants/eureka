@@ -100,7 +100,7 @@ $(document).ready(async function () {
         const MIN_VERSION_LENGTH = 4;
         const MAX_VERSION_LENGTH = 15;
         const MIN_DESCRIPTION_LENGTH = 20;
-        const MAX_DESCRIPTION_LENGTH = 200;
+        const MAX_DESCRIPTION_LENGTH = 1000;
 
         $('#add-form').validate({
             rules: {

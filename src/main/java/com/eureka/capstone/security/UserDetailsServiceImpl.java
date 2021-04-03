@@ -1,14 +1,11 @@
 package com.eureka.capstone.security;
 
-import com.eureka.capstone.domain.user.User;
 import com.eureka.capstone.exception.notfound.UserNotFoundException;
-import com.eureka.capstone.repository.UserRepository;
+import com.eureka.capstone.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

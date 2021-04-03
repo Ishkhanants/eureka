@@ -4,9 +4,9 @@
 //import com.eureka.capstone.domain.user.RoleEnum;
 //import com.eureka.capstone.domain.user.User;
 //import com.eureka.capstone.dto.UserDto;
-//import com.eureka.capstone.repository.RoleRepository;
-//import com.eureka.capstone.service.RoleService;
-//import com.eureka.capstone.service.impl.RoleServiceImpl;
+//import com.eureka.capstone.repository.user.RoleRepository;
+//import com.eureka.capstone.service.user.RoleService;
+//import com.eureka.capstone.service.user.RoleServiceImpl;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
 //import org.mockito.Mockito;

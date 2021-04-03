@@ -1,18 +1,15 @@
-package com.eureka.capstone.service.impl;
+package com.eureka.capstone.service.user;
 
 import com.eureka.capstone.controller.Templates;
 import com.eureka.capstone.domain.user.Group;
 import com.eureka.capstone.domain.user.User;
 import com.eureka.capstone.domain.user.UserType;
 import com.eureka.capstone.dto.UserDto;
-import com.eureka.capstone.service.EditProfileService;
-import com.eureka.capstone.service.UserService;
 import com.eureka.capstone.util.ImageService;
 
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 

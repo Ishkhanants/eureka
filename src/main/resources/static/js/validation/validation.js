@@ -112,9 +112,9 @@ jQuery.validator.addMethod("validName", function (value, element, params) {
 
 addValidationForNameAndDescription = () => {
     const MIN_NAME_LENGTH = 3;
-    const MAX_NAME_LENGTH = 25;
+    const MAX_NAME_LENGTH = 100;
     const MIN_DESCRIPTION_LENGTH = 20;
-    const MAX_DESCRIPTION_LENGTH = 200;
+    const MAX_DESCRIPTION_LENGTH = 1000;
 
     $('#add-form').validate({
         rules: {

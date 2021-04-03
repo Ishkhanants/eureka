@@ -45,9 +45,9 @@ $(document).ready(async function () {
         $('#date-reported').val(new Date().toDateInputValue());
 
         const MIN_TITLE_LENGTH = 10;
-        const MAX_TITLE_LENGTH = 50;
+        const MAX_TITLE_LENGTH = 100;
         const MIN_DESCRIPTION_LENGTH = 20;
-        const MAX_DESCRIPTION_LENGTH = 200;
+        const MAX_DESCRIPTION_LENGTH = 1000;
 
         $('#add-form').validate({
             rules: {
