@@ -57,9 +57,9 @@ public class Issue extends BaseEntity {
 
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
-    @Column(name = "found_in_the_field")
+    @Column(name = "reported_by_customer")
     @Type(type = "org.hibernate.type.NumericBooleanType")
-    private boolean isFoundInTheField;
+    private boolean isReportedByCustomer;
 
     @ManyToOne
     @JoinColumn(name = "reported_by", nullable = false)
@@ -102,12 +102,12 @@ public class Issue extends BaseEntity {
     @Column(name = "close_date")
     private LocalDate closeDate;
 
-    public boolean getIsFoundInTheField() {
-        return isFoundInTheField;
+    public boolean getIsReportedByCustomer() {
+        return isReportedByCustomer;
     }
 
-    public void setIsFoundInTheField(boolean foundInTheField) {
-        isFoundInTheField = foundInTheField;
+    public void setIsReportedByCustomer(boolean reportedByCustomer) {
+        isReportedByCustomer = reportedByCustomer;
     }
 
     public boolean getIsConfirmationMailSent() {

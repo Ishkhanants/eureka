@@ -58,14 +58,14 @@ public class IssueDto {
 
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
-    private boolean isFoundInTheField;
+    private boolean isReportedByCustomer;
 
-    public boolean getIsFoundInTheField() {
-        return isFoundInTheField;
+    public boolean getIsReportedByCustomer() {
+        return isReportedByCustomer;
     }
 
-    public void setIsFoundInTheField(boolean foundInTheField) {
-        isFoundInTheField = foundInTheField;
+    public void setIsReportedByCustomer(boolean reportedByCustomer) {
+        isReportedByCustomer = reportedByCustomer;
     }
 
     public boolean getIsConfirmationMailSent() {

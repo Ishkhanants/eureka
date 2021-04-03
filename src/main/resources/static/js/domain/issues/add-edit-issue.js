@@ -27,6 +27,12 @@ $(document).ready(async function () {
         extendEndpoint();
     });
 
+    $('#add-reported-by-customer').prop('checked', true);
+
+    if(!$('#edit-reported-by-customer').prop('checked')){
+        $('#edit-report-source').attr('disabled', true);
+    }
+
     addValidationHtml();
 
     $(document).ready(function () {
@@ -40,6 +46,22 @@ $(document).ready(async function () {
         product.change(function () {
             let val = $(this).val();
             populate(val);
+        })
+
+        $('#add-reported-by-customer').change(() => {
+            if($('#add-reported-by-customer').prop('checked')){
+                $('#add-report-source').attr('disabled', false);
+            }else{
+                $('#add-report-source').attr('disabled', true);
+            }
+        })
+
+        $('#edit-reported-by-customer').change(() => {
+            if($('#edit-reported-by-customer').prop('checked')){
+                $('#edit-report-source').attr('disabled', false);
+            }else{
+                $('#edit-report-source').attr('disabled', true);
+            }
         })
 
         $('#date-reported').val(new Date().toDateInputValue());

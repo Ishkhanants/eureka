@@ -1,3 +1,4 @@
+let spinner = $(".lds-dual-ring");
 const csrfHeader = "X-CSRF-TOKEN";
 const token = $('input[name^="_csrf"]').val();
 

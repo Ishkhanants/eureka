@@ -64,11 +64,11 @@ public class IssueServiceImpl implements IssueService {
         dto.setTestingDocument(request.getParameter("testing-document"));
         dto.setTitle(request.getParameter("title"));
         dto.setComment(request.getParameter("comment"));
-        dto.setReportSource(request.getParameter("report-source"));
+        dto.setReportSource(request.getParameter("edit-report-source"));
         dto.setReportDate(LocalDate.parse(request.getParameter("report-date")));
         dto.setDescription(request.getParameter("description"));
         dto.setIsConfirmationMailSent(Boolean.parseBoolean(request.getParameter("send-confirmation-mail")));
-        dto.setIsFoundInTheField(Boolean.parseBoolean(request.getParameter("found-in-the-field")));
+        dto.setIsReportedByCustomer(Boolean.parseBoolean(request.getParameter("edit-reported-by-customer")));
         dto.setProductId(Long.parseLong(request.getParameter("product")));
         dto.setSubSystemId(Long.parseLong(request.getParameter("subsystem")));
         dto.setReleaseVersionId(Long.parseLong(request.getParameter("release-version")));
@@ -113,6 +113,10 @@ public class IssueServiceImpl implements IssueService {
             reportRepository.save(report);
         }
 
+        if(!issue.getStatus().equals(updatedIssue.getStatus())){
+            reportRepository.save(new Report(user, issue, LocalDateTime.now(), String.format("Changed status to %s", updatedIssue.getStatus().getDisplayValue())));
+        }
+
         if(!issue.getReporter().equals(updatedIssue.getReporter())){
             reportRepository.save(new Report(user, issue, LocalDateTime.now(), String.format("Changed reporter to %s", updatedIssue.getReporter().getFullName())));
         }
@@ -145,7 +149,7 @@ public class IssueServiceImpl implements IssueService {
         issue.setAssignee(updatedIssue.getAssignee());
         issue.setSubSystem(updatedIssue.getSubSystem());
         issue.setReleaseVersion(updatedIssue.getReleaseVersion());
-        issue.setIsFoundInTheField(updatedIssue.getIsFoundInTheField());
+        issue.setIsReportedByCustomer(updatedIssue.getIsReportedByCustomer());
         issue.setIsConfirmationMailSent(updatedIssue.getIsConfirmationMailSent());
         issue.setProduct(updatedIssue.getProduct());
         issue.setStatus(updatedIssue.getStatus());

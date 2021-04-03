@@ -25,7 +25,7 @@ public class IssueMapper {
 
         dto.setId(entity.getId());
         dto.setIsConfirmationMailSent(entity.getIsConfirmationMailSent());
-        dto.setIsFoundInTheField(entity.getIsFoundInTheField());
+        dto.setIsReportedByCustomer(entity.getIsReportedByCustomer());
         dto.setProductId(entity.getProduct().getId());
         dto.setAssigneeId(entity.getAssignee().getId());
         dto.setReporterId(entity.getReporter().getId());
@@ -51,7 +51,7 @@ public class IssueMapper {
 
         entity.setId(dto.getId());
         entity.setIsConfirmationMailSent(dto.getIsConfirmationMailSent());
-        entity.setIsFoundInTheField(dto.getIsFoundInTheField());
+        entity.setIsReportedByCustomer(dto.getIsReportedByCustomer());
         entity.setProduct(productService.getProductById(dto.getProductId()));
         entity.setAssignee(userService.getUserById(dto.getAssigneeId()));
         entity.setReporter(userService.getUserById(dto.getReporterId()));
