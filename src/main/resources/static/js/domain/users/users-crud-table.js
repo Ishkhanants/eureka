@@ -28,8 +28,8 @@ $(document).ready(async function () {
         },
         'sPaginationType': 'twoNumbers',
         language: {
-            searchPlaceholder: "alo",
-            search: "vholuvjb",
+            searchPlaceholder: $.i18n("list.search"),
+            search: "",
             paginate: {
                 next: '>',
                 previous: '<'

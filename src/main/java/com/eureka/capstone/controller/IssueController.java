@@ -39,7 +39,10 @@ public class IssueController {
         var listIssues = issueService.getAllIssues();
 
         modelAndView.setViewName(Templates.ISSUES.getName());
-        modelAndView.addObject("listIssues", listIssues);
+
+        if(modelAndView.getModelMap().isEmpty()) {
+            modelAndView.addObject("listIssues", listIssues);
+        }
 
         return modelAndView;
     }
@@ -55,6 +58,15 @@ public class IssueController {
         modelAndView.addObject("listIssues", listIssues);
 
         return modelAndView;
+    }
+
+    @PostMapping("/filter")
+    public ModelAndView filterIssues(HttpServletRequest request, ModelAndView modelAndView){
+        var filteredIssues = issueService.getFilteredIssues(request);
+
+        modelAndView.addObject("listIssues", filteredIssues);
+
+        return success(modelAndView);
     }
 
     @GetMapping("/create")

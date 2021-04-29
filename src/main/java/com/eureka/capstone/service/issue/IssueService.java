@@ -22,4 +22,6 @@ public interface IssueService {
 
     void deleteIssueById(long id);
 
+    List<Issue> getFilteredIssues(HttpServletRequest request);
+
 }

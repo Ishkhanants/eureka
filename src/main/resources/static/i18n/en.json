@@ -12,7 +12,7 @@
   "user.account.alreadyExists": "Entered username and email account already exist",
   "user.editProfile.fileSize": "File size must be less than 16 megabytes",
   "user.editProfile.accept": "Please upload files with .jpg or .png extensions",
-  "user.username.not.found": "There isn't registered account with entered username, please <a href = '/register'>sign up</a>",
+  "user.username.not.found": "There isn't registered account with entered username, please enter a correct username",
   "user.username.pass.incorrect": "Entered username and/or password is incorrect",
 
   "issue.title.validation": "Title should consist of $1 to $2 characters.",

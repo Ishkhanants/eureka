@@ -24,6 +24,7 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -162,6 +163,52 @@ public class IssueServiceImpl implements IssueService {
     @Override
     public void deleteIssueById(long id) {
         issueRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Issue> getFilteredIssues(HttpServletRequest request) {
+        long productId, subsystemId, releaseVersionId, reporterId, assigneeId;
+        IssueStatus status;
+        IssueSeverity severity;
+
+        var issues = getAllIssues();
+
+        if(!request.getParameter("filter-product").isEmpty()){
+            productId = Long.parseLong(request.getParameter("filter-product"));
+            issues = issues.stream().filter(i -> i.getProduct().getId().equals(productId)).collect(Collectors.toList());
+        }
+
+        if(request.getParameter("filter-subsystem") != null && !request.getParameter("filter-subsystem").isEmpty()){
+            subsystemId = Long.parseLong(request.getParameter("filter-subsystem"));
+            issues = issues.stream().filter(i -> i.getSubSystem().getId().equals(subsystemId)).collect(Collectors.toList());
+        }
+
+        if(request.getParameter("filter-release-version") != null && !request.getParameter("filter-release-version").isEmpty()){
+            releaseVersionId = Long.parseLong(request.getParameter("filter-release-version"));
+            issues = issues.stream().filter(i -> i.getReleaseVersion().getId().equals(releaseVersionId)).collect(Collectors.toList());
+        }
+
+        if(!request.getParameter("filter-reporter").isEmpty()){
+            reporterId = Long.parseLong(request.getParameter("filter-reporter"));
+            issues = issues.stream().filter(i -> i.getReporter().getId().equals(reporterId)).collect(Collectors.toList());
+        }
+
+        if(!request.getParameter("filter-assignee").isEmpty()){
+            assigneeId = Long.parseLong(request.getParameter("filter-assignee"));
+            issues = issues.stream().filter(i -> i.getAssignee().getId().equals(assigneeId)).collect(Collectors.toList());
+        }
+
+        if(!request.getParameter("filter-status").isEmpty()){
+            status = IssueStatus.valueOf(request.getParameter("filter-status"));
+            issues = issues.stream().filter(i -> i.getStatus().equals(status)).collect(Collectors.toList());
+        }
+
+        if(!request.getParameter("filter-severity").isEmpty()){
+            severity = IssueSeverity.valueOf(request.getParameter("filter-severity"));
+            issues = issues.stream().filter(i -> i.getSeverity().equals(severity)).collect(Collectors.toList());
+        }
+
+        return issues;
     }
 
     private void sendNotificationEmail(Report report){

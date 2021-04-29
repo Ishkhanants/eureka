@@ -6,6 +6,105 @@
 </head>
 <body>
 <div class="container-xl container my-2" style="box-shadow: 0 47px 74px -31px rgba(7, 40, 137, 0.19);">
+    <div class="issues-filter">
+        <form id="issues-filter-form" th:action="@{/issues/filter}" th:method="post">
+            <div class="row">
+                <div class="col-md-3 mx-auto">
+                    <div class="form-group">
+                        <label class="control-label required_label" for="filter-product"
+                               th:text="#{usual.product}"></label>
+                        <select class="select form-control required-input" id="filter-product" name="filter-product">
+                            <option value="">Not Selected</option>
+                            <option th:each="product : ${@productServiceImpl.getAllProducts()}"
+                                    th:value="${product.getId()}"
+                                    th:text="${product.getName()}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3 mx-auto">
+                    <div class="form-group">
+                        <label class="control-label required_label" for="filter-subsystem"
+                               th:text="#{issue.subsystem}"></label>
+                        <select class="select form-control required-input" id="filter-subsystem"
+                                name="filter-subsystem">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3 mx-auto">
+                    <div class="form-group">
+                        <label class="control-label required_label" for="filter-release-version"
+                               th:text="#{issue.release.version}"></label>
+                        <select class="select form-control required-input" id="filter-release-version"
+                                name="filter-release-version">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2 mx-auto">
+                    <div class="form-group">
+                        <label class="control-label" for="filter-status"
+                               th:text="#{issue.status}"></label>
+                        <select class="select form-control required-input" id="filter-status" name="filter-status">
+                            <option value="">Not Selected</option>
+                            <option th:each="status : ${T(com.eureka.capstone.domain.issue.IssueStatus).values()}"
+                                    th:value="${status}"
+                                    th:text="${status.displayValue}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 mx-auto">
+                    <div class="form-group">
+                        <label class="control-label" for="filter-severity"
+                               th:text="#{issue.severity}"></label>
+                        <select class="select form-control required-input" id="filter-severity" name="filter-severity">
+                            <option value="">Not Selected</option>
+                            <option th:each="severity : ${T(com.eureka.capstone.domain.issue.IssueSeverity).values()}"
+                                    th:value="${severity}"
+                                    th:text="${severity.displayValue}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3 mx-auto">
+                    <div class="form-group">
+                        <label class="control-label required_label"
+                               th:text="#{usual.reporter}" for="filter-reporter"></label>
+                        <select class="select form-control required-input" id="filter-reporter" name="filter-reporter">
+                            <option value="">Not Selected</option>
+                            <option th:each="reporter : ${@userServiceImpl.getAllUsers()}"
+                                    th:value="${reporter.getId()}"
+                                    th:text="${reporter.getFullName()}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3 mx-auto">
+                    <div class="form-group">
+                        <label class="control-label required_label" for="filter-assignee"
+                               th:text="#{issue.assignee}"></label>
+                        <select class="select form-control required-input" id="filter-assignee" name="filter-assignee">
+                            <option value="">Not Selected</option>
+                            <option th:each="assignee : ${@userServiceImpl.getAllUsers()}"
+                                    th:value="${assignee.getId()}"
+                                    th:text="${assignee.getFullName()}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2 mx-auto">
+                    <div class="form-group">
+                        <button class="btn activity-main-button add-activity-btn"
+                                style="border: 1px solid #DCDFF1; margin-top: 30px; width: 100%;"
+                                th:text="#{button.filter}"
+                                type="submit"></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
     <div class="table-responsive">
         <div class="table-wrapper">
             <div class="table-title">
