@@ -16,10 +16,13 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.net.SocketTimeoutException;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -211,12 +214,13 @@ public class IssueServiceImpl implements IssueService {
         return issues;
     }
 
+    @Retryable(value = SocketTimeoutException.class, maxAttempts = 2, backoff = @Backoff(delay = 100))
     private void sendNotificationEmail(Report report){
         var msg = new SimpleMailMessage();
 
         msg.setTo(report.getIssue().getAssignee().getEmail());
-        msg.setSubject(String.format("New Assignment from Issue No. %d: %s", report.getIssue().getId(), report.getIssue().getTitle()));
-        msg.setText(String.format("Dear %s,\n\nIssue with title: %s has been assigned to you.\n\nRespectfully,\nEureka Development Team", report.getIssue().getAssignee().getFullName(), report.getIssue().getTitle()));
+        msg.setSubject(String.format("New Assignment from Issue with Title: %s", report.getIssue().getTitle()));
+        msg.setText(String.format("Dear %s,\n\nIssue with title \"%s\" has been assigned to you.\n\nRespectfully,\nEureka Development Team", report.getIssue().getAssignee().getFullName(), report.getIssue().getTitle()));
 
         mailSender.send(msg);
     }
