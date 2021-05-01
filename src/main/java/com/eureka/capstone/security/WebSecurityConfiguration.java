@@ -29,6 +29,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final LoginSuccessHandler loginSuccessHandler;
     private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+
     @Value("${security.secret.key}")
     private String SECRET_KEY;
 

@@ -135,13 +135,13 @@
                                         <option th:if="${user.isAdmin()==false}"
                                                 th:value="${user.userType}"
                                                 th:selected="${true}"
-                                                th:text="${user.getUserType().getDisplayValue()}">
+                                                th:text="${user.getUserType().getValueByLocale(#locale.getLanguage().toUpperCase())}">
                                         </option>
                                         <option th:if="${user.isAdmin()==true}"
                                                 th:each="userType : ${T(com.eureka.capstone.domain.user.UserType).values()}"
                                                 th:value="${userType}"
                                                 th:selected="${user.userType==userType}"
-                                                th:text="${userType.displayValue}">
+                                                th:text="${userType.getValueByLocale(#locale.getLanguage().toUpperCase())}">
                                         </option>
                                     </select>
                                 </div>
@@ -157,13 +157,13 @@
                                         <option th:if="${user.isAdmin()==false}"
                                                 th:value="${user.group}"
                                                 th:selected="${true}"
-                                                th:text="${user.getGroup().getDisplayValue()}">
+                                                th:text="${user.getGroup().getValueByLocale(#locale.getLanguage().toUpperCase())}">
                                         </option>
                                         <option th:if="${user.isAdmin()==true}"
                                                 th:each="group : ${T(com.eureka.capstone.domain.user.Group).values()}"
                                                 th:value="${group}"
                                                 th:selected="${user.group == group}"
-                                                th:text="${group.displayValue}">
+                                                th:text="${group.getValueByLocale(#locale.getLanguage().toUpperCase())}">
                                         </option>
                                     </select>
                                 </div>

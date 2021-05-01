@@ -12,13 +12,13 @@
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-3">
-                            <h2><span sec:authorize="hasAnyAuthority('ADMIN_ROLE')">Manage</span> <b>Products</b></h2>
+                            <h2><span sec:authorize="hasAnyAuthority('ADMIN_ROLE')" th:text="#{usual.manage}"></span> <b th:text="#{usual.products}"></b></h2>
                         </div>
                         <div class="col-sm-4" sec:authorize="hasAnyAuthority('ADMIN_ROLE')">
                             <a href="#addProductModal" class="btn" data-toggle="modal"><i class="material-icons">&#xE147;</i>
-                                <span>Add New Product</span></a>
+                                <span th:text="#{product.add.new}"></span></a>
                             <span id="deleteAllSelected" hidden><a href="#deleteSelectedProductsModal" class="btn"
-                                                                   data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a></span>
+                                                                   data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span th:text="#{usual.delete}"></span></a></span>
                         </div>
                         <div id="myTable_filter" class="col-sm-5">
                             <label>
@@ -93,7 +93,8 @@
         <div class="modal-content">
             <form id="add-form" method="post" th:action="@{/products/create}" th:object="${product}">
                 <div class="modal-header">
-                    <h4 class="modal-title">Add <b>Product</b></h4>
+                    <h4 class="modal-title" th:text="#{usual.add}"></h4><span> </span>
+                    <h4 style="color: white; margin: 4px 0 0 5px;"> <b th:text="#{usual.product}"></b></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -156,7 +157,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Edit <b>Product</b></h4>
+                <h4 class="modal-title" th:text="#{usual.edit}"></h4><span> </span>
+                <h4 style="color: white; margin: 4px 0 0 5px;"> <b th:text="#{usual.product}"></b></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body">
@@ -219,12 +221,13 @@
         <div class="modal-content">
             <form method="post" th:action="@{/products/delete}">
                 <div class="modal-header">
-                    <h4 class="modal-title">Delete <b>Product</b></h4>
+                    <h4 class="modal-title" th:text="#{usual.delete}"></h4><span> </span>
+                    <h4 style="color: white; margin: 4px 0 0 5px;"> <b th:text="#{usual.product}"></b></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to delete this record?</p>
-                    <p class="text-warning">This action cannot be undone.</p>
+                    <p th:text="#{records.sure}"></p>
+                    <p class="text-warning" th:text="#{records.action}"></p>
                 </div>
                 <div class="modal-footer activity-buttons btn-group" style="margin-left: 2px">
                     <button class="btn activity-whiteButton btn-default cancel-btn"
@@ -250,12 +253,13 @@
         <div class="modal-content">
             <form method="post" th:action="@{/products/delete-selected}">
                 <div class="modal-header">
-                    <h4 class="modal-title">Delete <b>Products</b></h4>
+                    <h4 class="modal-title" th:text="#{usual.delete}"></h4><span> </span>
+                    <h4 style="color: white; margin: 4px 0 0 5px;"> <b th:text="#{usual.products}"></b></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to delete these records?</p>
-                    <p class="text-warning">This action cannot be undone.</p>
+                    <p th:text="#{records.sure}"></p>
+                    <p class="text-warning" th:text="#{records.action}"></p>
                 </div>
                 <div class="modal-footer activity-buttons btn-group" style="margin-left: 2px">
                     <button class="btn activity-whiteButton btn-default cancel-btn"

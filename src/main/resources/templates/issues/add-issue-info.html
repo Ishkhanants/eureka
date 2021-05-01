@@ -100,7 +100,7 @@
                                     <option th:each="status : ${T(com.eureka.capstone.domain.issue.IssueStatus).values()}"
                                             th:value="${status}"
                                             th:selected="${issue.status == status}"
-                                            th:text="${status.displayValue}">
+                                            th:text="${status.getValueByLocale(#locale.getLanguage().toUpperCase())}">
                                     </option>
                                 </select>
                             </div>
@@ -112,19 +112,18 @@
                                 <label class="control-label" for="severity"
                                        th:text="#{issue.severity}"></label>
                                 <select class="select form-control required-input" id="severity" name="severity" th:name="severity" th:readonly="${isUserType}">
-                                    <option th:if="${isUserType == false}" value="">
-                                        Not Selected
+                                    <option th:if="${isUserType == false}" value="" th:text="#{usual.not.selected}">
                                     </option>
                                     <option th:if="${isUserType == false}"
                                             th:each="severity : ${T(com.eureka.capstone.domain.issue.IssueSeverity).values()}"
                                             th:value="${severity}"
                                             th:selected="${issue.severity == severity}"
-                                            th:text="${severity.displayValue}">
+                                            th:text="${severity.getValueByLocale(#locale.getLanguage().toUpperCase())}">
                                     </option>
                                     <option th:if="${isUserType == true}"
                                             th:value="${T(com.eureka.capstone.domain.issue.IssueSeverity).MINOR}"
                                             th:selected="${issue.severity == T(com.eureka.capstone.domain.issue.IssueSeverity).MINOR}"
-                                            th:text="${T(com.eureka.capstone.domain.issue.IssueSeverity).MINOR.displayValue}">
+                                            th:text="${T(com.eureka.capstone.domain.issue.IssueSeverity).MINOR.getValueByLocale(#locale.getLanguage().toUpperCase())}">
                                     </option>
                                 </select>
                             </div>
@@ -140,12 +139,12 @@
                                             th:each="type : ${T(com.eureka.capstone.domain.issue.IssueType).values()}"
                                             th:value="${type}"
                                             th:selected="${issue.type == type}"
-                                            th:text="${type.displayValue}">
+                                            th:text="${type.getValueByLocale(#locale.getLanguage().toUpperCase())}">
                                     </option>
                                     <option th:if="${isUserType == true}"
                                             th:value="${T(com.eureka.capstone.domain.issue.IssueType).ENHANCEMENT}"
                                             th:selected="${issue.type == T(com.eureka.capstone.domain.issue.IssueType).ENHANCEMENT}"
-                                            th:text="${T(com.eureka.capstone.domain.issue.IssueType).ENHANCEMENT.displayValue}">
+                                            th:text="${T(com.eureka.capstone.domain.issue.IssueType).ENHANCEMENT.getValueByLocale(#locale.getLanguage().toUpperCase())}">
                                     </option>
                                 </select>
                             </div>

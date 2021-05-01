@@ -35,7 +35,7 @@ public class IssueController {
     private final IssueMapper issueMapper;
 
     @GetMapping
-    public ModelAndView success(ModelAndView modelAndView) {
+    public ModelAndView success(ModelAndView modelAndView, Principal principal) {
         var listIssues = issueService.getAllIssues();
 
         modelAndView.setViewName(Templates.ISSUES.getName());
@@ -43,6 +43,8 @@ public class IssueController {
         if(modelAndView.getModelMap().isEmpty()) {
             modelAndView.addObject("listIssues", listIssues);
         }
+
+        modelAndView.addObject("isUserType", userService.getUserByUsername(principal.getName()).getUserType() == UserType.USER);
 
         return modelAndView;
     }
@@ -56,17 +58,18 @@ public class IssueController {
 
         modelAndView.setViewName(Templates.ISSUES.getName());
         modelAndView.addObject("listIssues", listIssues);
+        modelAndView.addObject("isUserType", user.getUserType() == UserType.USER);
 
         return modelAndView;
     }
 
     @PostMapping("/filter")
-    public ModelAndView filterIssues(HttpServletRequest request, ModelAndView modelAndView){
+    public ModelAndView filterIssues(HttpServletRequest request, ModelAndView modelAndView, Principal principal){
         var filteredIssues = issueService.getFilteredIssues(request);
 
         modelAndView.addObject("listIssues", filteredIssues);
 
-        return success(modelAndView);
+        return success(modelAndView, principal);
     }
 
     @GetMapping("/create")

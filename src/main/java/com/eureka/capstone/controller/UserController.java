@@ -1,6 +1,5 @@
 package com.eureka.capstone.controller;
 
-import com.eureka.capstone.cookies.RememberMeCookieService;
 import com.eureka.capstone.domain.user.Group;
 import com.eureka.capstone.domain.user.User;
 import com.eureka.capstone.dto.UserDto;
@@ -10,7 +9,6 @@ import com.eureka.capstone.service.user.UserService;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
@@ -29,16 +27,11 @@ import java.util.*;
 @Controller
 @RequestMapping("/users")
 @RequiredArgsConstructor
-@PropertySource("classpath:security.properties")
 public class UserController {
 
     private final UserService userService;
     private final UserMapperDecorator userMapperDecorator;
-    private final RememberMeCookieService rememberMeCookieService;
     private final MessageSource messageSource;
-
-    @Value("${security.secret.key}")
-    private String SECRET_KEY;
 
     @GetMapping
     public ModelAndView viewPage(ModelAndView modelAndView) {

@@ -4,7 +4,7 @@
 <body>
 <footer class="footer" th:fragment="homepage-footer">
     <div class="d-flex justify-content-between px-5 mx-5" style="margin-left: 0!important">
-        <small>EUREKA - BUG DETECTION & MANAGEMENT SYSTEM</small>
+        <small th:text="#{footer.intro}"></small>
 
         <ul>
             <span class="mx-3">
@@ -26,7 +26,7 @@
             </a>
         </ul>
 
-        <small>© MARTIN MIRZOYAN, 2021</small>
+        <small>© <span th:text="#{footer.author}"></span>, 2021</small>
     </div>
     <input id="footer-locale" th:value="${#locale.getLanguage()}" type="hidden">
 </footer>

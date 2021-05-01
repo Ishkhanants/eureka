@@ -27,6 +27,7 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
@@ -118,7 +119,7 @@ public class IssueServiceImpl implements IssueService {
         }
 
         if(!issue.getStatus().equals(updatedIssue.getStatus())){
-            reportRepository.save(new Report(user, issue, LocalDateTime.now(), String.format("Changed status to %s", updatedIssue.getStatus().getDisplayValue())));
+            reportRepository.save(new Report(user, issue, LocalDateTime.now(), String.format("Changed status to %s", updatedIssue.getStatus().getValueByLocale(Locale.ENGLISH))));
         }
 
         if(!issue.getReporter().equals(updatedIssue.getReporter())){
@@ -138,7 +139,7 @@ public class IssueServiceImpl implements IssueService {
         }
 
         if(!issue.getType().equals(updatedIssue.getType())){
-            reportRepository.save(new Report(user, issue, LocalDateTime.now(), String.format("Changed issue type to %s", updatedIssue.getType().getDisplayValue())));
+            reportRepository.save(new Report(user, issue, LocalDateTime.now(), String.format("Changed issue type to %s", updatedIssue.getType().getValueByLocale(Locale.ENGLISH))));
         }
 
         issue.setTestingDocument(updatedIssue.getTestingDocument());

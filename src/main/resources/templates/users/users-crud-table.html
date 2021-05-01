@@ -11,14 +11,14 @@
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-3">
-                        <h2>Manage <b>Users</b></h2>
+                        <h2><span th:text="#{usual.manage}"></span> <b th:text="#{usual.users}"></b></h2>
                     </div>
                     <div class="col-sm-4" sec:authorize="hasAnyAuthority('ADMIN_ROLE')">
                         <a href="#addUserModal" class="btn" data-toggle="modal"><i
-                                class="material-icons">&#xE147;</i> <span>Add New User</span></a>
+                                class="material-icons">&#xE147;</i> <span th:text="#{user.add.new}"></span></a>
                         <span id="deleteAllSelected" hidden><a href="#deleteSelectedUsersModal" class="btn"
                                                                data-toggle="modal"><i
-                                class="material-icons">&#xE15C;</i> <span>Delete</span></a></span>
+                                class="material-icons">&#xE15C;</i> <span th:text="#{usual.delete}"></span></a></span>
                     </div>
                     <div id="myTable_filter" class="col-sm-5">
                         <label>
@@ -70,8 +70,8 @@
                     </td>
                     <td th:text="${user.getUsername()}"></td>
                     <td th:text="${user.getFullName()}"></td>
-                    <td th:text="${user.getUserType().displayValue}"></td>
-                    <td th:text="${user.getGroup().displayValue}"></td>
+                    <td th:text="${user.getUserType().getValueByLocale(#locale.getLanguage().toUpperCase())}"></td>
+                    <td th:text="${user.getGroup().getValueByLocale(#locale.getLanguage().toUpperCase())}"></td>
                     <td th:text="${user.getEmail()}"></td>
                     <td th:text="${user.getPhone()}"></td>
                     <td>
@@ -106,7 +106,8 @@
         <div class="modal-content">
             <form method="post" id="add-form" th:action="@{/users/create}" th:object="${user}">
                 <div class="modal-header">
-                    <h4 class="modal-title">Add <b>User</b></h4>
+                    <h4 class="modal-title" th:text="#{usual.add}"></h4><span> </span>
+                    <h4 style="color: white; margin: 4px 0 0 5px;"> <b th:text="#{user.user}"></b></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -127,7 +128,7 @@
                             <option th:each="userType : ${T(com.eureka.capstone.domain.user.UserType).values()}"
                                     th:value="${userType}"
                                     th:selected="${user.userType==userType}"
-                                    th:text="${userType.displayValue}">
+                                    th:text="${userType.getValueByLocale(#locale.getLanguage().toUpperCase())}">
                             </option>
                         </select>
                     </div>
@@ -138,7 +139,7 @@
                             <option th:each="group : ${T(com.eureka.capstone.domain.user.Group).values()}"
                                     th:value="${group}"
                                     th:selected="${user.group == group}"
-                                    th:text="${group.displayValue}">
+                                    th:text="${group.getValueByLocale(#locale.getLanguage().toUpperCase())}">
                             </option>
                         </select>
                     </div>
@@ -210,7 +211,8 @@
         <div class="modal-content">
             <form id="edit-form" method="post" th:action="@{/users/edit}">
                 <div class="modal-header">
-                    <h4 class="modal-title">Edit <b>User</b></h4>
+                    <h4 class="modal-title" th:text="#{usual.edit}"></h4><span> </span>
+                    <h4 style="color: white; margin: 4px 0 0 5px;"> <b th:text="#{user.user}"></b></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -233,7 +235,7 @@
                             <option th:each="userType : ${T(com.eureka.capstone.domain.user.UserType).values()}"
                                     th:value="${userType}"
                                     th:selected="${user.userType==userType}"
-                                    th:text="${userType.displayValue}">
+                                    th:text="${userType.getValueByLocale(#locale.getLanguage().toUpperCase())}">
                             </option>
                         </select>
                     </div>
@@ -246,7 +248,7 @@
                             <option th:each="group : ${T(com.eureka.capstone.domain.user.Group).values()}"
                                     th:value="${group}"
                                     th:selected="${user.group == group}"
-                                    th:text="${group.displayValue}">
+                                    th:text="${group.getValueByLocale(#locale.getLanguage().toUpperCase())}">
                             </option>
                         </select>
                     </div>
@@ -284,12 +286,13 @@
         <div class="modal-content">
             <form method="post" th:action="@{/users/delete}">
                 <div class="modal-header">
-                    <h4 class="modal-title">Delete <b>User</b></h4>
+                    <h4 class="modal-title" th:text="#{usual.delete}"></h4><span> </span>
+                    <h4 style="color: white; margin: 4px 0 0 5px;"> <b th:text="#{user.user}"></b></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to delete this record?</p>
-                    <p class="text-warning">This action cannot be undone.</p>
+                    <p th:text="#{records.sure}"></p>
+                    <p class="text-warning" th:text="#{records.action}"></p>
                 </div>
                 <div class="modal-footer activity-buttons btn-group" style="margin-left: 2px">
                     <button class="btn activity-whiteButton btn-default cancel-btn"
@@ -315,12 +318,13 @@
         <div class="modal-content">
             <form method="post" th:action="@{/users/delete-selected}">
                 <div class="modal-header">
-                    <h4 class="modal-title">Delete <b>Users</b></h4>
+                    <h4 class="modal-title" th:text="#{usual.delete}"></h4><span> </span>
+                    <h4 style="color: white; margin: 4px 0 0 5px;"> <b th:text="#{usual.users}"></b></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to delete these records?</p>
-                    <p class="text-warning">This action cannot be undone.</p>
+                    <p th:text="#{records.sure}"></p>
+                    <p class="text-warning" th:text="#{records.action}"></p>
                 </div>
                 <div class="modal-footer activity-buttons btn-group" style="margin-left: 2px">
                     <button class="btn activity-whiteButton btn-default cancel-btn"
