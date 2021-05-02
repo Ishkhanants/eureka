@@ -1,7 +1,9 @@
+server:
+  port: ${PORT:8080}
 spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://eu-cdbr-west-01.cleardb.com:3306/heroku_9e5cba6e0d68d26
+    url: jdbc:mysql://eu-cdbr-west-01.cleardb.com:3306/heroku_9e5cba6e0d68d26?useSSL=false
     username: b72e4e87407d8b
     password: 64064f718f4ce43
   jpa:

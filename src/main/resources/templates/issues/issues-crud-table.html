@@ -5,8 +5,7 @@
     <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
-<div class="container-xl container my-2" style="box-shadow: 0 47px 74px -31px rgba(7, 40, 137, 0.19);">
-<!--    <input type="hidden" id="is-user-type" th:value="${isUserType}" />-->
+<div class="container-fluid" style="box-shadow: 0 47px 74px -31px rgba(7, 40, 137, 0.19);">
     <div class="issues-filter" th:if="${isUserType == false}">
         <form id="issues-filter-form" th:action="@{/issues/filter}" th:method="post">
             <div class="row">
@@ -107,24 +106,24 @@
         </form>
     </div>
     <div class="table-responsive">
-        <div class="table-wrapper">
+        <div class="table-wrapper" style="width: fit-content">
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-3">
-                        <h2><span sec:authorize="hasAnyAuthority('ADMIN_ROLE')" th:text="#{usual.manage}"></span><span
-                                sec:authorize="hasAnyAuthority('USER_ROLE')" th:text="#{usual.my}"></span> <b th:text="#{usual.issues}"></b></h2>
+                        <h2 style="margin: 0"><span sec:authorize="hasAnyAuthority('ADMIN_ROLE')" th:text="#{usual.manage}"></span><span
+                                sec:authorize="hasAnyAuthority('USER_ROLE')" th:text="#{usual.my}"></span> <b
+                                th:text="#{usual.issues}"></b></h2>
                     </div>
                     <div class="col-sm-4">
-                        <a th:href="@{/issues/create}" class="btn"><i class="material-icons">&#xE147;</i> <span th:text="#{issue.add.new}"></span></a>
+                        <a th:href="@{/issues/create}" class="btn"><i class="material-icons">&#xE147;</i> <span
+                                th:text="#{issue.add.new}"></span></a>
                         <span id="deleteAllSelected" hidden><a href="#deleteSelectedIssuesModal" class="btn"
                                                                data-toggle="modal"><i
                                 class="material-icons">&#xE15C;</i> <span th:text="#{usual.delete}"></span></a></span>
                     </div>
                     <div id="myTable_filter" class="col-sm-5">
-                        <label>
-                            <input type="search" th:placeholder="#{filter.placeholder}" class="" aria-controls="myTable"
-                                   style="border: none; border-radius: 5px; margin-left: 100%">
-                        </label>
+                        <input type="search" th:placeholder="#{filter.placeholder}" class="" aria-controls="myTable"
+                               style="border: none; border-radius: 5px; margin: 4px 0 0 67%">
                     </div>
                 </div>
             </div>
@@ -197,7 +196,7 @@
             <form method="post" th:action="@{/issues/delete}">
                 <div class="modal-header">
                     <h4 class="modal-title" th:text="#{usual.delete}"></h4><span> </span>
-                    <h4 style="color: white; margin: 4px 0 0 5px;"> <b th:text="#{usual.issue}"></b></h4>
+                    <h4 style="color: white; margin: 4px 0 0 5px;"><b th:text="#{usual.issue}"></b></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -228,7 +227,7 @@
             <form method="post" th:action="@{/issues/delete-selected}">
                 <div class="modal-header">
                     <h4 class="modal-title" th:text="#{usual.delete}"></h4><span> </span>
-                    <h4 style="color: white; margin: 4px 0 0 5px;"> <b th:text="#{usual.issues}"></b></h4>
+                    <h4 style="color: white; margin: 4px 0 0 5px;"><b th:text="#{usual.issues}"></b></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
