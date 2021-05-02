@@ -1,0 +1,129 @@
+$(document).ready(async function () {
+
+    await $.i18n().load({
+        "en": "/i18n/en.json",
+        "hy": "/i18n/hy.json",
+        "ru": "/i18n/ru.json",
+    });
+
+    $.i18n().locale = $("#locale").val();
+
+    $.validator.setDefaults({
+        ignore: []
+    });
+
+    let product = $('#filter-product');
+
+    product.change(function () {
+        let val = $(this).val();
+        populate(val);
+    })
+
+    let dtable = $("#myTable").DataTable({
+        "bLengthChange": false,
+        "order": [1, 'asc'],
+        "initComplete": function (settings, json) {
+            let word = sessionStorage.getItem('userName');
+            if (word != null) {
+                this.api().search(word).draw();
+                sessionStorage.removeItem('userName');
+            }
+        },
+        "pageLength": 15,
+        "infoCallback": function (settings, start, end, max, total, pre) {
+            return $.i18n("list.issues") + " " + start + "-" + end + " " + $.i18n("list.from") + " " + total + $.i18n("list.form.arm");
+        },
+        'sPaginationType': 'twoNumbers',
+        language: {
+            searchPlaceholder: $.i18n("list.search"),
+            search: "",
+            paginate: {
+                next: '>',
+                previous: '<'
+            }
+        },
+        "aoColumns": [
+            {"orderSequence": ["asc"]},
+            {"orderSequence": ["asc", "desc"]},
+            {"orderSequence": ["asc", "desc"]},
+            {"orderSequence": ["asc", "desc"]},
+            {"orderSequence": ["asc", "desc"]},
+            {"orderSequence": ["asc", "desc"]},
+            {"orderSequence": ["asc", "desc"]},
+            {"orderSequence": ["asc", "desc"]},
+            {"orderSequence": ["asc", "desc"]},
+            {"orderSequence": ["asc", "desc"]},
+            {"orderSequence": ["asc", "desc"]},
+            {"orderSequence": ["asc"]},
+            {"orderSequence": ["asc"]},
+        ],
+        columnDefs: [
+            {
+                orderable: false,
+                targets: [0, 11, 12]
+            }
+        ]
+    });
+
+    let table = $('#myTable');
+
+    table.on('click','.delete', function() {
+        let id = $(this).parent().find('.id').val();
+        $('#deleteIssueModal #id-to-delete').val(id);
+    })
+
+    $('#deleteAllSelectedButton').on('click', function () {
+        let array = [];
+        dtable.rows().nodes().to$().find('input[type="checkbox"]:checked').each(function(){
+            array.push($(this).val());
+        });
+        $('#ids-to-delete').val(array);
+    })
+
+    addDataTableFiltering(dtable);
+});
+
+populate = val => {
+    getReleasesByProduct(val);
+    getSubsystemsByProduct(val);
+}
+
+getSubsystemsByProduct = val => {
+    $.ajax({
+        type: "GET",
+        url: "/products/subsystems-by-product/" + val,
+        success: function (data) {
+            $("#filter-subsystem").empty();
+            $('#filter-subsystem').append($("<option></option>")
+                .attr("value", "")
+                .text("Not Selected"));
+            for (let i = 0; i < data.length; i++) {
+                const id = data[i].id;
+                const name = data[i].name;
+                $('#filter-subsystem').append($("<option></option>")
+                    .attr("value", id)
+                    .text(name));
+            }
+        }
+    })
+}
+
+getReleasesByProduct = val => {
+    $.ajax({
+        type: "GET",
+        url: "/products/release-versions-by-product/" + val,
+        success: function (data) {
+            $("#filter-release-version").empty();
+            $('#filter-release-version').append($("<option></option>")
+                .attr("value", "")
+                .text("Not Selected"));
+            for (let i = 0; i < data.length; i++) {
+                const id = data[i].id;
+                const version = data[i].version;
+                $('#filter-release-version').append($("<option></option>")
+                    .attr("value", id)
+                    .text(version));
+            }
+        }
+    })
+}

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container main-container" th:fragment="main-container">
+    <p class="my-profile" th:text="#{issue.add.new}"></p>
+    <button aria-label="Close" class="close custom-close" style="font-size: 32px;" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <form id="add-form" th:action="@{/issues/create}" th:method="post" th:object="${issue}">
+        <div class="lds-dual-ring"></div>
+        <div class="container" style="margin-right: auto;">
+            <input type="hidden" id="is-user-type" th:value="${isUserType}" />
+            <main class="row" id="main-container">
+                <div class="col-5 margin-left-5">
+                    <div class="row">
+                        <div class="col-md-12 mx-auto">
+                            <div class="form-group" style="margin-top: 20px;">
+                                <label class="control-label required_label" for="product"
+                                       th:text="#{usual.product}"></label>
+                                <select class="select form-control required-input" id="product" name="product"
+                                        th:name="product" th:field="*{productId}">
+                                    <option th:each="product : ${@productServiceImpl.getAllProducts()}"
+                                            th:value="${product.getId()}"
+                                            th:selected="${productId == product.getId()}"
+                                            th:text="${product.getName()}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mx-auto">
+                            <div class="form-group">
+                                <label class="control-label required_label" for="subsystem"
+                                       th:text="#{issue.subsystem}"></label>
+                                <select class="select form-control required-input" id="subsystem" name="subsystem"
+                                        th:name="subsystem" th:field="*{subSystemId}">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mx-auto">
+                            <div class="form-group">
+                                <label class="control-label required_label" for="release-version"
+                                       th:text="#{issue.release.version}"></label>
+                                <select class="select form-control required-input" id="release-version" name="release-version"
+                                        th:name="releaseVersion" th:field="*{releaseVersionId}">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mx-auto">
+                            <div class="form-group">
+                                <label class="control-label required_label" for="date-reported"
+                                       th:text="#{issue.date.reported}"></label>
+                                <input class="form-control datepicker bg-white date required-input" id="date-reported"
+                                       name="date-reported"
+                                       th:field="*{reportDate}"
+                                       th:placeholder="#{date.placeholder}"
+                                       th:readonly="${isUserType}"
+                                       type="date"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" th:if="${isUserType == false}">
+                        <div class="col-md-12 mx-auto">
+                            <div class="form-group">
+                                <label th:text="#{issue.report.source}" for="add-report-source"></label>
+                                <input class="form-control"
+                                       name="add-report-source"
+                                       id="add-report-source"
+                                       th:field="*{reportSource}"
+                                       type="text"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" th:if="${isUserType == false}">
+                        <div class="col-md-12 mx-auto">
+                            <div class="form-group">
+                                <label class="control-label" for="add-reported-by-customer"
+                                       th:text="#{issue.reported.by.customer}"></label>
+                                <input name="add-reported-by-customer"
+                                       id="add-reported-by-customer"
+                                       th:field="*{isReportedByCustomer}"
+                                       type="checkbox" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-5 margin-left-5" style="margin-top: 20px;">
+                    <div class="row" th:if="${isUserType == false}">
+                        <div class="col-md-12 mx-auto">
+                            <div class="form-group">
+                                <label class="control-label" for="status"
+                                       th:text="#{issue.status}"></label>
+                                <select class="select form-control required-input" id="status" name="status"
+                                        th:name="status" th:field="*{status}">
+                                    <option th:each="status : ${T(com.eureka.capstone.domain.issue.IssueStatus).values()}"
+                                            th:value="${status}"
+                                            th:selected="${issue.status == status}"
+                                            th:text="${status.getValueByLocale(#locale.getLanguage().toUpperCase())}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mx-auto">
+                            <div class="form-group">
+                                <label class="control-label" for="severity"
+                                       th:text="#{issue.severity}"></label>
+                                <select class="select form-control required-input" id="severity" name="severity" th:name="severity" th:readonly="${isUserType}">
+                                    <option th:if="${isUserType == false}" value="" th:text="#{usual.not.selected}">
+                                    </option>
+                                    <option th:if="${isUserType == false}"
+                                            th:each="severity : ${T(com.eureka.capstone.domain.issue.IssueSeverity).values()}"
+                                            th:value="${severity}"
+                                            th:selected="${issue.severity == severity}"
+                                            th:text="${severity.getValueByLocale(#locale.getLanguage().toUpperCase())}">
+                                    </option>
+                                    <option th:if="${isUserType == true}"
+                                            th:value="${T(com.eureka.capstone.domain.issue.IssueSeverity).MINOR}"
+                                            th:selected="${issue.severity == T(com.eureka.capstone.domain.issue.IssueSeverity).MINOR}"
+                                            th:text="${T(com.eureka.capstone.domain.issue.IssueSeverity).MINOR.getValueByLocale(#locale.getLanguage().toUpperCase())}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mx-auto">
+                            <div class="form-group">
+                                <label class="control-label required_label" for="type"
+                                       th:text="#{usual.type}"></label>
+                                <select class="select form-control required-input" id="type" name="type" th:name="type" th:readonly="${isUserType}">
+                                    <option th:if="${isUserType == false}"
+                                            th:each="type : ${T(com.eureka.capstone.domain.issue.IssueType).values()}"
+                                            th:value="${type}"
+                                            th:selected="${issue.type == type}"
+                                            th:text="${type.getValueByLocale(#locale.getLanguage().toUpperCase())}">
+                                    </option>
+                                    <option th:if="${isUserType == true}"
+                                            th:value="${T(com.eureka.capstone.domain.issue.IssueType).ENHANCEMENT}"
+                                            th:selected="${issue.type == T(com.eureka.capstone.domain.issue.IssueType).ENHANCEMENT}"
+                                            th:text="${T(com.eureka.capstone.domain.issue.IssueType).ENHANCEMENT.getValueByLocale(#locale.getLanguage().toUpperCase())}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mx-auto">
+                            <div class="form-group">
+                                <label class="control-label required_label" for="assignee"
+                                       th:text="#{issue.assignee}"></label>
+                                <select class="select form-control required-input" id="assignee" name="assignee" th:name="assigneeId" th:readonly="${isUserType}">
+                                    <option th:each="assignee : ${@userServiceImpl.getAllUsersWithoutTypeUser()}"
+                                            th:value="${assignee.getId()}"
+                                            th:selected="${assignee.getId() == @userServiceImpl.getUserByUsername(#authentication.getName()).getId()}"
+                                            th:text="${assignee.getFullName()}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mx-auto">
+                            <div class="form-group">
+                                <label class="control-label required_label"
+                                       th:text="#{usual.reporter}" for="reporter"></label>
+                                <select class="select form-control required-input" id="reporter" name="reporter" th:name="reporterId" th:readonly="${isUserType}">
+                                    <option th:if="${isUserType == false}"
+                                            th:each="reporter : ${@userServiceImpl.getAllUsers()}"
+                                            th:value="${reporter.getId()}"
+                                            th:selected="${reporter.getId() == @userServiceImpl.getUserByUsername(#authentication.getName()).getId()}"
+                                            th:text="${reporter.getFullName()}">
+                                    </option>
+                                    <option th:if="${isUserType == true}"
+                                            th:value="${@userServiceImpl.getUserByUsername(#authentication.getName()).getId()}"
+                                            th:selected="${issue.reporterId == @userServiceImpl.getUserByUsername(#authentication.getName()).getId()}"
+                                            th:text="${@userServiceImpl.getUserByUsername(#authentication.getName()).getFullName()}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" th:if="${isUserType == false}">
+                        <div class="col-md-12 mx-auto">
+                            <div class="form-group">
+                                <label class="control-label" for="send-confirmation-mail"
+                                       th:text="#{issue.send.confirmation.mail}"></label>
+                                <input name="send-confirmation-mail"
+                                       id="send-confirmation-mail"
+                                       th:field="*{isConfirmationMailSent}"
+                                       type="checkbox"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-11 margin-left-5">
+                    <div class="row">
+                        <div class="col-md-12 mx-auto">
+                            <div class="form-group">
+                                <label id="title-valid-title" class="control-label required_label" for="title"
+                                       th:text="#{issue.title}"></label>
+                                <textarea class="form-control required-input" id="title"
+                                       name="title" type="text" style="width: 96%" th:field="*{title}"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-11 margin-left-5">
+                    <div class="row">
+                        <div class="col-md-12 mx-auto">
+                            <div class="form-group">
+                                <label id="description-valid-title" class="control-label required_label" for="description"
+                                       th:text="#{usual.description}"></label>
+                                <div style="width: 96%">
+                                    <textarea class="form-control required-input"
+                                          type="text" name="description" id="description"
+                                          th:field="*{description}"
+                                          style="width: 100%; height: 150px;">
+                                    </textarea>
+                                </div>
+                            </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-11 margin-left-5" th:if="${isUserType == false}">
+                    <div class="row">
+                        <div class="col-md-12 mx-auto" >
+                            <div class="form-group">
+                                <label class="control-label" for="testing-document"
+                                       th:text="#{issue.testing.document}"></label>
+                                <textarea class="form-control required-input" id="testing-document"
+                                          name="testing-document" type="text" style="width: 96%" th:field="*{testingDocument}"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 margin-left-5">
+                    <div class="row" style="margin-top: 5%">
+                        <div class="row activity-buttons btn-group" style="margin-left: 2px">
+                            <div class="col-sm-5">
+                                <button class="btn activity-whiteButton cancel-btn"
+                                        id="cancel-btn"
+                                        style="height: 50px;"
+                                        th:text="#{button.cancel}"
+                                        type="button"></button>
+                            </div>
+                            <div class="col-sm-5">
+                                <button class="btn activity-main-button add-activity-btn"
+                                        style="height: 50px;
+                                            border: 1px solid #DCDFF1;"
+                                        th:text="#{button.create}"
+                                        type="submit"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </form>
+</div>
+</body>
+</html>

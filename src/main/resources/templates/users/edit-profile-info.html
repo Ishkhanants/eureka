@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container main-container" th:fragment="main-container">
+    <p class="my-profile" th:text="#{editProfile.myProfile}"></p>
+    <button aria-label="Close" class="close custom-close" style="font-size: 32px;" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <form id="form" th:action="@{/edit-profile}" th:method="post" th:object="${user}">
+        <div class="lds-dual-ring"></div>
+        <div class="container">
+            <input type="hidden" id="is-admin" th:value="${user.isAdmin()==true}"/>
+            <main class="row" id="main-container" style="margin-top: 2%">
+                <div class="col-4 margin-left-5 padding-bottom-16">
+                    <div class="row">
+                        <div class="col-md-12 mx-auto" style="padding-right: 13%;">
+                            <div class="row margin-bottom-9">
+                                <div class="col-md-6 mx-auto">
+                                    <img alt="" class="rounded-circle avatar" data-holder-rendered="true"
+                                         src="images/no-avatar.png"
+                                         th:if="${profileAvatar} == null">
+                                    <img alt="" class="rounded-circle avatar" data-holder-rendered="true"
+                                         th:if="${profileAvatar} != null"
+                                         th:src="${'data:image/jpg;base64,'+ profileAvatar}">
+                                </div>
+                                <div class="col-md-6 mx-auto flex-column text-block">
+                                    <div><p class="font-weight-bold user-text" th:text="${user.username}"></p></div>
+                                    <input id="userName" name="userName" th:value="${user.username}" type="hidden">
+                                    <div><p class="text" th:text="${user.email}"></p></div>
+                                    <input id="email" name="email" th:value="${user.email}" type="hidden">
+                                    <div><a class="text" href="#" id="pop-up-link"
+                                            th:text="#{editProfile.deleteAccount}"></a></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="upload-photo form-group" style="margin-left: 16%;">
+                            <div class="custom-file" style="padding-left: 4%;">
+                                <div id="labelContainer" style="display: flex">
+                                    <label class="control-label custom-file-upload"
+                                           for="profileAvatar"
+                                           style="word-break: break-word;
+                                              margin-bottom: 0"></label>
+                                </div>
+                                <input accept="image/*"
+                                       class="form-control"
+                                       id="profileAvatar"
+                                       name="profileAvatar" style="display: none;" th:field="*{profileAvatar}"
+                                       th:title="#{editProfile.noFileChosen}"
+                                       th:value="${user.profileAvatar}"
+                                       type="file"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row first-input-group" style="margin: auto">
+                        <div class="col-md-12 form-group input_div" style="padding-right: 0">
+                            <label class="control-label  required_label " for="password"
+                                   th:text="#{editProfile.newPassword}"></label>
+                            <div class="input-group new-password-input-group">
+                                <input class="form-control password-field required-input" id="password"
+                                       name="password"
+                                       type="password"/>
+                                <div class="input-group-append">
+                                        <span class="input-group-text">
+                                           <i aria-hidden="true" class="fa fa-eye-slash show-hide-password"></i>
+                                        </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row first-input-group" style="margin: auto">
+                        <div class="col-md-12 form-group input_div" style="padding-right: 0">
+                            <label class="control-label  required_label" for="confirmPassword"
+                                   th:text="#{editProfile.confirmNewPassword}"></label>
+                            <div class="input-group confirm-password-input-group">
+                                <input class="form-control password-field required-input" id="confirmPassword"
+                                       name="confirmPassword"
+                                       type="password"/>
+                                <div class="input-group-append">
+                                        <span class="input-group-text">
+                                            <i aria-hidden="true" class="fa fa-eye-slash show-hide-password"></i>
+                                        </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-7" style="margin-top: 0.5%">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-12 mx-auto">
+                                <div class="form-group">
+                            <label class="control-label required_label" for="fullName"
+                                   th:text="#{user.fullName}"></label>
+                            <input class="form-control required-input" id="fullName"
+                                   name="fullName"
+                                   th:value="${user.fullName}"
+                                   type="text"/>
+                            <span hidden id="full-name-valid-title" th:text="#{user.fullName}">
+                            </span>
+                                 </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 mx-auto">
+                                <div class="form-group">
+                            <label class="control-label required_label" for="phone"
+                                   th:text="#{user.phone}"></label>
+                            <input class="form-control required-input" id="phone"
+                                   name="phone" th:value="${user.phone}"
+                                   type="text"/>
+                            <span hidden id="phone-valid-title" th:text="#{user.phone}">
+                            </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 mx-auto">
+                                <div class="form-group">
+                                    <label for="emailEditable" class="control-label required_label" th:text="#{user.email}"></label>
+                                    <input class="form-control required-input" id="emailEditable" name="emailEditable"
+                                           th:value="${user.email}"
+                                           type="text"/>
+                                    <span hidden id="emailEditable-valid-title" th:text="#{user.phone}">
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="userType" th:text="#{usual.type}"></label>
+                                    <select class="select form-control required-input" id="userType" name="userType"
+                                            th:name="userType" th:value="${user.userType}"
+                                            th:readonly="${user.isAdmin()==false}">
+                                        <option th:if="${user.isAdmin()==false}"
+                                                th:value="${user.userType}"
+                                                th:selected="${true}"
+                                                th:text="${user.getUserType().getValueByLocale(#locale.getLanguage().toUpperCase())}">
+                                        </option>
+                                        <option th:if="${user.isAdmin()==true}"
+                                                th:each="userType : ${T(com.eureka.capstone.domain.user.UserType).values()}"
+                                                th:value="${userType}"
+                                                th:selected="${user.userType==userType}"
+                                                th:text="${userType.getValueByLocale(#locale.getLanguage().toUpperCase())}">
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 mx-auto">
+                                <div class="form-group">
+                                    <label for="group" th:text="#{user.group}"></label>
+                                    <select class="select form-control required-input" id="group" name="group"
+                                            th:name="group" th:value="${user.group}"
+                                            th:readonly="${user.isAdmin()==false}">
+                                        <option th:if="${user.isAdmin()==false}"
+                                                th:value="${user.group}"
+                                                th:selected="${true}"
+                                                th:text="${user.getGroup().getValueByLocale(#locale.getLanguage().toUpperCase())}">
+                                        </option>
+                                        <option th:if="${user.isAdmin()==true}"
+                                                th:each="group : ${T(com.eureka.capstone.domain.user.Group).values()}"
+                                                th:value="${group}"
+                                                th:selected="${user.group == group}"
+                                                th:text="${group.getValueByLocale(#locale.getLanguage().toUpperCase())}">
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 5%">
+                            <div class="row activity-buttons btn-group" style="margin-left: 2px">
+                                <div class="col-sm-5">
+                                    <button class="btn activity-whiteButton cancel-btn"
+                                            style="height: 50px;"
+                                            th:text="#{button.cancel}"
+                                            type="button"></button>
+                                </div>
+                                <div class="col-sm-5">
+                                    <button class="btn activity-main-button add-activity-btn"
+                                            style="height: 50px;
+                                            border: 1px solid #DCDFF1;"
+                                            th:text="#{button.update}"
+                                            type="submit"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </form>
+</div>
+</body>
+</html>

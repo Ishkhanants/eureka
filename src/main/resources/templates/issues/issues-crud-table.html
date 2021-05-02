@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+</head>
+<body>
+<div class="container-xl container my-2" style="box-shadow: 0 47px 74px -31px rgba(7, 40, 137, 0.19);">
+<!--    <input type="hidden" id="is-user-type" th:value="${isUserType}" />-->
+    <div class="issues-filter" th:if="${isUserType == false}">
+        <form id="issues-filter-form" th:action="@{/issues/filter}" th:method="post">
+            <div class="row">
+                <div class="col-md-3 mx-auto">
+                    <div class="form-group">
+                        <label class="control-label required_label" for="filter-product"
+                               th:text="#{usual.product}"></label>
+                        <select class="select form-control required-input" id="filter-product" name="filter-product">
+                            <option value="" th:text="#{usual.not.selected}"></option>
+                            <option th:each="product : ${@productServiceImpl.getAllProducts()}"
+                                    th:value="${product.getId()}"
+                                    th:text="${product.getName()}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3 mx-auto">
+                    <div class="form-group">
+                        <label class="control-label required_label" for="filter-subsystem"
+                               th:text="#{issue.subsystem}"></label>
+                        <select class="select form-control required-input" id="filter-subsystem"
+                                name="filter-subsystem">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3 mx-auto">
+                    <div class="form-group">
+                        <label class="control-label required_label" for="filter-release-version"
+                               th:text="#{issue.release.version}"></label>
+                        <select class="select form-control required-input" id="filter-release-version"
+                                name="filter-release-version">
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2 mx-auto">
+                    <div class="form-group">
+                        <label class="control-label" for="filter-status"
+                               th:text="#{issue.status}"></label>
+                        <select class="select form-control required-input" id="filter-status" name="filter-status">
+                            <option value="" th:text="#{usual.not.selected}"></option>
+                            <option th:each="status : ${T(com.eureka.capstone.domain.issue.IssueStatus).values()}"
+                                    th:value="${status}"
+                                    th:text="${status.getValueByLocale(#locale.getLanguage().toUpperCase())}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 mx-auto">
+                    <div class="form-group">
+                        <label class="control-label" for="filter-severity"
+                               th:text="#{issue.severity}"></label>
+                        <select class="select form-control required-input" id="filter-severity" name="filter-severity">
+                            <option value="" th:text="#{usual.not.selected}"></option>
+                            <option th:each="severity : ${T(com.eureka.capstone.domain.issue.IssueSeverity).values()}"
+                                    th:value="${severity}"
+                                    th:text="${severity.getValueByLocale(#locale.getLanguage().toUpperCase())}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3 mx-auto">
+                    <div class="form-group">
+                        <label class="control-label required_label"
+                               th:text="#{usual.reporter}" for="filter-reporter"></label>
+                        <select class="select form-control required-input" id="filter-reporter" name="filter-reporter">
+                            <option value="" th:text="#{usual.not.selected}"></option>
+                            <option th:each="reporter : ${@userServiceImpl.getAllUsers()}"
+                                    th:value="${reporter.getId()}"
+                                    th:text="${reporter.getFullName()}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3 mx-auto">
+                    <div class="form-group">
+                        <label class="control-label required_label" for="filter-assignee"
+                               th:text="#{issue.assignee}"></label>
+                        <select class="select form-control required-input" id="filter-assignee" name="filter-assignee">
+                            <option value="" th:text="#{usual.not.selected}"></option>
+                            <option th:each="assignee : ${@userServiceImpl.getAllUsers()}"
+                                    th:value="${assignee.getId()}"
+                                    th:text="${assignee.getFullName()}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2 mx-auto">
+                    <div class="form-group">
+                        <button class="btn activity-main-button add-activity-btn"
+                                style="border: 1px solid #DCDFF1; margin-top: 30px; width: 100%;"
+                                th:text="#{button.filter}"
+                                type="submit"></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h2><span sec:authorize="hasAnyAuthority('ADMIN_ROLE')" th:text="#{usual.manage}"></span><span
+                                sec:authorize="hasAnyAuthority('USER_ROLE')" th:text="#{usual.my}"></span> <b th:text="#{usual.issues}"></b></h2>
+                    </div>
+                    <div class="col-sm-4">
+                        <a th:href="@{/issues/create}" class="btn"><i class="material-icons">&#xE147;</i> <span th:text="#{issue.add.new}"></span></a>
+                        <span id="deleteAllSelected" hidden><a href="#deleteSelectedIssuesModal" class="btn"
+                                                               data-toggle="modal"><i
+                                class="material-icons">&#xE15C;</i> <span th:text="#{usual.delete}"></span></a></span>
+                    </div>
+                    <div id="myTable_filter" class="col-sm-5">
+                        <label>
+                            <input type="search" th:placeholder="#{filter.placeholder}" class="" aria-controls="myTable"
+                                   style="border: none; border-radius: 5px; margin-left: 100%">
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <table id="myTable" class="table table-responsive-md table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>
+							<span class="custom-checkbox">
+								<input type="checkbox" id="selectAll">
+								<label for="selectAll"></label>
+							</span>
+                    </th>
+                    <th th:text="#{usual.product}"></th>
+                    <th th:text="#{usual.type}"></th>
+                    <th th:text="#{issue.title}"></th>
+                    <th th:text="#{issue.severity}"></th>
+                    <th th:text="#{issue.status}"></th>
+                    <th th:text="#{issue.assignee}"></th>
+                    <th th:text="#{usual.reporter}"></th>
+                    <th th:text="#{issue.date.reported}"></th>
+                    <th th:text="#{issue.date.fixed}"></th>
+                    <th th:text="#{issue.date.closed}"></th>
+                    <th th:text="#{usual.reports}"></th>
+                    <th th:text="#{usual.actions}"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="issue : ${listIssues}">
+                    <td>
+							<span class="custom-checkbox">
+								<input type="checkbox" id="checkbox1" name="options[]" th:value="${issue.getId()}"/>
+								<label for="checkbox1"></label>
+							</span>
+                    </td>
+                    <td th:text="${issue.getProduct().getName()}"></td>
+                    <td th:text="${issue.getType().getValueByLocale(#locale.getLanguage().toUpperCase())}"></td>
+                    <td th:text="${issue.getTitle()}"></td>
+                    <td th:text="${issue.getSeverity() != null} ? ${issue.getSeverity().getValueByLocale(#locale.getLanguage().toUpperCase())} : '' "></td>
+                    <td th:text="${issue.getStatus() != null} ? ${issue.getStatus().getValueByLocale(#locale.getLanguage().toUpperCase())} : '' "></td>
+                    <td th:text="${issue.getAssignee().getFullName()}"></td>
+                    <td th:text="${issue.getReporter().getFullName()}"></td>
+                    <td th:text="${issue.getReportDate()}"></td>
+                    <td th:text="${issue.getFixDate()}"></td>
+                    <td th:text="${issue.getCloseDate()}"></td>
+                    <td>
+                        <a style="margin-left: 25%;" th:href="@{/issues/{issueId}/reports(issueId=${issue.getId()})}"><i
+                                class="fas fa-file-alt"></i></a>
+                    </td>
+                    <td>
+                        <a th:href="@{/issues/edit/{id}(id=${issue.getId()})}" class="edit"><i class="material-icons"
+                                                                                               data-toggle="tooltip"
+                                                                                               title="Edit">&#xE254;</i></a>
+                        <a href="#deleteIssueModal" class="delete" data-toggle="modal"><i class="material-icons"
+                                                                                          data-toggle="tooltip"
+                                                                                          title="Delete">&#xE872;</i></a>
+                        <input type="hidden" th:class="id" name="id" th:value="${issue.getId()}"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal HTML -->
+<div id="deleteIssueModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" th:action="@{/issues/delete}">
+                <div class="modal-header">
+                    <h4 class="modal-title" th:text="#{usual.delete}"></h4><span> </span>
+                    <h4 style="color: white; margin: 4px 0 0 5px;"> <b th:text="#{usual.issue}"></b></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p th:text="#{records.sure}"></p>
+                    <p class="text-warning" th:text="#{records.action}"></p>
+                </div>
+                <div class="modal-footer activity-buttons btn-group" style="margin-left: 2px">
+                    <button class="btn activity-whiteButton btn-default cancel-btn"
+                            style="height: 50px;"
+                            th:text="#{button.cancel}"
+                            type="button" data-dismiss="modal"></button>
+                    <button class="btn activity-main-button btn-success add-activity-btn"
+                            style="height: 50px;
+                                            border: 1px solid #DCDFF1;"
+                            th:text="#{button.delete}"
+                            type="submit"></button>
+                    <input type="hidden" name="id" id="id-to-delete">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Selected Modal HTML -->
+<div id="deleteSelectedIssuesModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" th:action="@{/issues/delete-selected}">
+                <div class="modal-header">
+                    <h4 class="modal-title" th:text="#{usual.delete}"></h4><span> </span>
+                    <h4 style="color: white; margin: 4px 0 0 5px;"> <b th:text="#{usual.issues}"></b></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p th:text="#{records.sure}"></p>
+                    <p class="text-warning" th:text="#{records.action}"></p>
+                </div>
+                <div class="modal-footer activity-buttons btn-group" style="margin-left: 2px">
+                    <button class="btn activity-whiteButton btn-default cancel-btn"
+                            style="height: 50px;"
+                            th:text="#{button.cancel}"
+                            type="button" data-dismiss="modal"></button>
+                    <button id="deleteAllSelectedButton" class="btn activity-main-button btn-success add-activity-btn"
+                            style="height: 50px;
+                                            border: 1px solid #DCDFF1;"
+                            th:text="#{button.delete}"
+                            type="submit"></button>
+                    <input type="hidden" name="ids" id="ids-to-delete">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

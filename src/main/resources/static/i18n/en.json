@@ -1,0 +1,39 @@
+{
+  "field.customRequired": "{0} can't be empty, please fill the field",
+  "field.description.validation": "Description should consist of $1 to $2 characters.",
+
+  "user.customRequired.email": "{0} can't be empty, please fill the field",
+  "user.fullName.validation": "Full Name should not contain any symbol, should contain only letters",
+  "user.userName.validation": "Entered username should consist of $1 to $2 letters and digits",
+  "user.password.validation": "Password should consist of $1 to $2 characters, should contain at least one digit, one uppercase and one lowercase letters",
+  "user.password.equals": "Confirm password field doesn't match with entered password",
+  "user.email.validation": "Please provide valid email address",
+  "user.phone.validation": "Please provide valid telephone number",
+  "user.account.alreadyExists": "Entered username and email account already exist",
+  "user.editProfile.fileSize": "File size must be less than 16 megabytes",
+  "user.editProfile.accept": "Please upload files with .jpg or .png extensions",
+  "user.username.not.found": "There isn't registered account with entered username, please enter a correct username",
+  "user.username.pass.incorrect": "Entered username and/or password is incorrect",
+
+  "issue.title.validation": "Title should consist of $1 to $2 characters.",
+
+  "report.comment.validation": "Comment should consist of $1 to $2 characters.",
+
+  "product.name.validation": "Name should consist of $1 to $2 characters.",
+  "product.version.validation": "Version should consist of $1 to $2 characters.",
+
+  "file.too.big": "The file cannot be bigger than 16MB",
+  "accept.image": "Please upload an image",
+  "upload.photo": "Upload photo",
+  "download.button": "DOWNLOAD",
+
+  "list.page": "Go to page",
+  "list.users": "Users",
+  "list.issues": "Issues",
+  "list.products": "Products",
+  "list.releases": "Releases",
+  "list.subsystems": "Subsystems",
+  "list.reports": "Reports",
+  "list.from": "from",
+  "list.form.arm": " "
+}

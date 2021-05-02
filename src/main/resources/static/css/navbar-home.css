@@ -1,0 +1,84 @@
+.navbar {
+    height: 100px;
+    margin-bottom: 1rem;
+    background-color: white;
+    font-family: 'Roboto', 'Times New Roman', sans-serif;
+}
+
+li {
+    display: flex;
+    align-items: center;
+}
+
+#navbarCollapse1 {
+    display: flex;
+}
+
+.navbar-brand {
+    padding: 8px;
+}
+
+.nav-link, .nav-link:hover {
+    font-size: 18px;
+    color: rgb(114, 113, 113);
+}
+
+.section {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.active {
+    border-bottom: 2px solid cornflowerblue;
+}
+
+.flags {
+    margin: auto 0 auto 30px;
+}
+
+.flag {
+    width: 31.2px;
+    height: 18px;
+    border-radius: 3px;
+    margin: 1.39px;
+    box-shadow: 1px -1px 2px grey;
+}
+
+#greeting, #greetingUser, #greetingAdmin {
+    margin: auto 2px;
+}
+
+.select-tab-border {
+    border-bottom: 3px solid #07b7e3;
+}
+
+@media (max-width: 992px) {
+    .avatar {
+        margin-left: 26%;
+    }
+}
+
+@media (max-width: 1374px) {
+    .flags{
+        display: none;
+    }
+}
+
+.dropdown-item:active, .dropdown-item:focus {
+    background-color: #07b7e3;
+    color: white;
+}
+
+#my-issues, #products {
+    cursor: pointer;
+}
+
+.hvrcenter {
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 4px transparent;
+    position: relative;
+    overflow: hidden;
+}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<footer class="footer" th:fragment="homepage-footer">
+    <div class="d-flex justify-content-between px-5 mx-5" style="margin-left: 0!important">
+        <small th:text="#{footer.intro}"></small>
+
+        <ul>
+            <span class="mx-3">
+                <i class="fas fa-map-marker-alt"></i>
+                <small th:text="#{footer.address}"></small>
+            </span>
+            <span class="mx-3">
+                <i class="fas fa-phone-square-alt"></i>
+                <small th:text="#{footer.phoneNumber}" id="phone-number"></small>
+            </span>
+            <span class="mx-3">
+                <i class="fas fa-envelope"></i>
+                <small th:text="#{footer.email}" id="footer-email"></small>
+            </span>
+            <a class="btn-floating btn-fb mx-3" href="#"
+               rel="noreferrer noopener" target="_blank">
+                <i class="fab fa-facebook"></i>
+                <small>Facebook</small>
+            </a>
+        </ul>
+
+        <small>© <span th:text="#{footer.author}"></span>, 2021</small>
+    </div>
+    <input id="footer-locale" th:value="${#locale.getLanguage()}" type="hidden">
+</footer>
+</body>
+
+</html>
