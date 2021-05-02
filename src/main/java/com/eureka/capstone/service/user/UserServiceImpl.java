@@ -32,14 +32,19 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     @Qualifier("sessionRegistry")
-    private final SessionRegistry sessionRegistry;
+    private SessionRegistry sessionRegistry;
+    private PasswordEncoder encoder;
     private final UserRepository repository;
     private final RoleService roleService;
-    private PasswordEncoder encoder;
 
     @Autowired
     public void setEncoder(PasswordEncoder encoder) {
         this.encoder = encoder;
+    }
+
+    @Autowired
+    public void setSessionRegistry(SessionRegistry sessionRegistry) {
+        this.sessionRegistry = sessionRegistry;
     }
 
     @Override

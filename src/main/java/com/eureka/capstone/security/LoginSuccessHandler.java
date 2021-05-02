@@ -2,8 +2,10 @@ package com.eureka.capstone.security;
 
 import com.eureka.capstone.domain.login.LoginDetails;
 import com.eureka.capstone.domain.login.LoginFormatter;
+import com.eureka.capstone.domain.user.User;
 import com.eureka.capstone.service.login.LoginDetailsService;
 
+import com.eureka.capstone.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.core.Authentication;
@@ -26,17 +28,18 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
     private static final Logger LOGGER = Logger.getLogger(LoginSuccessHandler.class.getName());
     private final LoginDetailsService loginDetailsService;
+    private final UserService userService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) {
         var userDetails = (UserDetails) authentication.getPrincipal();
-        var username = userDetails.getUsername();
+        var user = userService.getUserByUsername(userDetails.getUsername());
 
-        saveLoginDetails(httpServletRequest, username);
+        saveLoginDetails(httpServletRequest, user);
     }
 
-    private void saveLoginDetails(HttpServletRequest request, String username){
-        var details = new LoginDetails(username, request.getRemoteAddr(), LocalDateTime.now());
+    private void saveLoginDetails(HttpServletRequest request, User user){
+        var details = new LoginDetails(user, request.getRemoteAddr(), LocalDateTime.now());
 
         loginDetailsService.save(details);
         logLoginDetails(details);
@@ -49,7 +52,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
             fileHandler.setFormatter(new LoginFormatter());
             LOGGER.addHandler(fileHandler);
             LOGGER.info(String.format("Login #%d with following credentials\nUsername: %s\nIP Address: %s\nDatetime: %s\n",
-                    details.getId(), details.getUsername(), details.getIp(), details.getDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
+                    details.getId(), details.getUser().getUsername(), details.getIp(), details.getDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
             fileHandler.close();
 
         } catch (SecurityException | IOException e) {

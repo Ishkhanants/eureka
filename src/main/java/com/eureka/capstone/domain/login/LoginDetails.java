@@ -1,5 +1,6 @@
 package com.eureka.capstone.domain.login;
 
+import com.eureka.capstone.domain.user.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,8 +20,9 @@ public class LoginDetails {
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @Column(name = "username", nullable = false)
-    private String username;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Column(name = "ip_address", nullable = false)
     private String ip;
@@ -28,8 +30,8 @@ public class LoginDetails {
     @Column(name = "date_time", nullable = false)
     private LocalDateTime dateTime;
 
-    public LoginDetails(String username, String ip, LocalDateTime dateTime) {
-        this.username = username;
+    public LoginDetails(User user, String ip, LocalDateTime dateTime) {
+        this.user = user;
         this.ip = ip;
         this.dateTime = dateTime;
     }
