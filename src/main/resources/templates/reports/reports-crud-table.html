@@ -11,7 +11,8 @@
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-3">
-                        <h2><span th:text="#{usual.manage}"></span> <b th:text="#{usual.reports}"></b></h2>
+                        <h2 style="margin: 0"><span th:text="#{usual.manage}"></span> <b th:text="#{usual.reports}"></b>
+                        </h2>
                     </div>
                     <div class="col-sm-4">
                         <a href="#addReportModal" class="btn" data-toggle="modal"><i
@@ -21,10 +22,8 @@
                                 class="material-icons">&#xE15C;</i> <span th:text="#{usual.delete}"></span></a></span>
                     </div>
                     <div id="myTable_filter" class="col-sm-5">
-                        <label>
-                            <input type="search" class="" aria-controls="myTable" th:placeholder="#{filter.placeholder}"
-                                   style="border: none; border-radius: 5px; margin-left: 100%">
-                        </label>
+                        <input type="search" class="" aria-controls="myTable" th:placeholder="#{filter.placeholder}"
+                               style="border: none; border-radius: 5px; margin: 4px 0 0 61%">
                     </div>
                 </div>
             </div>
@@ -88,7 +87,7 @@
             <form id="add-form" method="post" th:action="@{/issues/reports/create}" th:object="${report}">
                 <div class="modal-header">
                     <h4 class="modal-title" th:text="#{usual.add}"></h4><span> </span>
-                    <h4 style="color: white; margin: 4px 0 0 5px;"> <b th:text="#{usual.report}"></b></h4>
+                    <h4 style="color: white; margin: 4px 0 0 5px;"><b th:text="#{usual.report}"></b></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -136,7 +135,7 @@
             <form id="edit-form" method="post" th:action="@{/issues/reports/edit}">
                 <div class="modal-header">
                     <h4 class="modal-title" th:text="#{usual.edit}"></h4><span> </span>
-                    <h4 style="color: white; margin: 4px 0 0 5px;"> <b th:text="#{usual.report}"></b></h4>
+                    <h4 style="color: white; margin: 4px 0 0 5px;"><b th:text="#{usual.report}"></b></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -174,7 +173,7 @@
             <form method="post" th:action="@{/issues/reports/delete}">
                 <div class="modal-header">
                     <h4 class="modal-title" th:text="#{usual.delete}"></h4><span> </span>
-                    <h4 style="color: white; margin: 4px 0 0 5px;"> <b th:text="#{usual.report}"></b></h4>
+                    <h4 style="color: white; margin: 4px 0 0 5px;"><b th:text="#{usual.report}"></b></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -209,7 +208,7 @@
             <form method="post" th:action="@{/issues/reports/delete-selected}">
                 <div class="modal-header">
                     <h4 class="modal-title" th:text="#{usual.delete}"></h4><span> </span>
-                    <h4 style="color: white; margin: 4px 0 0 5px;"> <b th:text="#{usual.reports}"></b></h4>
+                    <h4 style="color: white; margin: 4px 0 0 5px;"><b th:text="#{usual.reports}"></b></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
