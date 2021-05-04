@@ -49,19 +49,19 @@
     </div>
     <input type="hidden" id="ip-address" name="ip-address"/>
 </form>
-<!-- TODO -->
+
 <!-- Rejected Login Timer Modal HTML -->
 <div id="rejected-login" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Attention</h4>
+                <h4 class="modal-title" th:text="#{reject.attention}"></h4>
             </div>
             <div class="modal-body">
-                <h6>You have to wait <span id="timer">05:00</span> minutes until the next opportunity to log in.</h6>
+                <h6><span th:text="#{reject.wait}"></span> <span id="timer">05:00</span> <span th:text="#{reject.residual}"></span></h6>
             </div>
             <div class="modal-footer" style="margin-left: 2px">
-                <h5>Thanks!</h5>
+                <h5 th:text="#{reject.thanks}"></h5>
             </div>
         </div>
     </div>
