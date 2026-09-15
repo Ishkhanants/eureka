@@ -1,9 +1,9 @@
 <div align="center">
   <img src="docs/images/logo.png" alt="Eureka logo" width="180"/>
 
-  # Eureka — Bug Detection & Management System
+  # Issue Tracking & Management System
 
-  A full-stack issue tracker for managing products, subsystems, releases and bugs — built with Spring Boot, Spring Security and Thymeleaf.
+  A full-stack issue tracker for managing products, subsystems, releases, new features and bugs.
 
   ![Java](https://img.shields.io/badge/Java-11-orange)
   ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-2.4.2-brightgreen)
@@ -15,8 +15,7 @@
 
 ## Overview
 
-Eureka is an internal bug-tracking and issue-management system, originally built as a capstone project. Teams register **products**, break each product into **subsystems** and **release versions**, and then log, triage, assign and resolve **issues** against them — similar in spirit to Jira, scoped down to the essentials.
-
+Eureka is an internal issue tracking and management system, originally built as a capstone project. Teams register **products**, break each product into **subsystems** and **release versions**, and then log, triage, assign and resolve **issues** against them — similar in spirit to Jira, scoped down to the essentials.
 It supports role-based access (Users, Developers, Managers, Admins), localized UI in three languages, email notifications, and a set of security features (hashed passwords, HttpOnly session cookies, throttled login attempts) covered below with screenshots.
 
 ## Features
@@ -37,30 +36,40 @@ It supports role-based access (Users, Developers, Managers, Admins), localized U
 
 ### Sign in & localization
 <p>
-  <img src="docs/images/login.png" width="49%"/>
-  <img src="docs/images/login-throttle-hy.png" width="49%"/>
+  <img src="docs/images/login.png" width="100%"/>
+</p>
+<p style="text-align: center">
+<i>The sign-in screen, available in English, Russian and Armenian.</i>
 </p>
 
-*Left: the sign-in screen, available in English, Russian and Armenian. Right: after too many failed attempts, login is temporarily throttled — shown here in Armenian.*
+<p align="center">
+  <img src="docs/images/login-throttle-hy.png" width="60%"/>
+</p>
+<p style="text-align: center">
+<i>After too many failed attempts, login is temporarily throttled — shown here in Armenian.</i>
+</p>
 
 ### Issue tracking
 <p>
   <img src="docs/images/manage-issues.png" width="100%"/>
 </p>
-
-Issues can be filtered by product, subsystem, release version, status, severity, reporter and assignee, and sorted on every column.
+<p style="text-align: center">
+<i>Issues can be filtered by product, subsystem, release version, status, severity, reporter and assignee, and sorted on every column.</i>
+</p>
 
 <p>
   <img src="docs/images/edit-issue.png" width="100%"/>
 </p>
-
-Each issue tracks its full lifecycle — report date, fix date, close date, severity, type, source, and whether it was reported by a customer — with an optional confirmation email to the assignee.
-
-<p>
-  <img src="docs/images/email-notification.png" width="70%"/>
+<p style="text-align: center">
+<i>Each issue tracks its full lifecycle — report date, fix date, close date, severity, type, source, and whether it was reported by a customer — with an optional confirmation email to the assignee.</i>
 </p>
 
-*Assignees are automatically emailed when an issue is assigned to them.*
+<p align="center">
+  <img src="docs/images/email-notification.png" width="70%"/>
+</p>
+<p style="text-align: center">
+<i>Assignees are automatically emailed when an issue is assigned to them.</i>
+</p>
 
 ### Products & subsystems
 <p>
@@ -74,25 +83,33 @@ Each issue tracks its full lifecycle — report date, fix date, close date, seve
 <p>
   <img src="docs/images/manage-users.png" width="100%"/>
 </p>
-<p>
+<p align="center">
   <img src="docs/images/edit-profile.png" width="60%"/>
 </p>
 
 ### Security in practice
 <p>
-  <img src="docs/images/httponly-cookies.png" width="60%"/>
-  <img src="docs/images/hashed-password.png" width="38%"/>
+  <img src="docs/images/httponly-cookies.png" width="100%"/>
+</p>
+<p style="text-align: center">
+<i>Session cookies are <code>HttpOnly</code></i>
 </p>
 
-*Session cookies are `HttpOnly` (left), and passwords are stored as BCrypt hashes, never in plaintext (right).*
+<p>
+  <img src="docs/images/hashed-password.png" width="100%"/>
+</p>
+<p style="text-align: center">
+<i>Passwords are stored as BCrypt hashes, never in plaintext.</i>
+</p>
 
 ## Data Model
 
 <p align="center">
   <img src="docs/images/erd.png" width="100%"/>
 </p>
-
-Core entities: `user`, `role`, `user_role`, `login_details`, `product`, `subsystem`, `release_version`, `issue`, `report`. An issue belongs to a product, subsystem and release version, and can have multiple reports (comments/updates) attached to it.
+<p style="text-align: center">
+<i>Core entities: <code>user</code>, <code>role</code>, <code>user_role</code>, <code>login_details</code>, <code>product</code>, <code>subsystem</code>, <code>release_version</code>, <code>issue</code>, <code>report</code>. An issue belongs to a product, subsystem and release version, and can have multiple reports (comments/updates) attached to it.</i>
+</p>
 
 ## Tech Stack
 
@@ -169,6 +186,3 @@ java -jar target/eureka_app.jar
 
 This project is available under the [MIT License](LICENSE).
 
-## Author
-
-**Martin Mirzoyan** — capstone project at NPUA (National Polytechnic University of Armenia)
