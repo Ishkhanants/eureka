@@ -7,11 +7,10 @@ function success() {
     }
 }
 
-let localStorage = window.localStorage;
 let attemptsCount = 0;
 const ATTEMPTS_MAX_COUNT = 3;
 const REJECTION_TIMEOUT = 60 * 5;
-// localStorage.clear();
+
 $(document).ready(function () {
     $.i18n().load({
         "en": "/i18n/en.json",
@@ -57,34 +56,6 @@ function authenticate(e) {
             } else if (xhr.status === 401) {
                 $("#validationMessage").html($.i18n("user.username.pass.incorrect"));
             }
-
-            // localStorage.setItem('ipCounter', 0);
-            //
-            // getIPs().then(ips => {
-            //         let count = localStorage.getItem('ipCounter');
-            //
-            //         if (Object.values(localStorage).indexOf(ips[0]) > -1) {
-            //             localStorage.setItem('ipCounter', parseInt(count) + 1);
-            //         } else {
-            //             localStorage.setItem('ip', ips[0]);
-            //             localStorage.setItem('ipCounter', parseInt(count) + 1);
-            //         }
-            //
-            //         let counter = localStorage.getItem('ipCounter');
-            //
-            //         if (parseInt(counter) >= ATTEMPTS_MAX_COUNT) {
-            //             $('#rejected-login').modal({
-            //                 backdrop: 'static',
-            //                 keyboard: false
-            //             })
-            //
-            //             console.log("EEE");
-            //
-            //             startTimer(REJECTION_TIMEOUT, document.querySelector('#timer'));
-            //             localStorage.clear();
-            //         }
-            //     }
-            // )
 
             ++attemptsCount;
 
